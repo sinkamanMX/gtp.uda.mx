@@ -1,0 +1,33 @@
+<div class="span3" id="sidebar">
+    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+        <?php if($this->menu=='index'):?>
+            <li class="<?php echo ($this->mOption=='mapa')?'active':'';?>">
+                <a href="/main/dashboard/index"><i class="icon-chevron-right active"></i> Mapa</a>
+            </li>
+            <li class="<?php echo ($this->mOption=='reports')?'active':'';?>">
+                <a href="/main/dashboard/reports"><i class="icon-chevron-right active"></i> Reportes</a>
+            </li>
+            <li class="<?php echo ($this->mOption=='productividad')?'active':'';?>">
+                <a href="/main/dashboard/productivity"><i class="icon-chevron-right active"></i> Productividad</a>
+            </li>                            
+        <?php endif; ?>
+
+        <?php if($this->menu=='catalogos'):?>                            
+            <!--<li class="<?php echo ($this->mOption=='travels')?'active':'';?>">
+                <a href="/main/admin/travels"><i class="icon-chevron-right"></i> Viajes</a>
+            </li>  -->      
+            <li class="<?php echo ($this->mOption=='units')?'active':'';?>">
+                <a href="/main/admin/index"><i class="icon-chevron-right"></i> Unidades</a>
+            </li>     
+            <li class="<?php echo ($this->mOption=='clients')?'active':'';?>">
+                <a href="/main/admin/clients"><i class="icon-chevron-right"></i> Clientes</a>
+            </li>    
+            <li class="<?php echo ($this->mOption=='profiles')?'active':'';?>">
+                <a href="/main/admin/profiles"><i class="icon-chevron-right"></i> Perfiles</a>
+            </li>                    
+            <li class="<?php echo ($this->mOption=='users')?'active':'';?>">
+                <a href="/main/admin/users"><i class="icon-chevron-right"></i> Usuarios</a>
+            </li>                                                  
+        <?php endif; ?>
+    </ul>
+</div>
