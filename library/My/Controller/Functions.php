@@ -29,6 +29,11 @@ class My_Controller_Functions
         'Noviembre',
         'Diciembre'
         );
+        
+    public $optionStatus = Array(
+		array("id"=>"1",'name'=>'Activo' ),
+		array("id"=>"0",'name'=>'Inactivo' )    
+    );    
 
     public function dateToText($fecha_db){
     	$fecha=explode("-",$fecha_db);
@@ -52,4 +57,33 @@ class My_Controller_Functions
 		$enviado = mail($data['mail_admin'], $data['subject'], $data['mensaje'], $headers);
 		return $enviado;    	
     }
+    
+    public function cboStatus($option=''){
+		$options='';
+		for($p=0;$p<count($this->optionStatus);$p++){
+			$select='';
+			if($this->optionStatus[$p]['id']==@$option){$select='selected';}
+			$options .= '<option '.$select.' value="'.$this->optionStatus[$p]['id'].'" >'.$this->optionStatus[$p]['name'].'</option>';
+		}
+		return $options;
+    }
+    
+	public function cbo_from_array($array,$option=''){
+		$options='';
+		for($p=0;$p<count($array);$p++){
+			$select='';
+			if($array[$p][id]==@$option){$select='selected';}
+			$options .= '<option '.$select.' value="'.$array[$p]['id'].'" >'.$array[$p]['name'].'</option>';
+		}
+		return $options;		
+	}
+
+	public function cbo_number($n,$option=''){
+	  for($i=0; $i<$n; $i++){
+		  $h = ($i<=9)?"0".$i:$i;
+		  $current = ($h==$option) ? 'selected': '';
+		  $select .= '<option '.$current.' value="'.$h.'" >'.$h.'</option>';
+		  }
+	  return $select;  		    
+	}
 }

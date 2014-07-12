@@ -30,15 +30,10 @@ $( document ).ready(function() {
 	} );
 });	
 
-function editDataTable(idTableRow){
-	var editTableSrc = $("#hRefLinkEdit").val()+idTableRow;
-	$('#iFrameModalAdd').attr('src',editTableSrc);
-	$("#modalTableEdit").modal('show');
-    $('#modalTableEdit').on('hidden.bs.modal', function () {
-        location.reload();
-    });   
-}
-
 function confirmDelete(idtableRow){	
+	$("#inputDelete").val(idtableRow);	
 	$("#modalConfirmDelete").modal('show');
+	$('#modalConfirmDelete').on('hidden.bs.modal', function () {
+        location.reload();
+    }); 		
 }

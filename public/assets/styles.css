@@ -1,15 +1,15 @@
 /** Home Page **/
 body {
-	padding-top: 0;
-	padding-bottom: 40px;
-	background-color: #f5f5f5;
+
 }
 
 
 @media (min-width: 979px){
-    body {
-            padding-top: 60px;
-    }
+  .body-all {
+    padding-top: 35px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;          
+  }
 }
 
 
@@ -245,4 +245,39 @@ body {
     height: 400px;
     width: 99.9%;
   }
+}
+
+.bg-white{
+  background-color: #FFFFFF;
+}
+
+.no-margin-t{
+  margin-top: 0px;
+}
+
+.no-margin-b{
+  margin-bottom: 0px;
+}
+
+.fa-1 {
+  font-size: 1.5em;
+}
+.fa-2 {
+  font-size: 2em;
+}
+.error{
+  color: #b94a48;
+  border-color: #b94a48 !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset !important;  
+}
+
+.text-error {
+  color: #b94a48;
+}
+.control-group.error .checkbox, .control-group.error .radio, .control-group.error input, .control-group.error select, .control-group.error textarea {
+    color: #b94a48 !important;
+}
+.control-group.error input, .control-group.error select, .control-group.error textarea {
+    border-color: #b94a48 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset !important;
 }
