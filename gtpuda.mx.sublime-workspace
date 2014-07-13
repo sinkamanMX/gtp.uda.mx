@@ -4,16 +4,24 @@
 		"selected_items":
 		[
 			[
+				"id",
+				"idtableRow"
+			],
+			[
+				"i",
+				"important"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
 				"pa",
 				"padding"
 			],
 			[
 				"opt",
 				"option"
-			],
-			[
-				"id",
-				"idItem"
 			],
 			[
 				"prod",
@@ -26,10 +34,6 @@
 			[
 				"data",
 				"datapromo"
-			],
-			[
-				"mar",
-				"margin-right"
 			],
 			[
 				"html",
@@ -344,6 +348,31 @@
 	},
 	"file_history":
 	[
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/DT_bootstrap.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/gralTables.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateUnits.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/getinfounit.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout_blank.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/getrowinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/menu.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/clients.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/profiles.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/users.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/gral_forms.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/productivity.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/login.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/dashboard.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/reports.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.css",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/blank.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/footer.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/js/modules/login.js",
 		"/usr/local/apache-tomcat-7.0.54/webapps/PetLocator/WEB-INF/classes/petlocator/events/LatestPositionDAO.java",
 		"/usr/local/apache-tomcat-7.0.54/webapps/PetLocator/WEB-INF/classes/petlocator/events/LatestPosition.java",
 		"/Users/itecno2/Documents/workspace/petlocator/application/modules/main/views/scripts/shop/shops.phtml",
@@ -446,32 +475,7 @@
 		"/Users/itecno2/Documents/workspace/petlocator/README.md",
 		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/services/index.phtml",
 		"/Users/itecno2/Documents/workspace/taccsi/public/modules/services/js/scripts.js",
-		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/services/stepone.phtml",
-		"/Users/itecno2/Documents/workspace/ricom/firma/firma.html",
-		"/Users/itecno2/Documents/workspace/taccsi/public/modules/services/js/stepone.js",
-		"/Users/itecno2/Documents/workspace/taccsi/application/views/layouts/header_admin.phtml",
-		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/admin/getmore.phtml",
-		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/services/step_one.phtml",
-		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/login/index.phtml",
-		"/Users/itecno2/Documents/workspace/taccsi/public/modules/login/js/login.js",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx/admin.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx/errors.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx/fields.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx/pdf.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/modules/blockuserinfo/translations/mx.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/classes/Mail.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx/tabs.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/modules/blockuserinfo/translations/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/leo_tshirt/modules/blockuserinfo/translations/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/liteblue/modules/blockuserinfo/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/mistemas/theme818/modules/blockviewed/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/theme006/modules/blockuserinfo/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/theme818/modules/blockviewed/es.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/translations/mx.gzip",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/themes/techmarket/category.tpl",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/modules/bankwire/bankwire.php",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/modules/bankwire/views/templates/hook/payment.tpl",
-		"/Users/itecno2/Documents/workspace/ricom/prestashop/modules/blocknewsletter/blocknewsletter.php"
+		"/Users/itecno2/Documents/workspace/taccsi/application/modules/admin/views/scripts/services/stepone.phtml"
 	],
 	"find":
 	{
@@ -492,6 +496,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/astyle",
+			"\"/>\n",
+			"BottomPane",
+			"img",
+			"col-md",
 			"padding",
 			"text",
 			"margin",
@@ -614,12 +623,7 @@
 			"com",
 			"'>\n",
 			"/>\n",
-			"header",
-			"form",
-			"%;\"></",
-			"-->\n",
-			"wid",
-			"ajax"
+			"header"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -728,6 +732,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 200.0,
+	"side_bar_width": 261.0,
 	"status_bar_visible": true
 }

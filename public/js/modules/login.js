@@ -30,7 +30,7 @@ function logIn(user,pass){
     $("#divpErrorLogin").hide('slow');
 
     $.ajax({
-        url: "/admin/main/login",
+        url: "/main/main/login",
         type: "GET",
         dataType : 'json',
         data: { usuario: user, contrasena: pass , md : 'lg'},
@@ -38,13 +38,13 @@ function logIn(user,pass){
             var result = data.answer; 
 
             if(result == 'logged'){
-                location.href='/main/dashboard/index';
+                location.href='/main/main/inicio';
             }else if(result == 'problem'){
                 $("#pErrorLogin").html("Por cuestion de seguridad solo se puede ingresar una vez por usuario.");
                 $("#divpErrorLogin").addClass('alert-error').show('slow');
             }else{
                 $("#divpErrorLogin").addClass('alert-error').show('slow');
-                $("#pErrorLogin").hide('slow').html("Usuario y/o contraseña incorrectos");
+                $("#pErrorLogin").html("Usuario y/o contraseña incorrectos");
 
             }
         }

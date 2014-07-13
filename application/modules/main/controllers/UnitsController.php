@@ -1,8 +1,8 @@
 <?php
 
-class main_AdminController extends My_Controller_Action
+class main_UnitsController extends My_Controller_Action
 {
-	public $menu	= 'catalogos';
+	protected $_clase = 'units';
 	public $validateNumbers;
 	public $validateAlpha;
 	public $dataIn;
@@ -10,14 +10,18 @@ class main_AdminController extends My_Controller_Action
 	public $errors = Array();
 	public $operation='init';
 	public $resultop=null;	
-	
+		
     public function init()
     {
 		$sessions = new My_Controller_Auth();
+		$perfiles = new My_Model_Perfiles();
         if(!$sessions->validateSession()){
             $this->_redirect('/');		
-		}				
-		$this->view->menu	 = $this->menu;	
+		}
+		$this->view->dataUser   = $sessions->getContentSession();
+		$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
+		$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
+		
 		$this->dataIn = $this->_request->getParams();
 		$this->validateNumbers = new Zend_Validate_Digits();
 				
@@ -42,10 +46,10 @@ class main_AdminController extends My_Controller_Action
     public function indexAction(){
     	$this->view->mOption = 'units';
 		$classObject = new My_Model_Unidades(); 
-		$this->view->datatTable = $classObject->getUnidades(1);   	
+		$this->view->datatTable = $classObject->getUnidades(1);       	
     }
     
-    public function getinfounitAction(){
+    public function getinfoAction(){
 		$dataInfo = Array();
 		$classObject = new My_Model_Unidades();
 		$functions = new My_Controller_Functions();
@@ -97,20 +101,5 @@ class main_AdminController extends My_Controller_Action
 		$this->view->resultOp   = $this->resultop;
 		$this->view->catId		= $this->idToUpdate;
 		$this->view->idToUpdate = $this->idToUpdate;		
-    }
-    
-    public function clientsAction(){
-    	$this->view->mOption = 'clients';
-    	
-    }    
-    
-    public function profilesAction(){
-    	$this->view->mOption = 'profiles';
-    	
-    } 
-
-    public function usersAction(){
-    	$this->view->mOption = 'users';
-    	
     }     
-}    
+}

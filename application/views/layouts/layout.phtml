@@ -20,8 +20,7 @@
         <link href="/vendors/uniform.default.css" rel="stylesheet" media="screen">
         <link href="/vendors/chosen.min.css" rel="stylesheet" media="screen">
         <link href="/css/cmxform.css" rel="stylesheet" media="screen">
-        <link href="/vendors/wysiwyg/bootstrap-wysihtml5.css" rel="stylesheet" media="screen
-        ">      
+        <link href="/vendors/wysiwyg/bootstrap-wysihtml5.css" rel="stylesheet" media="screen">      
         <link href="/vendors/chosen.min.css" rel="stylesheet" media="screen">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -34,13 +33,14 @@
     <body class="body-all">
         <?php echo $this->render('header.phtml', 
                                   array (
-                                    'dataUser'    => $this->dataUser,
+                                    'menu'    => $this->menu,
                                   )); ?>   
         <div class="container-fluid">
             <div class="row-fluid">  
                 <?php echo $this->render('menu.phtml', 
                                           array (
                                             'dataUser'    => $this->dataUser,
+                                            'modules'     => $this->modules
                                           )); ?>
                 <div class="span9" id="content">
                     <div class="row-fluid">
@@ -64,23 +64,7 @@
         <script src="/vendors/wizard/jquery.bootstrap.wizard.min.js"></script>
         <script type="text/javascript" src="/vendors/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="/vendors/chosen.jquery.min.js"></script>
-        <script src="/assets/form-validation.js"></script>        
-      <!-- 
-      <script src="/vendors/jquery-1.9.1.min.js"></script>
-      <script src="/bootstrap/js/bootstrap.min.js"></script>
-      <script src="/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
-      <script src="/vendors/datatables/js/jquery.dataTables.min.js"></script>      
-      <script src="/assets/DT_bootstrap.js"></script>      
-      <script src="/vendors/jquery.uniform.min.js"></script>
-      <script src="/vendors/chosen.jquery.min.js"></script>
-      <script src="/vendors/bootstrap-datepicker.js"></script>      
-      <script src="/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
-      <script src="/vendors/jquery-validation/dist/jquery.validate.min.js"  type="text/javascript" ></script>
-      <script src="/assets/form-validation.js"></script>
-        <script src="/vendors/jquery.knob.js"></script>
-        <script src="/vendors/raphael-min.js"></script>
-        <script src="/vendors/morris/morris.min.js"></script>                  
-      <script src="/assets/scripts.js"></script>  -->     
+        <script src="/assets/form-validation.js"></script>          
       <?php echo $this->headLink() ?>
       <?php echo $this->headStyle() ?>
       <?php echo $this->headScript() ?>      

@@ -1,8 +1,8 @@
 <?php
 
-class main_DashboardController extends My_Controller_Action
+class main_MapController extends My_Controller_Action
 {
-	protected $_clase = 'dashboard';
+	protected $_clase = 'map';
 	
     public function init()
     {
@@ -13,7 +13,7 @@ class main_DashboardController extends My_Controller_Action
 		}
 		$this->view->dataUser   = $sessions->getContentSession();
 		$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
-		$this->view->moduleInfo = $perfiles->getDataMenu($this->_clase);
+		$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
     }
     
     public function indexAction(){

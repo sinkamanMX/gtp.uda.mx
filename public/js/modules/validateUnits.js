@@ -65,7 +65,7 @@ function backToMain(){
 function deleteRow(){	
 	var idItem = $("#inputDelete").val();
     $.ajax({
-        url: "/main/admin/getinfounit",
+        url: "/main/units/getinfounit",
         type: "GET",
         dataType : 'json',
         data: { catId : idItem, 

@@ -1,15 +1,10 @@
 <?php
 
 class main_MainController extends My_Controller_Action
-{
-	public $menu	= 'index';
-	public $mOption = 'mapa';
-	
+{	
     public function init()
     {
 		$this->view->layout()->setLayout('layout_blank');
-		$this->view->mOption = $this->mOption;
-		$this->view->menu	 = $this->menu;	
     }
 
     public function indexAction()
@@ -17,30 +12,9 @@ class main_MainController extends My_Controller_Action
 		try{
 			$sessions = new My_Controller_Auth();
 	        if($sessions->validateSession()){
-	            $this->_redirect('/main/dashboard/index');		
-			}				
+	            $this->_redirect('/main/main/inicio');		
+			}
 			
-			/*
-            $sessions = new My_Controller_Auth();
-            $promos = new My_Model_Promociones();
-            $usuarios = new My_Model_Usuarios();
-            //$distribuidores = new My_Model_Distribuidores();
-            
-            $fc = Zend_controller_front::getInstance();            
-            $dataUserSession = $sessions->getContentSession();            
-            
-            $logged   = ($sessions->validateSession()) ? true: false;  
-            
-            if($logged){
-            	$dataUser = $usuarios->getDataUser($dataUserSession['IdUsuario']);	
-            }
-            
-            $this->view->logged   = $logged;  
-            $this->view->UserName = $dataUserSession['nombreUsuario'];
-            $this->view->promos   = $promos->getPromociones();
-        	$this->view->baseUrl  = $fc->getBaseUrl();
-        	//$this->view->shops	  = $distribuidores->getDistribuidores();   
-        	*/       	         
         } catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -56,12 +30,13 @@ class main_MainController extends My_Controller_Action
 			$data = $this->_request->getParams();
 	        if(isset($data['usuario']) && isset($data['contrasena'])){
 	            $usuarios = new My_Model_Usuarios();
-				$validate = $usuarios->validateUser($data); //recogemos los valores y mandamos            
+				$validate = $usuarios->validateUser($data);            
 				if($validate){
+					 $dataUser = $usuarios->getDataUser($validate['ID_USUARIO']);
 				     $sessions = new My_Controller_Auth();
-	                 $sessions->setContentSession($validate);
+	                 $sessions->setContentSession($dataUser);
 	                 $sessions->startSession();
-				    $answer = Array('answer' => 'logged'); 
+				     $answer = Array('answer' => 'logged');
 				}else{ 
 				    $answer = Array('answer' => 'no-perm'); 
 				}
@@ -84,4 +59,21 @@ class main_MainController extends My_Controller_Action
 		
 		$this->_redirect('/');
     }  
+    
+    public function inicioAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();    
+		
+		$sessions = new My_Controller_Auth();
+        if($sessions->validateSession()){
+            $profile = new My_Model_Perfiles();
+            $dataUser = $sessions->getContentSession();
+            $default = $profile->getModuleDefault($dataUser['ID_PERFIL']);	
+            if(count($default)>0){
+            	$this->_redirect($default['SCRIPT']);
+            }else{
+            	$this->_redirect('/main/dashboard/index');	
+            }
+		}		   	
+    }
 }

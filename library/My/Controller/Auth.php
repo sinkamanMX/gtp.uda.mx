@@ -72,12 +72,8 @@ class My_Controller_Auth
     */
     public function getContentSession() {
     	Zend_Session::start();
-    	$aNamespace = new Zend_Session_Namespace($this->nameSession);        
-        $content = Array(
-            'IdUsuario'         => $aNamespace->IdUser,
-            'nombreUsuario'     => $aNamespace->NameUser,
-            'passwordUsuario'   => $aNamespace->PassUser,
-        );
+    	$aNamespace = new Zend_Session_Namespace($this->nameSession);
+    	$content   = $aNamespace->datauser;        
         return $content;
     }       
     
@@ -90,7 +86,7 @@ class My_Controller_Auth
     {
     	Zend_Session::start();
     	$aNamespace = new Zend_Session_Namespace($this->nameSession);
-    	if(isset($aNamespace->IdUser)){    	
+    	if(isset($aNamespace->datauser)){    	
             $this->getContentSession($aNamespace);
 			$this->logged = true;			
     	}else{
@@ -107,11 +103,8 @@ class My_Controller_Auth
     public function startSession(){
     	Zend_Session::start();
 		if(!$this->validateSession()){
-			$aNamespace = new Zend_Session_Namespace($this->nameSession);			
-			//die();    
-			$aNamespace->IdUser   = $this->contentSession['clt_id'];
-            $aNamespace->NameUser = $this->contentSession['name'];
-            $aNamespace->PassUser = $this->contentSession['pass'];
+			$aNamespace = new Zend_Session_Namespace($this->nameSession);
+			$aNamespace->datauser = $this->contentSession;			
 			$this->logged = true;
 		}
     }
