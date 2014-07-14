@@ -5,6 +5,11 @@ class main_MainController extends My_Controller_Action
     public function init()
     {
 		$this->view->layout()->setLayout('layout_blank');
+		
+		$sessions = new My_Controller_Auth();
+        if($sessions->validateSession()){
+	        $this->view->dataUser   = $sessions->getContentSession();   		
+		}
     }
 
     public function indexAction()
@@ -75,5 +80,58 @@ class main_MainController extends My_Controller_Action
             	$this->_redirect('/main/dashboard/index');	
             }
 		}		   	
+    }
+    
+    public function recoveryAction(){
+    	try{   	
+			$data   = $this->_request->getParams();
+			$this->view->layout()->setLayout('layout_blank');
+			$this->view->data = $data;
+		
+			if(isset($data['onaction'])){
+				$errors = Array();
+				
+				$validateAlpha	= new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
+				
+				if(!$validateAlpha->isValid($data['inputPassword'])){
+					$errors['passwordPresent'] = 1;
+				}
+				
+				if(!$validateAlpha->isValid($data['inputNewPass'])){
+					$errors['passwordNew'] = 1;
+				}
+
+				if(!$validateAlpha->isValid($data['inputRepPass'])){
+					$errors['passwordRepeat'] = 1;
+				}			
+				
+				if($data['inputNewPass'] != $data['inputRepPass']){
+					$errors['passwordRepeat'] = 1;
+				}
+				
+				if(count($errors)==0){
+					$this->view->dataUser['VPASSWORD'] = $data['inputPassword'];
+					$usuarios = new My_Model_Usuarios();
+					$validatePass = $usuarios->validatePassword($this->view->dataUser);
+					if(count($validatePass)>0){
+						$this->view->dataUser['NPASSWORD'] = $data['inputRepPass'];
+						$update = $usuarios->changePass($this->view->dataUser);
+						if($update){
+							$this->view->changed = 1;		
+						}else{
+							$errors['noupdate'] = 1;
+						}
+					}else{
+						$errors['noPerm'] = 1;
+					}
+				}
+				
+				$this->view->errors = $errors;				
+				$this->view->data	= $data;
+			}
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }    	
     }
 }

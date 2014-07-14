@@ -50,3 +50,8 @@ function logIn(user,pass){
         }
     });
 }
+
+function recoverypass(){
+    $('#iFrameModalRec').attr('src','/main/recovery/index');
+    $('#myModalRecovery').modal('show');   
+}

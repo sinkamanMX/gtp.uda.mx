@@ -17,3 +17,9 @@ $(function() {
 	  	$('#sidebar').show('fast');
 	});
 });
+
+
+function recoverypass(){
+    $('#iFrameModalRec').attr('src','/main/main/recovery');
+    $('#myModalRecovery').modal('show');   
+}

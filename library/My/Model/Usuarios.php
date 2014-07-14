@@ -51,4 +51,38 @@ class My_Model_Usuarios extends My_Db_Table
         
 		return $result;	        
     }  
+    
+    public function validatePassword($datauser){
+		$result= Array();		
+		$this->query("SET NAMES utf8",false);
+    	$sql ="SELECT $this->_primary
+	    		FROM USUARIOS U
+				WHERE U.PASSWORD   = SHA1('".$datauser['VPASSWORD']."')
+				  AND U.ID_USUARIO = ".$datauser['ID_USUARIO'];
+		$query   = $this->query($sql);
+		if(count($query)>0){
+			$result	 = $query[0];
+		}
+        
+		return $result;		    	
+    }
+    
+    public function changePass($datauser){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="UPDATE  $this->_name
+				SET  PASSWORD 	=  SHA1('".$datauser['NPASSWORD']."')					 
+					 WHERE $this->_primary =".$datauser['ID_USUARIO']." LIMIT 1";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }
 }
