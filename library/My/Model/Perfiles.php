@@ -109,12 +109,12 @@ class My_Model_Perfiles extends My_Db_Table
 	public function getModules($idObject){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
-    	$sql ="SELECT M.*, M.DESCRIPCION AS M_DESCRIPCION,N.`DESCRIPCION` AS N_DESCRIPCION,n.ID_MENU AS IDMENU, N.*, M.SCRIPT AS S_MODULE
+    	$sql ="SELECT M.*, M.DESCRIPCION AS M_DESCRIPCION,N.DESCRIPCION AS N_DESCRIPCION,N.ID_MENU AS IDMENU, N.*, M.SCRIPT AS S_MODULE
 				FROM MODULOS_PERFIL MP
 				INNER JOIN MODULOS M ON MP.ID_MODULO = M.ID_MODULO
-				INNER JOIN MENU    N ON M.ID_MENU    = N.`ID_MENU` 
+				INNER JOIN MENU    N ON M.ID_MENU    = N.ID_MENU 
 				WHERE MP.ID_PERFIL = ".$idObject."
-				ORDER BY n.ID_MENU ASC, M.DESCRIPCION ASC";
+				ORDER BY N.ID_MENU ASC, M.DESCRIPCION ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;			

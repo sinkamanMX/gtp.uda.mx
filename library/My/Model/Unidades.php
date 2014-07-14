@@ -17,7 +17,7 @@ class My_Model_Unidades extends My_Db_Table
     	$sql ="SELECT * 
 				FROM $this->_name
 				WHERE ID_TRANSPORTISTA = $idObject
-				GROUP BY $this->_primary";
+				GROUP BY $this->_primary";    	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;			

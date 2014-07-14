@@ -13,6 +13,7 @@ class main_UnitsController extends My_Controller_Action
 		
     public function init()
     {
+    	try{
 		$sessions = new My_Controller_Auth();
 		$perfiles = new My_Model_Perfiles();
         if(!$sessions->validateSession()){
@@ -40,13 +41,23 @@ class main_UnitsController extends My_Controller_Action
 		}else{
 			$this->idToUpdate 	   = -1;
 			$this->errors['status'] = 'no-info';
-		}			
+		}	
+
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }  		
     }
     
     public function indexAction(){
-    	$this->view->mOption = 'units';
-		$classObject = new My_Model_Unidades(); 
-		$this->view->datatTable = $classObject->getUnidades(1);       	
+    	try{
+	    	$this->view->mOption = 'units';
+			$classObject = new My_Model_Unidades(); 
+			$this->view->datatTable = $classObject->getUnidades(1);
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }  
     }
     
     public function getinfoAction(){
