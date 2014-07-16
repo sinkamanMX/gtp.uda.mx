@@ -86,4 +86,13 @@ class My_Controller_Functions
 		  }
 	  return $select;  		    
 	}
+	
+	public function selectDb($dataTable,$option=''){		
+		foreach($dataTable as $key => $items){
+			$select='';
+			if($items['ID'] == @$option){$select='selected';}
+			$result .= '<option '.$select.' value="'.$items['ID'].'" >'.$items['NAME'].'</option>';			
+		}
+		return $result;
+	}
 }

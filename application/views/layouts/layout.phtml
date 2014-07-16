@@ -51,7 +51,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="myModalRecovery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade hide" id="myModalRecovery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
           <div class="modal-dialog modal-sm">
             <div class="modal-content">
               <div class="modal-header">
@@ -63,7 +63,7 @@
               </div>
             </div>
           </div>
-        </div>          
+        </div>        
 
         <script src="/vendors/jquery-1.9.1.min.js"></script>
         <script src="/bootstrap/js/bootstrap.min.js"></script>
@@ -79,7 +79,8 @@
         <script src="/vendors/wizard/jquery.bootstrap.wizard.min.js"></script>
         <script type="text/javascript" src="/vendors/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="/vendors/chosen.jquery.min.js"></script>
-        <script src="/assets/form-validation.js"></script>          
+        <script src="/assets/form-validation.js"></script>   
+        <script src="/js/modules/functionGral.js"></script>   
       <?php echo $this->headLink() ?>
       <?php echo $this->headStyle() ?>
       <?php echo $this->headScript() ?>      

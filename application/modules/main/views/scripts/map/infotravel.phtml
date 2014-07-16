@@ -1,0 +1,136 @@
+<?php $this->headScript()->appendFile('/js/modules/travelsinfo.js') ?> 
+<?php if(isset($this->changed)): ?>
+    <div class="alert alert-success">
+        <button class="close" data-dismiss="alert"></button>
+        La contraseña se ha modificado correctamente.
+    </div>  
+<?php else: ?>	
+	<?php if(count($this->errors)>0):?>		
+		<div id="divpErrorLogin" class="alert alert-error" style="display:block;">
+		  <button type="button" class="close" data-dismiss="alert">×</button>
+		  <h4>Error</h4>
+		  <?php if(@$this->errors['noPerm']==1):?>
+			<div>La contraseña actual es incorrecta,favor de verificarla.</div>
+		  <?php endif;?>
+		  <?php if(@$this->errors['noupdate']==1):?>
+			<div>Ocurrio un error al actualizar la contraseña, favor de intentar mas tarde.</div>
+		  <?php endif;?>		  
+		</div>	 
+	<?php endif;?>
+	<form method="POST" action="/main/map/infotravel" id="FormData" class="form-horizontal ">
+		<input type="hidden" name="onaction" value="submit" />
+		<fieldset>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Número<span class="required">*</span></label>
+					<div class="controls">
+						<input type="password" name="inputNoTravel" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['inputNoTravel']); ?>">
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Descripción<span class="required">*</span></label>
+					<div class="controls">
+						<input type="password" name="inputNoTravel" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['inputNoTravel']); ?>">
+					</div>
+				</div>							
+			</div>
+			
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Sucursal<span class="required">*</span></label>
+					<div class="controls">
+						<select class="span4 m-wrap chosen-select" id="inputSucursal" name="inputSucursal" onChange="getoptionsCbo('inputCliente','clients',this.value);">
+							<option value="">Seleccionar una opción</option>
+	                        <?php foreach ($this->sucursales as $key => $item): ?>
+	                            <option <?php echo ($item['ID_SUCURSAL'] == @$this->data['DESCRIPCION']) ? 'selected':'';?> value="<?php echo $item['ID_SUCURSAL']?>"><?php echo $item['DESCRIPCION']?></option>
+	                        <?php endforeach; ?>
+						</select>
+					</div>
+				</div>				
+			</div>	
+
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Cliente<span class="required">*</span></label>
+					<div class="controls">
+						<select class="span4 m-wrap chosen-select" id="inputCliente" name="inputCliente" <?php echo $disabled;?> >
+							<option value="">Seleccionar una opción</option>
+	                        <?php foreach ($this->transportistas as $key => $item): ?>
+	                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->data['ID_TRANSPORTISTA']) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
+	                        <?php endforeach; ?>
+						</select>
+					</div>
+				</div>					
+			</div>
+
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">Transportistas<span class="required">*</span></label>
+					<div class="controls">
+						<select class="span4 m-wrap chosen-select" name="inputTransportista" <?php echo $disabled;?> >
+							<option value="">Seleccionar una opción</option>
+	                        <?php foreach ($this->transportistas as $key => $item): ?>
+	                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->data['DESCRIPCION']) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
+	                        <?php endforeach; ?>
+						</select>
+					</div>
+				</div>	
+			</div>
+
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Unidad<span class="required">*</span></label>
+					<div class="controls">
+						<select class="span4 m-wrap chosen-select" name="inputTransportista" <?php echo $disabled;?> >
+							<option value="">Seleccionar una opción</option>
+	                        <?php foreach ($this->transportistas as $key => $item): ?>
+	                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->data['ID_TRANSPORTISTA']) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
+	                        <?php endforeach; ?>
+						</select>
+					</div>
+				</div>						
+			</div>			
+			<div class="span6">
+				<div class="control-group">
+				<label class="control-label">Operador<span class="required">*</span></label>
+				<div class="controls">
+					<select class="span4 m-wrap chosen-select" name="inputTransportista" <?php echo $disabled;?> >
+						<option value="">Seleccionar una opción</option>
+                        <?php foreach ($this->transportistas as $key => $item): ?>
+                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->data['ID_TRANSPORTISTA']) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
+                        <?php endforeach; ?>
+					</select>
+				</div>
+				</div>			
+			</div>			
+	
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Inicio<span class="required">*</span></label>
+					<div class="controls">
+                          <input id="inputFechaIn" name="inputFechaIn" type="text" class="form-control" value="<?php echo @$this->data['fecha_inicio']; ?>" id="inputDate">
+					</div>
+				</div>				
+			</div>
+
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label">Fin<span class="required">*</span></label>
+					<div class="controls">
+						<input id="inputFechaFin" name="inputFechaFin" type="text" class="form-control" value="<?php echo @$this->data['fecha_fin']; ?>" id="inputDate">
+					</div>
+				</div>	
+			</div>
+
+			<div class="span12">
+		    	<div class="col-xs-4 col-md-5">
+					<div class="pull-right">			
+						<button type="submit" class="btn btn-default bg-btn-send">Enviar</button>
+					</div>    
+		    	</div>						
+			</div>
+		</fieldset>
+	</form>
+<?php endif; ?>	

@@ -250,6 +250,18 @@ body {
   }
 }
 
+.hmodal500 {
+  height: 500px;
+  width: 99.9%;
+}
+/*This will work for firefox*/
+@-moz-document url-prefix() {
+    .hmodal500{
+    height: 500px;
+    width: 99.9%;
+  }
+}
+
 .bg-white{
   background-color: #FFFFFF;
 }
@@ -288,4 +300,13 @@ body {
 .row-min-h{
   min-height: 550px;
   margin-top: 15px;
+}
+#ex1Slider .slider-selection {
+  background: #BABABA;
+}
+
+#countdown{
+  margin-left: 60%;
+  margin-top: -40%;
+  position: relative;
 }
