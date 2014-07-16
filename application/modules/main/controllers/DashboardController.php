@@ -8,10 +8,6 @@ class main_DashboardController extends My_Controller_Action
 	public    $aDbTables = Array (  'clients' => Array('nameClass'=>'Clientes'),
 								    'units'  => Array('nameClass'=>'Unidades'),
 									'operators'  => Array('nameClass'=>'Operadores')
-	
-						/*Array('class' => 'clients'   ,'nameClass'=>'Clientes'),
-						Array('class' => 'units'     ,'nameClass'=>'Unidades'),
-						Array('class' => 'operators' ,'nameClass'=>'Operadores')*/
 						);
 	
     public function init()
@@ -43,9 +39,9 @@ class main_DashboardController extends My_Controller_Action
 		$validateAlpha   = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));		
 
 		if($validateNumbers->isValid($this->dataIn['catId']) && $validateAlpha->isValid($this->dataIn['oprDb'])){
-			Zend_Debug::dump($this->aDbTables);
-			if(isset($this->aDbTables[$this->dataIn['class']['oprDb']])){
-				$classObject = eval(" new My_Model_".$this->aDbTables['class']['oprDb']."()");
+			Zend_Debug::dump($this->aDbTables[$this->dataIn['oprDb']['nameClass']]);
+			if(isset($this->aDbTables[$this->dataIn['oprDb']['nameClass']])){
+				$classObject = eval(" new My\\Model\\".$this->aDbTables['oprDb']['nameClass']."()");
 				$cboValues   = $classObject->getCbo($this->dataIn['catId'],$this->idEmpresa);
 				$result      = $functions->selectDb($cboValues);		
 			}

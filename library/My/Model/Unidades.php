@@ -107,20 +107,4 @@ class My_Model_Unidades extends My_Db_Table
         }
 		return $result;	     	
     }
-    
-	public function getCbo($idObject,$idEmpresa){
-		$result= Array();
-		$this->query("SET NAMES utf8",false); 		
-    	$sql ="SELECT ID_UNIDAD AS ID, CONCAT(IDENTIFICAR,'-',PLACAS) AS NAME
-				FROM $this->_name
-				WHERE ID_TRANSPORTISTA = $idObject
-				  AND ID_EMPRESA  	   = $idEmpresa  
-				ORDER BY NOMBRE ASC";
-		$query   = $this->query($sql);
-		if(count($query)>0){		  
-			$result = $query;			
-		}	
-        
-		return $result;			
-	}    
 }

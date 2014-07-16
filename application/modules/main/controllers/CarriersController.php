@@ -1,14 +1,19 @@
 <?php
 
-class main_MapController extends My_Controller_Action
+class main_carriersController extends My_Controller_Action
 {
-	protected $_clase = 'map';
+	protected $_clase = 'carriers';
+	public $validateNumbers;
+	public $validateAlpha;
 	public $dataIn;
 	public $idToUpdate=-1;
-	public $errors = Array();	
-	
+	public $errors = Array();
+	public $operation='init';
+	public $resultop=null;	
+		
     public function init()
     {
+    	try{
 		$sessions = new My_Controller_Auth();
 		$perfiles = new My_Model_Perfiles();
         if(!$sessions->validateSession()){
@@ -17,8 +22,8 @@ class main_MapController extends My_Controller_Action
 		$this->view->dataUser   = $sessions->getContentSession();
 		$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
 		$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
-
-	
+		$this->view->idEmpresa  = $this->view->dataUser['ID_EMPRESA'];
+		
 		$this->dataIn = $this->_request->getParams();
 		$this->validateNumbers = new Zend_Validate_Digits();
 				
@@ -37,91 +42,53 @@ class main_MapController extends My_Controller_Action
 		}else{
 			$this->idToUpdate 	   = -1;
 			$this->errors['status'] = 'no-info';
-		}		
+		}	
+
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }  		
     }
     
     public function indexAction(){
     	try{
-
-    		
+	    	$this->view->mOption = 'carriers';
+			$classObject = new My_Model_Transportistas(); 
+			$this->view->datatTable = $classObject->getRowsEmp($this->view->idEmpresa); //id de empresa
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
-        } 
+        }  
     }
     
-    public function getravelsAction(){
-    	$result = '';
-		try{  
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
-
-    		$travels = new My_Model_Viajes();
-    		$travelsOn = $travels->getRowsEmp($this->view->dataUser['ID_EMPRESA']);
-    		
-    		foreach ($travelsOn as $value => $items){
-    			$infoLastP = $travels->lastPosition($items['ID_VIAJE']);
-    			$dataposition = '';
-    			if(count($infoLastP)>0){    				
-    				$dataposition = $infoLastP['LATITUD']."|".$infoLastP['LONGITUD']."|".$infoLastP['FECHA']."|".
-    								$infoLastP['UBICACION']."|".round($infoLastP['VELOCIDAD'],2)."|".$infoLastP['ANGULO']."|".$infoLastP['MODO'];
-    			}else{
-    				$dataposition = "null|null|null|".
-    								"null|null|null|null";
-    			}
-				$result .=  ($result=="") ? "" : "!";
-				$result .=  $items['ID_VIAJE']."|".
-							$items['CLAVE']."|".
-							$items['INICIO']."|".
-							$items['FIN']."|".
-							$items['RETRASO']."|".
-							$items['CLIENTE']."|".
-							$items['ECONOMICO']."|".
-							$items['ICONO']."|".
-							$items['SUCURSAL']."|".
-							$items['ID_ESTATUS']."|".
-							$dataposition;	
-    		}
-			echo $result;
-		} catch (Zend_Exception $e) {
-            echo "Caught exception: " . get_class($e) . "\n";
-        	echo "Message: " . $e->getMessage() . "\n";                
-        }    	
-    }
-    
-    public function infotravelAction(){
+    public function getinfoAction(){
 		$dataInfo = Array();
-		$this->view->layout()->setLayout('layout_blank');
+		$classObject = new My_Model_Transportistas();
+		$functions = new My_Controller_Functions();
+		//$transports= new My_Model_Unidades();
 		
-		$classObject = new My_Model_Viajes();
-		$functions   = new My_Controller_Functions();
-		
-		$sucursales = new My_Model_Sucursales();
-		
-		$this->view->sucursales = $sucursales->getRowsEmp($this->view->dataUser['ID_EMPRESA']);
-
-		
-		/*
 		if($this->idToUpdate >-1){
 			$dataInfo    = $classObject->getData($this->idToUpdate);
 		}
 		
 		if($this->operation=='update'){			
 			if($this->idToUpdate>-1){
-				 $updated = $classObject->updateRow($this->dataIn);
+				 $updated = $classObject->updateRow($this->dataIn,$this->view->idEmpresa,$this->idToUpdate); //mandar el ide del transportista
 				 if($updated['status']){
 				 	$dataInfo    = $classObject->getData($this->idToUpdate);
 				 	$this->resultop = 'okRegister';	
+				 	$this->_redirect('/main/carriers/index');
 				 }
 			}else{
 				$this->errors['status'] = 'no-info';
 			}	
 		}else if($this->operation=='new'){
-			$insert = $classObject->insertRow($this->dataIn);
+			$insert = $classObject->insertRow($this->dataIn,$this->view->idEmpresa);
 			if($insert['status']){
 				$this->idToUpdate	= $insert['id'];
 				$this->resultop = 'okRegister';	
 				$dataInfo    = $classObject->getData($this->idToUpdate);
+				$this->_redirect('/main/carriers/index');
 			}else{
 				$this->errors['status'] = 'no-insert';
 			}
@@ -130,7 +97,7 @@ class main_MapController extends My_Controller_Action
 			$this->_helper->viewRenderer->setNoRender();
 			$answer = Array('answer' => 'no-data');
 			    
-			$this->dataIn['idEmpresa'] = 1; 
+			$this->dataIn['idEmpresa'] = $this->view->idEmpresa; /*Aqui va la variable que venga de la session*/
 			$delete = $classObject->deleteRow($this->dataIn);
 			if($delete['status']){
 				$answer = Array('answer' => 'deleted'); 
@@ -141,14 +108,12 @@ class main_MapController extends My_Controller_Action
 		}
 		
 		$this->view->status     = $functions->cboStatus(@$dataInfo['ACTIVO']);
-		$this->view->transportistas = $transports->getRowsEmp(1);
+		//$this->view->transportistas = $transports->getRowsEmp(1);
 		$this->view->data 		= $dataInfo; 
 		$this->view->error 		= $this->errors;	
-    	$this->view->mOption 	= 'units';
+    	$this->view->mOption 	= 'carriers';
 		$this->view->resultOp   = $this->resultop;
 		$this->view->catId		= $this->idToUpdate;
-		$this->view->idToUpdate = $this->idToUpdate;	
-
-		*/
-    }
+		$this->view->idToUpdate = $this->idToUpdate;		
+    }     
 }

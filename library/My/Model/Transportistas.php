@@ -40,15 +40,21 @@ class My_Model_Transportistas extends My_Db_Table
 		return $result;	    	
     }
 
-    public function insertRow($data){
+    public function insertRow($data,$idEmpresa){
         $result     = Array();
         $result['status']  = false;
         
         $sql="INSERT INTO $this->_name
-				SET  ID_EMPRESA 		=  ".$data['inputTransportista'].",
+				SET  ID_EMPRESA 		=  ".$idEmpresa.",
 					 DESCRIPCION 		= '".$data['inputDescripcion']."',
-					 ACTIVO				=  ".$data['inputStatus'].",					 					 
-					 REGISTRO 			= CURRENT_TIMESTAMP";
+					 ACTIVO				=  ".$data['inputStatus'].",
+                     RAZON_SOCIAL       = '".$data['inputRazonSocial']."',
+                     DIRECCION          = '".$data['inputDireccion']."',
+                     CONTACTO           = '".$data['inputContacto']."',
+                     TEL_MOVIL          = '".$data['inputTelMovil']."',
+                     TEL_FIJO           = '".$data['inputTelFijo']."',
+                     RADIO              = '".$data['inputRadio']."',					 					 
+					 CREADO 			= CURRENT_TIMESTAMP";
         try{            
     		$query   = $this->query($sql,false);
     		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
@@ -60,20 +66,27 @@ class My_Model_Transportistas extends My_Db_Table
         }catch(Exception $e) {
             echo $e->getMessage();
             echo $e->getErrorMessage();
+            echo $sql;
         }
 		return $result;	      	
     }
     
-    public function updateRow($data){
+    public function updateRow($data,$idEmpresa,$idTransportista){
         $result     = Array();
         $result['status']  = false;
 
         $sql="UPDATE  $this->_name
-				SET  ID_EMPRESA 		=  ".$data['inputTransportista'].",
+				SET  ID_EMPRESA 		=  ".$idEmpresa.",
 					 DESCRIPCION 		= '".$data['inputDescripcion']."',
-					 ACTIVO				=  ".$data['inputStatus'].",		 					 
-					 REGISTRO 			= CURRENT_TIMESTAMP
-					 WHERE $this->_primary = $idObject LIMIT 1";
+					 ACTIVO				=  ".$data['inputStatus'].",
+                     RAZON_SOCIAL       = '".$data['inputRazonSocial']."',
+                     DIRECCION          = '".$data['inputDireccion']."',
+                     CONTACTO           = '".$data['inputContacto']."',
+                     TEL_MOVIL          = '".$data['inputTelMovil']."',
+                     TEL_FIJO           = '".$data['inputTelFijo']."',
+                     RADIO              = '".$data['inputRadio']."',
+					 CREADO 			= CURRENT_TIMESTAMP
+					 WHERE $this->_primary = $idTransportista";
         try{            
     		$query   = $this->query($sql,false);
 			if($query){
@@ -82,6 +95,7 @@ class My_Model_Transportistas extends My_Db_Table
         }catch(Exception $e) {
             echo $e->getMessage();
             echo $e->getErrorMessage();
+            echo $sql;
         }
 		return $result;	      	
     }       
