@@ -171,7 +171,7 @@ function printTravelsMap(){
 		}else if(travelInfo[9]==2){
 			btnOptions = '<button class="btn-danger" onClick="cancelTravel('+travelInfo[0]+')"><i class="icon-stop icon-white"></i></button>';
 			btnOptions += '<button class="btn-primary"><i class="icon-globe icon-white"></i></button>';
-			btnOptions += '<button class="btn-warning"><i class="icon-warning-sign icon-white"></i></button>';
+			btnOptions += '<button class="btn-warning" onClick="setIncidencia('+travelInfo[0]+')"><i class="icon-warning-sign icon-white"></i></button>';
 			noDataTravel = '<td>'+travelInfo[2]+'</td><td>'+travelInfo[12]+'</td><td>'+travelInfo[14]+' kms/h.</td><td>'+travelInfo[13]+'</td>'; 
 		}
 	    var content     = '';
@@ -314,4 +314,13 @@ function startStopTravel(idObject,optionValue){
             $("#myModalOptions").modal('show');
         }
     }); 
+}
+
+function setIncidencia(dataTravel){
+    $('#iFrameModalinc').attr('src','/main/map/setincidencia?catId='+dataTravel);
+    $('#myModalInc').modal('show');   	
+}
+
+function closeWindowInc(){
+    $('#myModalInc').modal('hide'); 
 }

@@ -141,7 +141,6 @@ class My_Model_Viajes extends My_Db_Table
         }
 		return $result;	      	
     } 
-
 	
     public function changeStatus($Status,$idItem){
         $result     = false;
@@ -160,4 +159,41 @@ class My_Model_Viajes extends My_Db_Table
         }
 		return $result;	    	
     }  
+    
+    public function setIncidencia($data){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="INSERT INTO  GTP_INCIDENCIAS_VIAJE SET
+			        ID_USUARIO		= ".$data['userRegister'].",
+					ID_INCIDENCIA	= ".$data['inputIncidencia'].",
+					ID_VIAJE		= ".$data['catId'].",
+					COMENTARIO		= '".$data['inputComentario']."',
+					CREADO			= CURRENT_TIMESTAMP";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	       	
+    }
+    
+    public function getTipoIncidencias($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT *
+				FROM GTP_INCIDENCIAS 
+				WHERE ID_EMPRESA = $idObject	
+				ORDER BY DESCRIPCION DESC";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;	    	
+    }
 }	

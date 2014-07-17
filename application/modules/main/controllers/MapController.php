@@ -206,4 +206,31 @@ class main_MapController extends My_Controller_Action
         	echo "Message: " . $e->getMessage() . "\n";                
         }
     }
+    
+    public function setincidenciaAction(){
+    	$this->view->layout()->setLayout('layout_blank');    	
+		$data = $this->_request->getParams();
+		$result = false;
+		$validateNumbers = new Zend_Validate_Digits();
+		$validateString  = new Zend_Validate_Alnum();		
+		$travels 		 = new My_Model_Viajes();
+		
+		if(isset($data['option'])){
+			if($validateNumbers->isValid($data['catId'])  && 
+				$validateString->isValid($data['option'])){
+				
+				if($data['option']=='insert'){					
+					$data['userRegister']	= $this->view->dataUser['ID_USUARIO'];
+					$insert  = $travels->setIncidencia($data);
+					if($insert){
+						$result =true;
+					}
+				}
+			}			
+		} 
+		
+		$this->view->incidencias = $travels->getTipoIncidencias($this->view->dataUser['ID_EMPRESA']);
+		$this->view->insert = $result;
+		$this->view->catId = $data['catId'];
+    }
 }
