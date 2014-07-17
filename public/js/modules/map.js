@@ -35,7 +35,11 @@ $( document ).ready(function() {
 	    onComplete: function () {
 	      mapLoadData()
 	    }		
-	}).start()  	
+	}).start()  
+
+	$('#myModalOptions').on('hidden.bs.modal', function () {
+    	mapLoadData()
+	})
 });
 
 function initMapToDraw(){
@@ -71,7 +75,7 @@ function mapLoadData(){
 }
 
 function setDataTable(){
-	$('#dataTable').dataTable( {
+	var table =  $('#dataTable').dataTable( {
 		"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
 		"sPaginationType": "bootstrap",
 		"bDestroy": true,
@@ -163,10 +167,11 @@ function printTravelsMap(){
 		var noDataTravel = "<td>--</td><td>--</td><td>--</td><td>--</td>";
 
 		if(travelInfo[9]==1){
-			btnOptions = '<button class="btn btn-success"><i class="icon-play icon-white"></i></button>';
+			btnOptions = '<button class="btn-success" onClick="startStopTravel('+travelInfo[0]+',\'start\')"><i class="icon-play icon-white"></i></button>';
 		}else if(travelInfo[9]==2){
-			btnOptions = '<button class="btn btn-danger"><i class="icon-stop icon-white"></i></button>';
-			btnOptions += '<button class="btn btn-warning"><i class="icon-warning-sign icon-white"></i></button>';
+			btnOptions = '<button class="btn-danger" onClick="cancelTravel('+travelInfo[0]+')"><i class="icon-stop icon-white"></i></button>';
+			btnOptions += '<button class="btn-primary"><i class="icon-globe icon-white"></i></button>';
+			btnOptions += '<button class="btn-warning"><i class="icon-warning-sign icon-white"></i></button>';
 			noDataTravel = '<td>'+travelInfo[2]+'</td><td>'+travelInfo[12]+'</td><td>'+travelInfo[14]+' kms/h.</td><td>'+travelInfo[13]+'</td>'; 
 		}
 	    var content     = '';
@@ -191,8 +196,8 @@ function printTravelsMap(){
 		$('#divTbody').find('tbody')
 		    .append($('<tr>')
 		        .append($('<td>')
-		        	.append($('<button onClick="centerMap(\''+arrayTravels[i]+'\')" class="btn btn-info"><i class="icon-globe icon-white"></i></button>'))
-		            .append($('<button onClick="editTravel(\''+travelInfo[0]+'\')" class="btn btn-primary"><i class="icon-eye-open icon-white"></i></button>'))
+		        	.append($('<button onClick="centerMap(\''+arrayTravels[i]+'\')" class="btn-info"><i class="icon-map-marker icon-white"></i></button>'))
+		            .append($('<button onClick="editTravel(\''+travelInfo[0]+'\')" class="btn-primary"><i class="icon-eye-open icon-white"></i></button>'))
 					.append($(btnOptions))	
 		        )
 		        .append($('<td>')
@@ -270,8 +275,43 @@ function editTravel(dataTavel){
     $('#myModalTravel').modal('show');   
 }
 
-
 function closeWindow(){
     $('#myModalTravel').modal('hide'); 
     mapLoadData();
+}
+
+function cancelTravel(idObject){
+	$('#lblConfirm').html(idObject);
+    $('#MyModalConfirm').modal('show');   
+}
+
+function cancelConfirm(){
+	var idObject = $('#lblConfirm').html();
+    $('#MyModalConfirm').modal('hide'); 
+	startStopTravel(idObject,'stop');
+}
+
+function startStopTravel(idObject,optionValue){	
+    $.ajax({
+        url: "/main/map/chagestatus",
+        type: "GET",
+		dataType : 'json',
+        data: { catId : idObject, 
+        		option : optionValue },
+        success: function(data) { 
+            var result = data.answer; 
+
+            if(result=='started'){
+            	$("#tittleMessage").html('Viaje iniciado');
+				$("#divMessage").html('El viaje #'+idObject+" ha sido iniciado.");
+            }else if(result=='stoped'){
+            	$("#tittleMessage").html('Viaje Terminado');
+				$("#divMessage").html('El viaje #'+idObject+" ha sido terminado.");            	
+            }else{
+            	$("#tittleMessage").html('Error');
+				$("#divMessage").html('Ha ocurrido un error, favor de intentar mas tarde.');            	            	
+            }
+            $("#myModalOptions").modal('show');
+        }
+    }); 
 }

@@ -140,5 +140,24 @@ class My_Model_Viajes extends My_Db_Table
             echo $e->getErrorMessage();
         }
 		return $result;	      	
-    }       
+    } 
+
+	
+    public function changeStatus($Status,$idItem){
+        $result     = false;
+		$this->query("SET NAMES utf8",false);
+		$options = ($Status==1) ? ' INICIO = CURRENT_TIMESTAMP ': ' FIN = CURRENT_TIMESTAMP '; 
+        $sql="UPDATE $this->_name SET
+                ID_ESTATUS  = $Status,
+                $options
+               	WHERE $this->_primary = $idItem limit 1";        
+        try{
+    		$query   = $this->query($sql,false);
+    		$result  = true;	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	    	
+    }  
 }	

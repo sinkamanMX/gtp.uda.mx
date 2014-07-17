@@ -66,6 +66,34 @@
 </div>
 
 <!-- Modal -->
+<div class="modal fade hide" id="myModalOptions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="tittleMessage">Terminar el Viaje</h4>
+      </div>
+      <div class="modal-body i-body">             
+        <div id="divMessage"></div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div id="MyModalConfirm" class="modal hide">
+    <div class="modal-header">
+        <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+         <h3>Terminar Viaje</h3>
+    </div>
+    <div class="modal-body">
+        <p>¿Desea terminar el viaje #<span id="lblConfirm"></span>?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:cancelConfirm();" id="btnYes" class="btn danger">Aceptar</a>
+      <a href="#" data-dismiss="modal" aria-hidden="true" class="btn secondary">Cancelar</a>
+    </div>
+</div>
+<!-- Modal -->
 <div class="modal fade hide" id="myModalInc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -75,21 +103,6 @@
       </div>
       <div class="modal-body i-body">             
         <iframe class="hmodal280" id="iFrameModalinc" src="" style="zoom:0" frameborder="0"></iframe>
-      </div>
-    </div>
-  </div>
-</div> 
-
-<!-- Modal -->
-<div class="modal fade hide" id="myModalClose" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" >Terminar el Viaje</h4>
-      </div>
-      <div class="modal-body i-body">             
-        <iframe class="hmodal280" id="iFrameModaClose" src="" style="zoom:0" frameborder="0"></iframe>
       </div>
     </div>
   </div>

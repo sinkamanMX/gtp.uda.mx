@@ -159,4 +159,51 @@ class main_MapController extends My_Controller_Action
 		$this->view->catId		= $this->idToUpdate;
 		$this->view->idToUpdate = $this->idToUpdate;		
     }
+    
+    public function chagestatusAction(){
+    		try{   			
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();    
+	                
+	        $answer = Array('answer' => 'no-data');
+			$data = $this->_request->getParams();
+			
+			$validateNumbers = new Zend_Validate_Digits();
+			$validateString  = new Zend_Validate_Alnum();		
+		
+			if($validateNumbers->isValid($data['catId'])  && 
+				$validateString->isValid($data['option'])){
+			
+				$idUpdated    = $data['catId'];
+				$optionUpdate = $data['option'];
+				$statusChange = 0;
+
+				$classObject = new My_Model_Viajes();
+				$infoData   = $classObject->getData($idUpdated);
+					
+				if($optionUpdate=='start'){
+					$statusChange = ($infoData['ID_ESTATUS']==1) ? 2 : $infoData['ID_ESTATUS'];
+				}else if($optionUpdate=='stop'){
+					$statusChange = ($infoData['ID_ESTATUS']==2) ? 4 : $infoData['ID_ESTATUS'];
+				}
+				
+				$updated = $classObject->changeStatus($statusChange,$idUpdated);	
+				if($updated){
+					$infoData   = $classObject->getData($idUpdated);
+					if($infoData['ID_ESTATUS']==2){
+						$answer = Array('answer' => 'started');
+					}elseif($infoData['ID_ESTATUS']==4){
+						$answer = Array('answer' => 'stoped');	
+					} 
+				}else{
+					$answer = Array('answer' => 'problem'); 
+				}							
+			}
+		
+		echo Zend_Json::encode($answer);   		
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }
+    }
 }

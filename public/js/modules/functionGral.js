@@ -1,5 +1,6 @@
-function getoptionsCbo(idCboTo,classObject,idObject){	
+function getoptionsCbo(idCboTo,classObject,idObject,chosen){	
 	$("#div"+idCboTo).html("Cargando Información");
+    var classChosen = (chosen) ? 'chosen-select': '';
     $.ajax({
         url: "/main/dashboard/getselect",
         type: "GET",
@@ -7,7 +8,7 @@ function getoptionsCbo(idCboTo,classObject,idObject){
         		oprDb : classObject },
         success: function(data) { 
         	$("#div"+idCboTo).html("");
-        	var dataCbo = '<select class="span4 m-wrap chosen-select" id="input'+idCboTo+'" name="input'+idCboTo+'">';
+        	var dataCbo = '<select class="span4 m-wrap '+classChosen+'" id="input'+idCboTo+'" name="input'+idCboTo+'">';
         	if(data!="no-info"){
         		dataCbo += '<option value="">Seleccionar una opción</option>'+data+'</select>';
         	}else{

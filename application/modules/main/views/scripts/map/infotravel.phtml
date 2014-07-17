@@ -25,16 +25,24 @@
 							<div class="control-group">
 								<label class="control-label">Inicio<span class="required">*</span></label>
 								<div class="controls">
-			                          <input id="inputFechaIn" name="inputFechaIn" data-required="1"  type="text" class="form-control" value="<?php echo @$this->data['INICIO']; ?>" id="inputDate">
+			                          <input id="inputFechaIn" name="inputFechaIn" data-required="1"  type="text" class="form-control" value="<?php echo @$this->data['INICIO']; ?>" id="inputDate" <?php echo (@$this->data['ID_ESTATUS']>1 && isset($this->data['ID_ESTATUS']))  ? 'disabled': ''; ?> >
 								</div>
 							</div>				
 						</div>
-
+						<?php $disabledFecFin = '';
+							if($this->idToUpdate>-1){
+								if(@$this->data['ID_ESTATUS']==4 && isset($this->data['ID_ESTATUS'])){
+									$disabledFecFin  = 'disabled';
+								}
+							}else{
+								$disabledFecFin  = 'disabled';
+							}
+							?>
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label">Fin<span class="required">*</span></label>
 								<div class="controls">
-									<input type="text" id="inputFechaFin" name="inputFechaFin" class="m-wrap" value="<?php echo (@$this->data['FIN']); ?>" <?php echo (@$this->data['FIN']!="")  ? '': 'disabled'; ?> >
+									<input type="text" id="inputFechaFin" name="inputFechaFin" class="m-wrap" value="<?php echo (@$this->data['FIN']); ?>"  <?php  echo $disabledFecFin;?> >
 								</div>
 							</div>							
 						</div>						
@@ -64,8 +72,8 @@
 							<div class="control-group">
 								<label class="control-label">Sucursal<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span4 m-wrap chosen-select" id="inputSucursal" name="inputSucursal" onChange="getoptionsCbo('Cliente','clients',this.value);">
-										<option value="-1">Seleccionar una opción</option>
+									<select class="span4 m-wrap" id="inputSucursal" name="inputSucursal" onChange="getoptionsCbo('Cliente','clients',this.value,false);">
+										<option value="">Seleccionar una opción</option>
 				                        <?php foreach ($this->sucursales as $key => $item): ?>
 				                            <option <?php echo ($item['ID_SUCURSAL'] == @$this->data['ID_SUCURSAL']) ? 'selected':'';?> value="<?php echo $item['ID_SUCURSAL']?>"><?php echo $item['DESCRIPCION']?></option>
 				                        <?php endforeach; ?>
@@ -79,8 +87,8 @@
 								<label class="control-label">Cliente<span class="required">*</span></label>
 								<div class="controls">
 									<div id="divCliente">
-										<select class="span4 m-wrap chosen-select" id="inputCliente" name="inputCliente">
-											<option value="-1">Seleccionar una opción</option>
+										<select class="span4 m-wrap" id="inputCliente" name="inputCliente">
+											<option value="">Seleccionar una opción</option>
 											<?php echo @$this->clientes;?>
 										</select>
 									</div>
@@ -94,8 +102,8 @@
 						<div class="control-group">
 							<label class="control-label">Transportistas<span class="required">*</span></label>
 							<div class="controls">
-								<select class="span4 m-wrap chosen-select" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value);getoptionsCbo('Unidades','units',this.value);">
-									<option value="-1">Seleccionar una opción</option>
+								<select class="span4 m-wrap" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);">
+									<option value="">Seleccionar una opción</option>
 			                        <?php foreach ($this->transportistas as $key => $item): ?>
 			                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->idTransportista) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
 			                        <?php endforeach; ?>
@@ -110,8 +118,8 @@
 								<label class="control-label">Unidad<span class="required">*</span></label>
 								<div class="controls">
 									<div id="divUnidades">
-										<select class="span4 m-wrap chosen-select" name="inputUnidades" id="inputUnidades">
-											<option value="-1">Seleccionar una opción</option>
+										<select class="span4 m-wrap" name="inputUnidades" id="inputUnidades">
+											<option value="">Seleccionar una opción</option>
 					                        <?php foreach ($this->unidades as $key => $item): ?>
 					                            <option <?php echo ($item['ID'] == @$this->data['ID_UNIDAD']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
 					                        <?php endforeach; ?>
@@ -125,8 +133,8 @@
 							<label class="control-label">Operador<span class="required">*</span></label>
 							<div class="controls">
 								<div id="divOperadores">
-									<select class="span4 m-wrap chosen-select"  name="inputOperadores" id="inputOperadores">
-										<option value="-1">Seleccionar una opción</option>
+									<select class="span4 m-wrap"  name="inputOperadores" id="inputOperadores">
+										<option value="">Seleccionar una opción</option>
 				                        <?php foreach ($this->operadores as $key => $item): ?>
 				                            <option <?php echo ($item['ID'] == @$this->data['ID_OPERADOR']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
 				                        <?php endforeach; ?>
