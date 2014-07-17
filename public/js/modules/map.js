@@ -250,11 +250,13 @@ function centerMap(dataTravel){
 }
 
 function fitBoundsToVisibleMarkers() {
-    for (var i=0; i<markers.length; i++) {
-		bounds.extend( markers[i].getPosition() );
-    }
+	if(markers.length>0){
+	    for (var i=0; i<markers.length; i++) {
+			bounds.extend( markers[i].getPosition() );
+	    }
 
-    map.fitBounds(bounds);		
+	    map.fitBounds(bounds);		
+	}
 }
 
 function infoMarkerTable(marker,content){	
@@ -281,8 +283,12 @@ function closeWindow(){
 }
 
 function closeWindowInc(){
+	$('#myModalInc').modal('hide'); 
+}
+
+function closeWindowM(){
     $('#myModalManual').modal('hide'); 
-    mapLoadData();
+    mapLoadData();	
 }
 
 function cancelTravel(idObject){
