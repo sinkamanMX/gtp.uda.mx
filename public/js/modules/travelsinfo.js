@@ -13,6 +13,7 @@ $( document ).ready(function() {
         }
 
         var checkin = $('#inputFechaIn').datepicker({
+          format: 'yyyy-mm-dd',
           onRender: function(date) {
             return date.valueOf() < now.valueOf() ? 'disabled' : '';
           }
@@ -27,6 +28,7 @@ $( document ).ready(function() {
           $('#inputFechaFin')[0].focus();
         }).data('datepicker');
         var checkout = $('#inputFechaFin').datepicker({
+          format: 'yyyy-mm-dd',
           onRender: function(date) {
             return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
           }

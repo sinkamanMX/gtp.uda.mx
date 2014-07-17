@@ -169,8 +169,8 @@ function printTravelsMap(){
 		if(travelInfo[9]==1){
 			btnOptions = '<button class="btn-success" onClick="startStopTravel('+travelInfo[0]+',\'start\')"><i class="icon-play icon-white"></i></button>';
 		}else if(travelInfo[9]==2){
-			btnOptions = '<button class="btn-danger" onClick="cancelTravel('+travelInfo[0]+')"><i class="icon-stop icon-white"></i></button>';
-			btnOptions += '<button class="btn-primary"><i class="icon-globe icon-white"></i></button>';
+			btnOptions  = '<button class="btn-danger" onClick="cancelTravel('+travelInfo[0]+')"><i class="icon-stop icon-white"></i></button>';
+			btnOptions += '<button class="btn-primary" onClick="setPositionManual('+travelInfo[0]+')"><i class="icon-globe icon-white"></i></button>';
 			btnOptions += '<button class="btn-warning" onClick="setIncidencia('+travelInfo[0]+')"><i class="icon-warning-sign icon-white"></i></button>';
 			noDataTravel = '<td>'+travelInfo[2]+'</td><td>'+travelInfo[12]+'</td><td>'+travelInfo[14]+' kms/h.</td><td>'+travelInfo[13]+'</td>'; 
 		}
@@ -280,6 +280,11 @@ function closeWindow(){
     mapLoadData();
 }
 
+function closeWindowInc(){
+    $('#myModalManual').modal('hide'); 
+    mapLoadData();
+}
+
 function cancelTravel(idObject){
 	$('#lblConfirm').html(idObject);
     $('#MyModalConfirm').modal('show');   
@@ -321,6 +326,7 @@ function setIncidencia(dataTravel){
     $('#myModalInc').modal('show');   	
 }
 
-function closeWindowInc(){
-    $('#myModalInc').modal('hide'); 
+function setPositionManual(dataTravel){
+    $('#iFrameModaManual').attr('src','/main/map/manualpos?catId='+dataTravel);
+    $('#myModalManual').modal('show');   		
 }

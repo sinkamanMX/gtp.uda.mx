@@ -233,4 +233,39 @@ class main_MapController extends My_Controller_Action
 		$this->view->insert = $result;
 		$this->view->catId = $data['catId'];
     }
+    
+    public function manualposAction(){
+    	$this->view->layout()->setLayout('layout_blank');	
+		$data = $this->_request->getParams();
+		$result = false;
+		$validateNumbers = new Zend_Validate_Digits();
+		$validateString  = new Zend_Validate_Alnum();		
+		$travels 		 = new My_Model_Viajes();
+		
+		if(isset($data['option'])){
+			if($validateNumbers->isValid($data['catId'])  && 
+				$validateString->isValid($data['option'])){
+				
+				if($data['option']=='insert'){					
+					$data['userRegister']	= $this->view->dataUser['ID_USUARIO'];
+					$insert  = $travels->setManualPosition($data);
+					if($insert['status']){
+						if(isset($data['inputIncidencia']) && $data['inputIncidencia']!=""){
+							$idHistorico 	   = $insert['id'];
+							$insertIncidencia  = $travels->setIncidencia($data,$idHistorico);
+							if($insertIncidencia){
+								$result =true;
+							}	
+						}else{
+							$result =true;
+						}
+					}
+				}
+			}			
+		} 
+		
+		$this->view->incidencias = $travels->getTipoIncidencias($this->view->dataUser['ID_EMPRESA']);
+		$this->view->insert = $result;
+		$this->view->catId = $data['catId'];    	
+    }
 }

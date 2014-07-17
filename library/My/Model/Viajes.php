@@ -38,7 +38,7 @@ class My_Model_Viajes extends My_Db_Table
     	$sql ="SELECT DT.`LATITUD`,DT.`LONGITUD`,DT.`FECHA`,DT.`UBICACION`,DT.`VELOCIDAD`,DT.`ANGULO`,DT.`MODO`
 				  FROM GTP_DETALLE_VIAJE DT
 				  WHERE DT.ID_VIAJE = ".$idViaje."
-				  ORDER BY DT.ID_DETALLE
+				  ORDER BY DT.ID_DETALLE  DESC
 				  LIMIT 1";	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -160,15 +160,18 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	    	
     }  
     
-    public function setIncidencia($data){
+    public function setIncidencia($data,$idHistorico=-1){
         $result     = Array();
         $result['status']  = false;
+        
+        $varHist = ($idHistorico>0) ? ' ID_HISTORICO= '.$idHistorico.', ': '';
 
         $sql="INSERT INTO  GTP_INCIDENCIAS_VIAJE SET
 			        ID_USUARIO		= ".$data['userRegister'].",
 					ID_INCIDENCIA	= ".$data['inputIncidencia'].",
 					ID_VIAJE		= ".$data['catId'].",
 					COMENTARIO		= '".$data['inputComentario']."',
+					$varHist
 					CREADO			= CURRENT_TIMESTAMP";
         try{            
     		$query   = $this->query($sql,false);
@@ -194,6 +197,37 @@ class My_Model_Viajes extends My_Db_Table
 			$result = $query;
 		}	
         
+		return $result;	    	
+    }
+    
+    public function setManualPosition($data){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="INSERT INTO GTP_DETALLE_VIAJE SET
+			        ID_VIAJE		=  ".$data['catId'].",
+					ID_USUARIO		=  ".$data['userRegister'].",
+					FECHA			= '".$data['inputFecha']."',
+					LATITUD			=  ".$data['inputLatitud'].",
+					LONGITUD		=  ".$data['inputLongitud'].",
+					ANGULO			=  ".$data['inputAngulo'].",
+					VELOCIDAD		=  ".$data['inputVelocidad'].",
+					UBICACION		= '".$data['inputDir']."',
+					OBSERVACION		= '".$data['inputObservaciones']."',
+					CREADO			= CURRENT_TIMESTAMP,
+					MODO			= 'A'";
+        try{            
+            $query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']	   = $query_id[0]['ID_LAST'];
+				$result['status']  = true;
+			}
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
 		return $result;	    	
     }
 }	
