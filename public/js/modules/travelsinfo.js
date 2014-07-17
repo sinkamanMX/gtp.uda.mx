@@ -1,7 +1,7 @@
 
 $( document ).ready(function() {
   $(".chosen-select").chosen({disable_search_threshold: 10});
-  
+  $('#tabs').tab();
   var nowTemp = new Date();
   var dateInter  = parseInt(nowTemp.getMonth())+1;  
   var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
@@ -16,11 +16,11 @@ $( document ).ready(function() {
     format: 'yyyy-mm-dd'
   });
 
-  if($("#inputFechaFin").val()=="0000-00-00" || $("#inputFechaFin").val()==""){
+  /*if($("#inputFechaFin").val()=="0000-00-00" || $("#inputFechaFin").val()==""){
     $("#inputFechaFin").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay);
-  }
+  }*/
   
-    $('#inputFechaFin').datepicker({
+  $('#inputFechaFin').datepicker({
     format: 'yyyy-mm-dd'
   }); 
 
@@ -29,7 +29,7 @@ $( document ).ready(function() {
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
     var checkin = $('#inputFechaIn').datepicker({
-  format: 'yyyy-mm-dd',
+      format: 'yyyy-mm-dd',
       onRender: function(date) {
         return date.valueOf() < now.valueOf() ? 'disabled' : '';
       }
@@ -40,6 +40,7 @@ $( document ).ready(function() {
         checkout.setValue(newDate);
       }
       checkin.hide();
+      $('#inputFechaFin').prop('disabled', false);
       $('#inputFechaFin')[0].focus();
     }).data('datepicker');
 
@@ -49,6 +50,81 @@ $( document ).ready(function() {
         return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
       }
     }).on('changeDate', function(ev) {
+           
       checkout.hide();
     }).data('datepicker');
+
+  $("#FormData").validate({
+        rules: {
+          inputFechaIn: {
+            required: true,
+            date: true
+          },  
+          inputFechaFin: {
+            required: true,
+            date: true
+          },  
+          inputNoTravel:    "required",
+          inputDescripcion: "required",
+          inputSucursal:    "required",
+          inputCliente:     "required",
+          inputTransportista: "required",
+          inputUnidades:    "required",
+          inputOperadores:  "required"
+        },
+        messages: {
+            inputNoTravel:    "Campo Requerido",
+            inputSucursal:    "Campo Requerido",
+            inputDescripcion: "Campo Requerido",
+            inputCliente:     "Debe de seleccionar una opción",
+            inputTransportista: "Debe de seleccionar una opción",
+            inputUnidades:    "Debe de seleccionar una opción",
+            inputOperadores:  "Debe de seleccionar una opción",  
+            inputFechaIn: {
+               required: "Campo Requerido",
+               date: "Ingresar una fecha válida"
+            },
+            inputFechaFin: {
+               required: "Campo Requerido",
+               date: "Ingresar una fecha válida"
+            }
+        },
+        
+        submitHandler: function(form) {
+            var error= 0;
+
+            if($("#inputSucursal").val()=="" || $("#inputSucursal").val()=="-1"){
+              alert("Debe de seleccionar una Sucursal");
+              error++;
+              return false;
+            }
+
+            if($("#inputCliente").val()==""  || $("#inputCliente").val()=="-1"){
+             alert("Debe de seleccionar un Cliente"); 
+             error++;
+             return false;
+            }
+
+            if($("#inputTransportista").val()=="" || $("#inputTransportista").val()=="-1"){
+              alert("Debe de seleccionar un Transportista");
+              error++;
+              return false;
+            }
+
+            if($("#inputUnidades").val()=="" || $("#inputUnidades").val()=="-1"){
+              alert("Debe de seleccionar una Unidad");
+              error++;
+              return false;
+            }        
+            
+            if($("#inputOperadores").val()=="" || $("#inputOperadores").val()=="-1"){
+              alert("Debe de seleccionar un Operador");
+              error++;
+              return false;
+            } 
+            
+            form.submit();  
+            
+        }
+    });     
 });

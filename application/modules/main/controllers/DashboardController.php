@@ -28,25 +28,30 @@ class main_DashboardController extends My_Controller_Action
     }
     
     public function getselectAction(){
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();    
-		    	
-    	$result = 'no-info';
-		$this->dataIn = $this->_request->getParams();
-		$functions = new My_Controller_Functions();
-		
-		$validateNumbers = new Zend_Validate_Digits();
-		$validateAlpha   = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));		
-
-		if($validateNumbers->isValid($this->dataIn['catId']) && $validateAlpha->isValid($this->dataIn['oprDb'])){
-			Zend_Debug::dump($this->aDbTables[$this->dataIn['oprDb']['nameClass']]);
-			if(isset($this->aDbTables[$this->dataIn['oprDb']['nameClass']])){
-				$classObject = eval(" new My\\Model\\".$this->aDbTables['oprDb']['nameClass']."()");
-				$cboValues   = $classObject->getCbo($this->dataIn['catId'],$this->idEmpresa);
-				$result      = $functions->selectDb($cboValues);		
+    	try{
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();    
+			    	
+	    	$result = 'no-info';
+			$this->dataIn = $this->_request->getParams();
+			$functions = new My_Controller_Functions();				
+			$validateNumbers = new Zend_Validate_Digits();
+			$validateAlpha   = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
+					
+			
+			if($validateNumbers->isValid($this->dataIn['catId']) && $validateAlpha->isValid($this->dataIn['oprDb'])){
+				if(isset($this->aDbTables[$this->dataIn['oprDb']])){
+					$classObject =  $functions->creationClass($this->dataIn['oprDb']);
+					$cboValues   = $classObject->getCbo($this->dataIn['catId'],$this->idEmpresa);
+					$result      = $functions->selectDb($cboValues);		
+				}
 			}
-		}
+			
+			echo $result;
 		
-		echo $result;
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }    		
     }
 }

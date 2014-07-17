@@ -10,7 +10,9 @@ class My_Model_Operadores extends My_Db_Table
     protected $_schema 	= 'gtp_bd';
 	protected $_name 	= 'GTP_OPERADORES';
 	protected $_primary = 'ID_OPERADOR';
-    
+	
+	
+
 	public function getCbo($idObject,$idEmpresa){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
@@ -25,4 +27,18 @@ class My_Model_Operadores extends My_Db_Table
         
 		return $result;			
 	}  	
+	
+    public function getData($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT  *
+                FROM $this->_name
+                WHERE $this->_primary = $idObject LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];			
+		}	
+        
+		return $result;	    	
+    }	
 }

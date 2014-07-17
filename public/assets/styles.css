@@ -262,6 +262,30 @@ body {
   }
 }
 
+.hmodal350 {
+  height: 350px;
+  width: 99.9%;
+}
+/*This will work for firefox*/
+@-moz-document url-prefix() {
+    .hmodal350{
+    height: 350px;
+    width: 99.9%;
+  }
+}
+
+.hmodal400 {
+  height: 400px;
+  width: 99.9%;
+}
+/*This will work for firefox*/
+@-moz-document url-prefix() {
+    .hmodal400{
+    height: 400px;
+    width: 99.9%;
+  }
+}
+
 .bg-white{
   background-color: #FFFFFF;
 }
@@ -309,4 +333,21 @@ body {
   margin-left: 60%;
   margin-top: -40%;
   position: relative;
+}
+.modal-lg {
+  width: 800px;
+  left: 40% !important;
+}
+.form-horizontal .controls {
+  margin-left: 120px !important;
+}
+
+.form-horizontal .control-label {
+  float: left;
+  padding-top: 5px;
+  text-align: right;
+  width: 100px !important;
+}
+.form-horizontal .control-group {
+  margin-bottom: 15px !important;
 }

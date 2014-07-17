@@ -26,13 +26,12 @@ class My_Model_Clientes extends My_Db_Table
 		return $result;			
 	}
 
-	public function getCbo($idObject,$idEmpresa){
+	public function getCbo($idObject,$idEmpresa=0){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT ID_CLIENTE AS ID, NOMBRE AS NAME
 				FROM $this->_name
-				WHERE ID_SUCURSAL = $idObject
-				  AND ID_EMPRESA  = $idEmpresa  
+				WHERE ID_SUCURSAL = $idObject  
 				ORDER BY NOMBRE ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  

@@ -269,3 +269,9 @@ function editTravel(dataTavel){
     $('#iFrameModaltravel').attr('src','/main/map/infotravel?catId='+dataTavel);
     $('#myModalTravel').modal('show');   
 }
+
+
+function closeWindow(){
+    $('#myModalTravel').modal('hide'); 
+    mapLoadData();
+}

@@ -5,7 +5,10 @@ class main_MapController extends My_Controller_Action
 	protected $_clase = 'map';
 	public $dataIn;
 	public $idToUpdate=-1;
-	public $errors = Array();	
+	public $errors = Array();
+	public $operation='init';
+	public $resultop=null;	
+	public $userUpdate=-1;
 	
     public function init()
     {
@@ -18,8 +21,8 @@ class main_MapController extends My_Controller_Action
 		$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
 		$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
 
-	
 		$this->dataIn = $this->_request->getParams();
+		$this->dataIn['userRegister']	= $this->view->dataUser['ID_USUARIO'];
 		$this->validateNumbers = new Zend_Validate_Digits();
 				
 		if(isset($this->dataIn['optReg'])){
@@ -90,21 +93,39 @@ class main_MapController extends My_Controller_Action
     }
     
     public function infotravelAction(){
-		$dataInfo = Array();
-		$this->view->layout()->setLayout('layout_blank');
+    	$this->view->layout()->setLayout('layout_blank');
+		$dataInfo 			= Array();
+		$clientes 			= '';
+		$IdTransportistas 	= -1;		
+		$aUnidades			= Array();
+		$aOperadores		= Array();
+		$aIncidencias		= Array();
 		
-		$classObject = new My_Model_Viajes();
-		$functions   = new My_Controller_Functions();
+		$classObject 	= new My_Model_Viajes();
+		$functions   	= new My_Controller_Functions();
+		$sucursales 	= new My_Model_Sucursales();
+		$transportistas = new My_Model_Transportistas();
 		
-		$sucursales = new My_Model_Sucursales();
+		$this->view->sucursales     = $sucursales->getRowsEmp($this->view->dataUser['ID_EMPRESA']);
+		$this->view->transportistas = $transportistas->getRowsEmp($this->view->dataUser['ID_EMPRESA']);
 		
-		$this->view->sucursales = $sucursales->getRowsEmp($this->view->dataUser['ID_EMPRESA']);
-
-		
-		/*
-		if($this->idToUpdate >-1){
+    	if($this->idToUpdate >-1){
 			$dataInfo    = $classObject->getData($this->idToUpdate);
-		}
+			
+			$clients     	 = new My_Model_Clientes();
+			$cboValues       = $clients->getCbo($this->idToUpdate,$this->view->dataUser['ID_EMPRESA']);
+			$clientes        = $functions->selectDb($cboValues,$dataInfo['ID_CLIENTE']);
+
+			$operadores  	 = new My_Model_Operadores();
+			$IdTransportistas= $operadores->getData($dataInfo['ID_OPERADOR']);	
+			
+			$unidades		 = new My_Model_Unidades();
+			$aUnidades		 = $unidades->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->view->dataUser['ID_EMPRESA']);
+			
+			$aOperadores	 = $operadores->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->view->dataUser['ID_EMPRESA']);
+			
+			$aIncidencias	 = $classObject->getIncidencias($this->idToUpdate);
+		}	
 		
 		if($this->operation=='update'){			
 			if($this->idToUpdate>-1){
@@ -125,30 +146,17 @@ class main_MapController extends My_Controller_Action
 			}else{
 				$this->errors['status'] = 'no-insert';
 			}
-		}else if($this->operation=='delete'){
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
-			$answer = Array('answer' => 'no-data');
-			    
-			$this->dataIn['idEmpresa'] = 1; 
-			$delete = $classObject->deleteRow($this->dataIn);
-			if($delete['status']){
-				$answer = Array('answer' => 'deleted'); 
-			}	
-
-	        echo Zend_Json::encode($answer);
-	        die();   			
-		}
+		}				
 		
-		$this->view->status     = $functions->cboStatus(@$dataInfo['ACTIVO']);
-		$this->view->transportistas = $transports->getRowsEmp(1);
+		$this->view->clientes = $clientes; 
+		$this->view->idTransportista = $IdTransportistas['ID_TRANSPORTISTA'];
+		$this->view->operadores = $aOperadores;
+		$this->view->unidades	= $aUnidades;
+		$this->view->incidencias= $aIncidencias;
 		$this->view->data 		= $dataInfo; 
 		$this->view->error 		= $this->errors;	
-    	$this->view->mOption 	= 'units';
 		$this->view->resultOp   = $this->resultop;
 		$this->view->catId		= $this->idToUpdate;
-		$this->view->idToUpdate = $this->idToUpdate;	
-
-		*/
+		$this->view->idToUpdate = $this->idToUpdate;		
     }
 }

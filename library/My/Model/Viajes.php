@@ -47,4 +47,98 @@ class My_Model_Viajes extends My_Db_Table
         
 		return $result;	 		
 	}
+	
+	public function getIncidencias($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT U.USUARIO, I.PRIORIDAD, GI.CREADO, GI.`COMENTARIO`, I.`DESCRIPCION`
+				FROM GTP_INCIDENCIAS_VIAJE GI
+				INNER JOIN USUARIOS U 		 ON GI.ID_USUARIO = U.ID_USUARIO 
+				INNER JOIN GTP_INCIDENCIAS I ON GI.ID_INCIDENCIA = I.ID_INCIDENCIA
+				WHERE GI.ID_VIAJE = $idObject	
+				ORDER BY GI.CREADO DESC";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;			
+	}
+	
+
+    public function getData($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT  $this->_name.*,CAST(INICIO AS DATE) AS INICIO , CAST(FIN AS DATE) AS FIN
+                FROM $this->_name
+                WHERE $this->_primary = $idObject LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];			
+		}	
+        
+		return $result;	    	
+    }
+
+    public function insertRow($data){
+        $result     = Array();
+        $result['status']  = false;
+        
+        $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';        
+        
+        $sql="INSERT INTO GTP_VIAJES SET
+			  ID_CLIENTE 		=  ".$data['inputCliente'].",
+			  ID_SUCURSAL 		=  ".$data['inputSucursal'].",
+			  ID_UNIDAD			=  ".$data['inputUnidades'].",
+			  ID_OPERADOR		=  ".$data['inputOperadores'].",
+			  ID_ESTATUS		= 1,
+			  USUARIO_REGISTRO	=  ".$data['userRegister'].",
+			  CLAVE				= '".$data['inputNoTravel']."',
+			  DESCRIPCION		= '".$data['inputDescripcion']."',
+			  INICIO			= '".$data['inputFechaIn']."',
+			  FIN				= '".$fechaFin."',
+			  CREADO			= CURRENT_TIMESTAMP";
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']	   = $query_id[0]['ID_LAST'];
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }
+    
+    public function updateRow($data){
+        $result     = Array();
+        $result['status']  = false;
+        
+        $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';
+
+        $sql="UPDATE  $this->_name SET
+					  ID_CLIENTE 		=  ".$data['inputCliente'].",
+					  ID_SUCURSAL 		=  ".$data['inputSucursal'].",
+					  ID_UNIDAD			=  ".$data['inputUnidades'].",
+					  ID_OPERADOR		=  ".$data['inputOperadores'].",
+					  USUARIO_REGISTRO	=  ".$data['userRegister'].",
+					  CLAVE				= '".$data['inputNoTravel']."',
+					  DESCRIPCION		= '".$data['inputDescripcion']."',
+					  INICIO			= '".$data['inputFechaIn']."',
+					  FIN				= '".$fechaFin."'
+					 WHERE $this->_primary =".$data['catId']." LIMIT 1";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }       
 }	

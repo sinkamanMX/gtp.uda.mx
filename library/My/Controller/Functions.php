@@ -87,12 +87,28 @@ class My_Controller_Functions
 	  return $select;  		    
 	}
 	
-	public function selectDb($dataTable,$option=''){		
-		foreach($dataTable as $key => $items){
-			$select='';
-			if($items['ID'] == @$option){$select='selected';}
-			$result .= '<option '.$select.' value="'.$items['ID'].'" >'.$items['NAME'].'</option>';			
+	public function selectDb($dataTable,$option=''){	
+		$result='';	
+		if(count($dataTable)>0){
+			foreach($dataTable as $key => $items){
+				$select='';
+				if($items['ID'] == @$option){$select='selected';}
+				$result .= '<option '.$select.' value="'.$items['ID'].'" >'.$items['NAME'].'</option>';			
+			}
+		}else{
+			$result='no-info';
 		}
-		return $result;
+		return $result;			
+	}
+	
+	public function creationClass($nameClass){
+		switch($nameClass) {
+		   case "clients":
+		       return new My_Model_Clientes();
+		   case "units":
+		       return new My_Model_Unidades();
+		   case "operators":
+		       return new My_Model_Operadores();		       
+		}		
 	}
 }
