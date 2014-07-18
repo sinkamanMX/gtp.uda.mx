@@ -97,7 +97,7 @@ class My_Model_Perfiles extends My_Db_Table
 				FROM MODULOS_PERFIL MP
 				INNER JOIN MODULOS M ON MP.ID_MODULO = M.ID_MODULO
 				WHERE MP.ID_PERFIL = $idProfile
-				 AND  MP.INICIO    = 1 LIMIT 1";	
+				 AND  MP.INICIO    = 1 AND M.ACTIVO = 1 LIMIT 1";	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query[0];			
@@ -113,7 +113,7 @@ class My_Model_Perfiles extends My_Db_Table
 				FROM MODULOS_PERFIL MP
 				INNER JOIN MODULOS M ON MP.ID_MODULO = M.ID_MODULO
 				INNER JOIN MENU    N ON M.ID_MENU    = N.ID_MENU 
-				WHERE MP.ID_PERFIL = ".$idObject."
+				WHERE MP.ID_PERFIL = ".$idObject." AND M.ACTIVO = 1
 				ORDER BY N.ID_MENU ASC, M.DESCRIPCION ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
