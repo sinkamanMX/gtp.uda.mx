@@ -254,8 +254,12 @@ function fitBoundsToVisibleMarkers() {
 	    for (var i=0; i<markers.length; i++) {
 			bounds.extend( markers[i].getPosition() );
 	    }
-
-	    map.fitBounds(bounds);		
+	    if(markers.length==1){
+			map.setZoom(13);
+		  	map.panTo(markers[0].getPosition());
+	    }else{
+			map.fitBounds(bounds);
+	    }
 	}
 }
 
