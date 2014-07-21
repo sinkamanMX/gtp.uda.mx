@@ -67,10 +67,11 @@ class main_MapController extends My_Controller_Action
     			$dataposition = '';
     			if(count($infoLastP)>0){    				
     				$dataposition = $infoLastP['LATITUD']."|".$infoLastP['LONGITUD']."|".$infoLastP['FECHA']."|".
-    								$infoLastP['UBICACION']."|".round($infoLastP['VELOCIDAD'],2)."|".$infoLastP['ANGULO']."|".$infoLastP['MODO'];
+    								$infoLastP['UBICACION']."|".round($infoLastP['VELOCIDAD'],2)."|".$infoLastP['ANGULO']."|".$infoLastP['MODO']
+    								."|".$infoLastP['INCIDENCIA'];
     			}else{
     				$dataposition = "null|null|null|".
-    								"null|null|null|null";
+    								"null|null|null|null|--";
     			}
 				$result .=  ($result=="") ? "" : "!";
 				$result .=  $items['ID_VIAJE']."|".
@@ -100,6 +101,7 @@ class main_MapController extends My_Controller_Action
 		$aUnidades			= Array();
 		$aOperadores		= Array();
 		$aIncidencias		= Array();
+		$aRecorrido			= Array();
 		
 		$classObject 	= new My_Model_Viajes();
 		$functions   	= new My_Controller_Functions();
@@ -125,6 +127,8 @@ class main_MapController extends My_Controller_Action
 			$aOperadores	 = $operadores->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->view->dataUser['ID_EMPRESA']);
 			
 			$aIncidencias	 = $classObject->getIncidencias($this->idToUpdate);
+			
+			$aRecorrido      = $classObject->getRecorrido($this->idToUpdate);
 		}	
 		
 		if($this->operation=='update'){			
@@ -154,6 +158,7 @@ class main_MapController extends My_Controller_Action
 		$this->view->unidades	= $aUnidades;
 		$this->view->incidencias= $aIncidencias;
 		$this->view->data 		= $dataInfo; 
+		$this->view->recorrido  = $aRecorrido;
 		$this->view->error 		= $this->errors;	
 		$this->view->resultOp   = $this->resultop;
 		$this->view->catId		= $this->idToUpdate;

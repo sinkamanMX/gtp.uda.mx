@@ -1,9 +1,11 @@
+<?php $this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false') ?>
 <?php $this->headScript()->appendFile('/js/modules/travelsinfo.js') ?> 
 
 <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#gral" data-toggle="tab">Datos del Viaje</a></li>
-    <li><a href="#incidencias" data-toggle="tab">Incidencias</a></li>
-    <li><a href="#recorrido" data-toggle="tab">Recorrido</a></li>    
+    <li><a href="#incidencias" data-toggle="tab">Incidencias</a></li>     
+    <li><a href="#map" data-toggle="tab">Mapa</a></li>
+	<li><a href="#recorrido" data-toggle="tab">Recorrido</a></li>      
 </ul>
 
 <div id="my-tab-content" class="tab-content">
@@ -185,8 +187,45 @@
 
 
     </div>
-    <div class="tab-pane active" id="recorrido">
+    <div class="tab-pane" id="recorrido">    
+		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"  id="tableRecorrido">
+			<thead>
+			    <tr>
+			        <th>Fecha GPS</th>
+			        <th>Fecha Recibido</th>
+			        <th>Latitud</th>
+			        <th>Longitud</th>
+			        <th>Velocidad</th>
+			        <th>Angulo</th>
+			        <th>Ubicación</th>
+			        <th>Tipo</th>
+			        <th>Incidencia</th>
+			    </tr>
+			</thead>
+			<tbody>
+				<?php $result = '';?>
+				<?php foreach($this->recorrido as $key => $items): ?>
+					<tr>
+						<td><?php echo $items['FECHA'];?></td>
+						<td><?php echo $items['CREADO'];?></td>
+						<td><?php echo $items['LATITUD'];?></td>
+						<td><?php echo $items['LONGITUD'];?></td>
+						<td><?php echo round($items['VELOCIDAD'],2);?></td>
+						<td><?php echo round($items['ANGULO'],2);?></td>
+						<td><?php echo $items['UBICACION'];?></td>
+						<td><?php echo $items['MODO'];?></td>
+						<td><?php echo $items['INCIDENCIA'];?></td>								
+					</tr>
 
-    	
+					<?php $result .= ($result!="") ? "!" : "";?>
+					<?php $result .= $items['LATITUD']."|".$items['LONGITUD']."|".$items['FECHA']."|".
+							$items['UBICACION']."|".round($items['VELOCIDAD'],2)."|".round($items['ANGULO'],2)."|".$items['MODO']."|".$items['INCIDENCIA'];?>
+				<?php  endforeach;?>
+			</tbody>
+		</table>
+		<div id="positions" class="hide"><?php echo $result; ?></div>    	
     </div>
+    <div class="tab-pane" id="map">
+    	<div id="MapRecorrido" style="width:98%;height:350px;"></div>
+    </div>    
 </div>

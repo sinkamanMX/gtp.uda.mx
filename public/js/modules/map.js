@@ -155,6 +155,7 @@ function printTravelsMap(){
                                     '<th>Inicio</th>'+
                                     '<th>Hora GPS</th>'+
                                     '<th>Velocidad</th>'+
+                                    '<th>Incidencia</th>'+
                                     '<th style="width:210px;">Ubicación</th>'+
                                 '</tr>'+
                             '</thead>'+
@@ -172,7 +173,7 @@ function printTravelsMap(){
 			btnOptions  = '<button class="btn-danger" onClick="cancelTravel('+travelInfo[0]+')"><i class="icon-stop icon-white"></i></button>';
 			btnOptions += '<button class="btn-primary" onClick="setPositionManual('+travelInfo[0]+')"><i class="icon-globe icon-white"></i></button>';
 			btnOptions += '<button class="btn-warning" onClick="setIncidencia('+travelInfo[0]+')"><i class="icon-warning-sign icon-white"></i></button>';
-			noDataTravel = '<td>'+travelInfo[2]+'</td><td>'+travelInfo[12]+'</td><td>'+travelInfo[14]+' kms/h.</td><td>'+travelInfo[13]+'</td>'; 
+			noDataTravel = '<td>'+travelInfo[2]+'</td><td>'+travelInfo[12]+'</td><td>'+travelInfo[14]+' kms/h.</td><td>'+travelInfo[17]+'</td><td>'+travelInfo[13]+'</td>'; 
 		}
 	    var content     = '';
 	    var markerTable = null;
@@ -182,6 +183,7 @@ function printTravelsMap(){
 	    			'<tr><td align="right"><b>Unidad</b></td><td align="left">'+travelInfo[6]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Hora del Evento</b></td><td align="left">'+travelInfo[12]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Velocidad</b></td><td align="left">'+travelInfo[14]+' kms/h.</td><tr>'+
+	    			'<tr><td align="right"><b>Incidencia</b></td><td align="left">'+travelInfo[17]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Ubicación</b></td><td align="left">'+travelInfo[13]+'</td><tr>'+
 	    			'</table>';
 			markerTable = new google.maps.Marker({
@@ -205,10 +207,10 @@ function printTravelsMap(){
 		        )	
 		        .append($('<td>')
 		        	.append(travelInfo[5])
-		        )			        
+		        )				        
 		        .append($('<td>')
 		        	.append(travelInfo[6])
-		        )	
+		        )
 		        .append(noDataTravel)		        		        
 		    );		    
 		}	
@@ -235,6 +237,7 @@ function centerMap(dataTravel){
 	    			'<tr><td align="right"><b>Unidad</b></td><td align="left">'+travelInfo[6]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Hora del Evento</b></td><td align="left">'+travelInfo[12]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Velocidad</b></td><td align="left">'+travelInfo[14]+' kms/h.</td><tr>'+
+	    			'<tr><td align="right"><b>Incidencia</b></td><td align="left">'+travelInfo[17]+' kms/h.</td><tr>'+
 	    			'<tr><td align="right"><b>Ubicación</b></td><td align="left">'+travelInfo[13]+'</td><tr>'+
 	    			'</table>';
 		markers.push(marker1);

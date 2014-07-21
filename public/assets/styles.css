@@ -261,6 +261,17 @@ body {
     width: 99.9%;
   }
 }
+.hmodal550 {
+  height: 550px;
+  width: 99.9%;
+}
+/*This will work for firefox*/
+@-moz-document url-prefix() {
+    .hmodal550{
+    height: 550px;
+    width: 99.9%;
+  }
+}
 
 .hmodal350 {
   height: 350px;
@@ -350,4 +361,7 @@ body {
 }
 .form-horizontal .control-group {
   margin-bottom: 15px !important;
+}
+.modal.fade.in {
+    top: 5% !important;
 }
