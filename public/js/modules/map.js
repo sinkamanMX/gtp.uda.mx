@@ -165,7 +165,7 @@ function printTravelsMap(){
 		var travelInfo = arrayTravels[i].split('|');
 
 		var btnOptions   = "";
-		var noDataTravel = "<td>--</td><td>--</td><td>--</td><td>--</td>";
+		var noDataTravel = "<td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>";
 
 		if(travelInfo[9]==1){
 			btnOptions = '<button class="btn-success" onClick="startStopTravel('+travelInfo[0]+',\'start\')"><i class="icon-play icon-white"></i></button>';
