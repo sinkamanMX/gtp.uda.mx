@@ -211,7 +211,7 @@ function printTravelsMap(){
 
   for(var i=0;i<arrayTravels.length;i++){    
     var travelInfo = arrayTravels[i].split('|');
-      
+      var markerTable = null;
       if(travelInfo[0]!="null" && travelInfo[1]!="null" ){
           var tipo = (travelInfo[6]=='A') ? 'Automàtico': 'Manual';
 
@@ -256,8 +256,14 @@ function printTravelsMap(){
             icon: iconsetngs,
             repeat:'35px',         
             offset: '100%'}]
-    });         
-    map.fitBounds(bounds);
+    });   
+    if(arrayTravels.length>1){
+      map.fitBounds(bounds);  
+    }else if(arrayTravels.length==1){
+      map.setZoom(13);
+      map.panTo(markerTable.getPosition());  
+    }
+    
 }
 
 function infoMarkerTable(marker,content){ 
@@ -268,7 +274,7 @@ function infoMarkerTable(marker,content){
         infoWindow.setContent(content);
         infoWindow.open(map, marker);
         map.setZoom(18);
-      map.setCenter(latLng); 
-      map.panTo(latLng);     
+        map.setCenter(latLng); 
+        map.panTo(latLng);     
   });
 }
