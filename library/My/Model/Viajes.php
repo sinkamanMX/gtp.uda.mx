@@ -71,7 +71,7 @@ class My_Model_Viajes extends My_Db_Table
     public function getData($idObject){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 
-    	$sql ="SELECT  $this->_name.*,CAST(INICIO AS DATE) AS INICIO , CAST(FIN AS DATE) AS FIN
+    	$sql ="SELECT  $this->_name.*,INICIO, FIN
                 FROM $this->_name
                 WHERE $this->_primary = $idObject LIMIT 1";	
 		$query   = $this->query($sql);

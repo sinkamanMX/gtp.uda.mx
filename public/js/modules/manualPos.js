@@ -28,10 +28,7 @@ $( document ).ready(function() {
           },
           inputDir: "required",
           inputObservaciones  : "required",
-          inputFecha: {
-            required: true,
-            date: true
-          },            
+          inputFecha: "required",            
         },
         messages: {
             inputDir       :  "Campo Requerido",
@@ -52,10 +49,7 @@ $( document ).ready(function() {
                      required: "Campo Requerido",
                      number: "Este campo acepta solo números"
             },
-            inputFecha: {
-               required: "Campo Requerido",
-               date: "Ingresar una fecha válida"
-            },                                                    
+            inputFecha: "Campo Requerido",                                  
         },
         
         submitHandler: function(form) {
@@ -71,22 +65,13 @@ $( document ).ready(function() {
                 event.preventDefault();
             }
         }*/
-    });  
-    var nowTemp = new Date();
-    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-    var dateInter  = parseInt(nowTemp.getMonth())+1;  
-    var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
-    var todayDay   = (nowTemp.getDate()<10) ? "0"+nowTemp.getDate(): nowTemp.getDate();        
-
-    $("#inputFecha").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay);
-    var checkout = $('#inputFecha').datepicker({
-      format: 'yyyy-mm-dd',
-      onRender: function(date) {
-        
-      }
-    }).on('changeDate', function(ev) {
-      checkout.hide();
-    }).data('datepicker');          
+    }); 
+    $('#inputFecha').datetimepicker({
+        format: "yyyy-mm-dd HH:ii",
+        showMeridian: false,
+        autoclose: true,
+        todayBtn: true
+    });    
 });
 
 

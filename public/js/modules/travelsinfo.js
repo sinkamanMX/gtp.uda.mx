@@ -20,16 +20,8 @@ $( document ).ready(function() {
           google.maps.event.trigger(map, 'resize');
         }
     });   
-        var nowTemp = new Date();
-        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-        var dateInter  = parseInt(nowTemp.getMonth())+1;  
-        var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
-        var todayDay   = (nowTemp.getDate()<10) ? "0"+nowTemp.getDate(): nowTemp.getDate();        
 
-        if($("#inputFechaIn").val()=="0000-00-00" || $("#inputFechaIn").val()==""){
-          $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay);
-        }
-
+/*
         var checkin = $('#inputFechaIn').datepicker({
           format: 'yyyy-mm-dd',
           onRender: function(date) {
@@ -54,16 +46,49 @@ $( document ).ready(function() {
           checkout.hide();
         }).data('datepicker');
 
+        */
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var dateInter  = parseInt(nowTemp.getMonth())+1;  
+    var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
+    var todayDay   = (nowTemp.getDate()<10) ? "0"+nowTemp.getDate(): nowTemp.getDate();        
+
+    $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00');    
+
+
+    var checkin = $('#inputFechaIn').datetimepicker({
+        format: "yyyy-mm-dd HH:ii",
+        showMeridian: false,
+        autoclose: true,
+        todayBtn: true,
+        startDate: nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00'
+    }).on('changeDate', function(ev) {
+
+      if(ev.date.valueOf() > $('#inputFechaFin').datetimepicker('getDate').valueOf()){
+        $('#inputFechaFin').datetimepicker('setDate', ev.date);   
+      }
+
+      $('#inputFechaFin').datetimepicker('setStartDate', ev.date);      
+      $('#inputFechaFin').prop('disabled', false);
+      $('#inputFechaFin')[0].focus();      
+    });
+
+    var checkout = $('#inputFechaFin').datetimepicker({
+        format: "yyyy-mm-dd HH:ii",
+        showMeridian: false,
+        autoclose: true,
+        todayBtn: true
+    }).on('changeDate', function(ev) {
+      if(ev.date.valueOf() > $('#inputFechaIn').datetimepicker('getDate').valueOf()){
+        $('#inputFechaIn').datetimepicker('setDate', ev.date);   
+      }
+      $('#inputFechaIn').datetimepicker('setEndDate', ev.date);
+    });                    
+
   $("#FormData").validate({
         rules: {
-          inputFechaIn: {
-            required: true,
-            date: true
-          },  
-          inputFechaFin: {
-            required: true,
-            date: true
-          },  
+          inputFechaIn:     "required",
+          inputFechaFin:    "required",
           inputNoTravel:    "required",
           inputDescripcion: "required",
           inputSucursal:    "required",
@@ -80,14 +105,8 @@ $( document ).ready(function() {
             inputTransportista: "Debe de seleccionar una opción",
             inputUnidades:    "Debe de seleccionar una opción",
             inputOperadores:  "Debe de seleccionar una opción",  
-            inputFechaIn: {
-               required: "Campo Requerido",
-               date: "Ingresar una fecha válida"
-            },
-            inputFechaFin: {
-               required: "Campo Requerido",
-               date: "Ingresar una fecha válida"
-            }
+            inputFechaIn: "Campo Requerido",
+            inputFechaFin: "Campo Requerido",
         },
         
         submitHandler: function(form) {

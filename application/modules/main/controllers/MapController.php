@@ -115,7 +115,7 @@ class main_MapController extends My_Controller_Action
 			$dataInfo    = $classObject->getData($this->idToUpdate);
 			
 			$clients     	 = new My_Model_Clientes();
-			$cboValues       = $clients->getCbo($this->idToUpdate,$this->view->dataUser['ID_EMPRESA']);
+			$cboValues       = $clients->getCbo($dataInfo['ID_SUCURSAL'],$this->view->dataUser['ID_EMPRESA']);
 			$clientes        = $functions->selectDb($cboValues,$dataInfo['ID_CLIENTE']);
 
 			$operadores  	 = new My_Model_Operadores();
