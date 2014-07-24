@@ -127,5 +127,20 @@ class My_Model_Operadores extends My_Db_Table
 		}	
         
 		return $result;			
-	}  	
+	}  
+
+	public function getFilterOperadores($description,$idEmpresa){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="	SELECT ID_OPERADOR AS ID
+				FROM GTP_OPERADORES O
+				INNER JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
+				WHERE T.DESCRIPCION LIKE '%".$description."%' AND ID_EMPRESA = ".$idEmpresa;	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;			
+		}
+        
+		return $result;   		
+	}
 }

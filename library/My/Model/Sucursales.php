@@ -25,4 +25,23 @@ class My_Model_Sucursales extends My_Db_Table
         
 		return $result;			
 	}   	
+	
+	public function getFilterSucursales($description,$idEmpresa){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT ID_CLIENTE AS ID
+				FROM GTP_CLIENTES
+				WHERE ID_SUCURSAL 
+				IN (
+					SELECT ID_SUCURSAL
+					FROM SUCURSALES 
+					WHERE DESCRIPCION LIKE '%".$description."%' AND ID_EMPRESA = ".$idEmpresa."
+				)";    
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;			
+		}
+        
+		return $result;   		
+	}	
 }
