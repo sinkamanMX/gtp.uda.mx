@@ -365,3 +365,8 @@ body {
 .modal.fade.in {
     top: 5% !important;
 }
+.button-excel{
+    margin-left: 5px;
+    margin-top: 0;
+    position: fixed;
+}
