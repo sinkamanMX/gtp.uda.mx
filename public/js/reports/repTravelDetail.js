@@ -9,9 +9,14 @@ $( document ).ready(function() {
     var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
     var todayDay   = (nowTemp.getDate()<10) ? "0"+nowTemp.getDate(): nowTemp.getDate();        
 
-    $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00');    
-    $("#inputFechaFin").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 23:59');    
+    if($("#inputFechaIn").val()==""){
+      $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00');      
+    }
 
+    if($("#inputFechaFin").val()==""){
+      $("#inputFechaFin").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 23:59');    
+    }
+    
     var checkin = $('#inputFechaIn').datetimepicker({
         format: "yyyy-mm-dd HH:ii",
         showMeridian: false,
