@@ -107,7 +107,7 @@
                                     <td><?php echo $items['FIN'] ?></td>
                                     <td><?php echo $items['INCIDENCIAS'] ?></td>
                                     <td class="text-center">                                    
-                                        <a href=""><button class="btn-success"> <i class="icon-download icon-white"></i></button></a>
+                                        <a href="/main/reports/exportdatatravel?travelID=<?php echo $items['ID_VIAJE'];?>" target="_blank"><button class="btn-success"> <i class="icon-download icon-white"></i></button></a>
                                     </td>
                                 </tr>    
                                 <?php endforeach;?>

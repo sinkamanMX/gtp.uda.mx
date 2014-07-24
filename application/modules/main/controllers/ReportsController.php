@@ -133,51 +133,49 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->getActiveSheet()->getStyle("A2")->getFont()->setBold(true);
 					$objPHPExcel->setActiveSheetIndex(0)
 						->setCellValue('A3', 'Reporte Creado '.$dateCreate.' por '.$createdBy);	
-					$objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
-					$objPHPExcel->getActiveSheet()->getStyle('A1:D1')
+					$objPHPExcel->getActiveSheet()->mergeCells('A1:H1');
+					$objPHPExcel->getActiveSheet()->getStyle('A1:H1')
 							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-					$objPHPExcel->getActiveSheet()->mergeCells('A2:D2');
-					$objPHPExcel->getActiveSheet()->getStyle('A2:D2')
+					$objPHPExcel->getActiveSheet()->mergeCells('A2:H2');
+					$objPHPExcel->getActiveSheet()->getStyle('A2:H2')
 							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);	
-					$objPHPExcel->getActiveSheet()->mergeCells('A3:D3');	
-					$objPHPExcel->getActiveSheet()->getStyle('A3:D3')
+					$objPHPExcel->getActiveSheet()->mergeCells('A3:H3');	
+					$objPHPExcel->getActiveSheet()->getStyle('A3:H3')
 							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 								
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A5', 'Clave Viaje');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B5', $dataInfo['CLAVE']);
-					//$objPHPExcel->getActiveSheet()->mergeCells('B5:D5');
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', 'Unidad');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', $dataInfo['ECONOMICO']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', $dataInfo['ECONOMICO']);
 								
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', 'Descripcion');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', $dataInfo['NDESC']); /**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', $dataInfo['NDESC']); 
 					$objPHPExcel->getActiveSheet()->mergeCells('B6:D6');	
-					//$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);*/
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', 'Fecha Inicio');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B7', $dataInfo['INICIO']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B7', $dataInfo['INICIO']);
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', 'Fecha Fin');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D7', $dataInfo['FIN']);/**-----------***/			
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D7', $dataInfo['FIN']);			
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Sucursal');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['SUCURSAL']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['SUCURSAL']);
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', 'Cliente');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['CLIENTE']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['CLIENTE']);
 		
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Transportista');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['TRANSPORTISTA']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['TRANSPORTISTA']);
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', 'Operador');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['NOMBRE']);/**-----------***/	
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['NOMBRE']);	
 		
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', 'Estatus');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', $dataInfo['DESC_E']);/**-----------***/
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', $dataInfo['DESC_E']);
 		
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C9', 'Total incidencias');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D9', $dataInfo['INCIDENCIAS']);/**-----------***/	
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D9', $dataInfo['INCIDENCIAS']);	
 		
 					/**
 					 * Detalle del Viaje
@@ -190,7 +188,7 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F11', 'Tipo');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G11', 'Ubicaci—n');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H11', 'Incidencia');
-					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A11:I11');
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A11:H11');
 					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A11:H11")->getFont()->setSize(12);
 					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A11:H11")->getFont()->setBold(true);
 					
@@ -207,7 +205,7 @@ class main_reportsController extends My_Controller_Action
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['INCIDENCIA']);
 
 						if($zebraControl++%2==1){
-							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':F'.$rowControlHist);			
+							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':H'.$rowControlHist);			
 						}				
 						$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':C'.$rowControlHist)
 								->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);				
@@ -224,7 +222,6 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
-					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
 		
 					$objPHPExcel->setActiveSheetIndex(0);
 					$filename  = "Viaje_".$dataInfo['ID_VIAJE']."_".date("His_Ymd").".xlsx";
