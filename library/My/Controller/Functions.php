@@ -111,4 +111,15 @@ class My_Controller_Functions
 		       return new My_Model_Operadores();		       
 		}		
 	}
+	
+	public function arrayToStringDb($dataTable){
+		$result='';
+		foreach($dataTable as $key => $items){
+			if($items['ID']!="NULL"){
+				$result .= ($result!='')? ',':'' ;			
+				$result .= $items['ID'];	
+			}			
+		}
+		return $result;
+	}
 }
