@@ -98,5 +98,24 @@ class My_Model_Transportistas extends My_Db_Table
             echo $sql;
         }
 		return $result;	      	
-    }       
+    }     
+
+    public function deleteRow($data){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="DELETE FROM  $this->_name
+					 WHERE $this->_primary = ".$data['catId']."
+					  AND  ID_EMPRESA	   = ".$data['idEmpresa']."  LIMIT 1";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	     	
+    }      
 }

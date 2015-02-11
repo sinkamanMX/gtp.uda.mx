@@ -33,8 +33,20 @@ class My_Controller_Functions
     public $optionStatus = Array(
 		array("id"=>"1",'name'=>'Activo' ),
 		array("id"=>"0",'name'=>'Inactivo' )    
-    );    
+    );  
+    
+    public $aOptions = Array(
+		array("id"=>"1",'name'=>'Si' ),
+		array("id"=>"0",'name'=>'No' )    
+    );        
 
+	public $configMail = array(
+			'ssl'      => 'ssl',
+            'port'     => '465','auth' => 'login',
+			'urlSmtp'  => 'smtp.gmail.com',
+			'username' => 'tienda.ricom@gmail.com',			
+		    'password' => '7ienD4r1c0M.mX');    
+	    
     public function dateToText($fecha_db){
     	$fecha=explode("-",$fecha_db);
     	$mes_digito= (int) $fecha[1];
@@ -78,9 +90,10 @@ class My_Controller_Functions
 		return $options;		
 	}
 
-	public function cbo_number($n,$option=''){
+	public function cbo_number($n,$option='',$bDigitComp=true){
+	  $select='';
 	  for($i=0; $i<$n; $i++){
-		  $h = ($i<=9)?"0".$i:$i;
+		  $h = ($i<=9 && $bDigitComp)?"0".$i:$i;
 		  $current = ($h==$option) ? 'selected': '';
 		  $select .= '<option '.$current.' value="'.$h.'" >'.$h.'</option>';
 		  }
@@ -122,4 +135,41 @@ class My_Controller_Functions
 		}
 		return $result;
 	}
+	
+    public function cboOptions($option=''){
+		$options='';
+		for($p=0;$p<count($this->aOptions);$p++){
+			$select='';
+			if($this->aOptions[$p]['id']==@$option){$select='selected';}
+			$options .= '<option '.$select.' value="'.$this->aOptions[$p]['id'].'" >'.$this->aOptions[$p]['name'].'</option>';
+		}
+		return $options;
+    }
+
+	function getRandomCodeReset(){
+	    $an = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZqazwsxedcrfvtgbyhnujmikolp";
+	    $su = strlen($an) - 1;
+	    return  substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1) .
+	            substr($an, rand(0, $su), 1);
+	} 
+
+	function sendMailSmtp($aMailer){
+		//$sTransport = new Zend_Mail_Transport_Sendmail($this->configMail['urlSmtp'], $this->configMail);
+		$sTransport = new Zend_Mail_Transport_Smtp($this->configMail['urlSmtp'], $this->configMail);
+		$mail = new Zend_Mail('UTF-8');
+		$mail->addHeader('Content-Type', 'text/plain; charset=utf-8');
+
+		$mail->setFrom('contacto@taccsi.com', 'Taccsi');
+		$mail->addTo($aMailer['emailTo'], $aMailer['nameTo']);	
+		$mail->setSubject(html_entity_decode($aMailer['subjectTo']));
+		$mail->setBodyHtml(html_entity_decode($aMailer['bodyTo']));
+		$enviado = $mail->send($sTransport);		
+	}	
 }

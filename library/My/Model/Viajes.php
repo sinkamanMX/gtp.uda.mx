@@ -361,5 +361,51 @@ class My_Model_Viajes extends My_Db_Table
 		}	
         
 		return $result;	     	
-    }    
+    } 
+
+    public function getViajesByDate($idEmpresa){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO
+				FROM GTP_VIAJES V
+				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				WHERE S.ID_EMPRESA = $idEmpresa
+				  AND (CURRENT_DATE BETWEEN CAST(V.INICIO AS DATE) AND CAST(V.FIN AS DATE))
+				  AND V.ID_ESTATUS IN (4)
+				ORDER BY V.ID_VIAJE DESC;";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;
+    }
+    
+    public function getIncidenciasTravels($idEmpresa){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, I.DESCRIPCION AS DESC_INCIDENCIA,R.COMENTARIO, I.PRIORIDAD
+				FROM GTP_INCIDENCIAS_VIAJE	R	
+				INNER JOIN GTP_VIAJES V ON R.ID_VIAJE = V.ID_VIAJE
+				INNER JOIN GTP_INCIDENCIAS I ON R.ID_INCIDENCIA = I.ID_INCIDENCIA
+				WHERE R.ID_VIAJE IN (
+					SELECT V.ID_VIAJE
+					FROM GTP_VIAJES V
+					INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+					WHERE S.ID_EMPRESA = $idEmpresa
+								  AND (CURRENT_DATE BETWEEN CAST(V.INICIO AS DATE) AND CAST(V.FIN AS DATE))
+								  /*AND V.ID_ESTATUS NOT IN (4)*/
+								  AND V.ID_ESTATUS IN (4))";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;	    	
+    }
 }	

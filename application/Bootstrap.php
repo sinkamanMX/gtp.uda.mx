@@ -105,6 +105,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initRequest()
     {
     	try{
+    		/*
 	        $config = $this->getOptions();
 	    	// Ensure front controller instance is present, and fetch it
 	    	$this->bootstrap('FrontController');
@@ -119,7 +120,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	    	$front->setRequest($request);
 	    
 	    	// Bootstrap will store this value in the 'request' key of its container
-	    	return $request;
+	    	return $request;*/
     	}catch (Zend_Controller_Dispatcher_Exception $ex){
 		   $request = $controller->getRequest();
 		   echo "Exception: ".$request->getControllerName()."Controller class not found. ".$request->getActionName()."Action() not found. "; 

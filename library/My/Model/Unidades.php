@@ -16,7 +16,7 @@ class My_Model_Unidades extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT * 
 				FROM $this->_name
-				WHERE ID_TRANSPORTISTA = $idObject
+				WHERE ID_EMPRESA = $idObject
 				GROUP BY $this->_primary";    	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -49,7 +49,8 @@ class My_Model_Unidades extends My_Db_Table
 					 ECONOMICO 			= '".$data['inputEco']."',
 					 PLACAS				= '".$data['inputPlacas']."',
 					 IDENTIFICADOR		= '".$data['inputIden']."',
-					 ACTIVO				=  ".$data['inputStatus'].",					 
+					 ACTIVO				=  ".$data['inputStatus'].",
+					 ID_EMPRESA			=  ".$data['idEmpresa'].",				 
 					 REGISTRO 			= CURRENT_TIMESTAMP";
         try{            
     		$query   = $this->query($sql,false);

@@ -85,4 +85,102 @@ class My_Model_Usuarios extends My_Db_Table
         }
 		return $result;	      	
     }
+    
+  	public function userExist($sMail){
+		$result= Array();
+    	$sql ="SELECT  *
+                FROM ".$this->_name." 
+                WHERE USUARIO = '".$sMail."' LIMIT 1";			         	
+		$query   = $this->query($sql);
+		if(count($query)>0){
+			$result	 = $query[0];			
+		}	
+        
+		return $result;			
+	} 
+
+    public function insertRowRegister($data){
+        $result     = Array();
+        $result['status']  = false;    
+
+        $sql="INSERT INTO $this->_name	
+        		SET ID_PERFIL		=  ".$data['inputPerfil'].",
+					USUARIO			= '".$data['inputUser']."',
+					PASSWORD		= SHA1('".$data['inputPassword']."'),
+					NOMBRE			= '".$data['inputName']."',
+					APELLIDOS		= '".$data['inputApps']."',
+					EMAIL			= '".$data['inputUser']."',
+					TEL_MOVIL		= '".$data['inputTelMovilUser']."',
+					TEL_FIJO		= '".$data['inputTelFijoUser']."',
+					ESTATUS			=  ".$data['inputEstatus'].",
+					CODE_ACTIVATION = '".$data['codeActivation']."',
+        			FECHA_REGISTRO	= CURRENT_TIMESTAMP";     	  
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']  = $query_id[0]['ID_LAST'];  			 	
+				$result['status']  = true;	
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	
+    }  	
+    
+    public function setSucursal($data){
+        $result = false;
+        try{
+        	$sql="INSERT INTO USR_EMPRESA
+        		SET ID_USUARIO    	= ".$data['inputIdUsuario'].",
+					ID_SUCURSAL		= ".$data['inputSucursal'];
+                    
+    		$query   = $this->query($sql,false);
+			if($query){  			 	
+				$result  = true;	
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	
+    }   
+
+	public function validateKeyActivation($codeActivation){
+		$result= Array();		
+		$this->query("SET NAMES utf8",false);
+    	$sql ="SELECT USUARIOS.ID_USUARIO,SUCURSALES.ID_EMPRESA
+	    		FROM  USUARIOS
+	    		INNER JOIN USR_EMPRESA ON USUARIOS.ID_USUARIO    = USR_EMPRESA.ID_USUARIO  
+	    		INNER JOIN SUCURSALES  ON SUCURSALES.ID_SUCURSAL = USR_EMPRESA.ID_SUCURSAL
+				WHERE CODE_ACTIVATION  = '".$codeActivation."'";
+		$query   = $this->query($sql);
+		if(count($query)>0){
+			$result	 = $query[0];
+		}
+        
+		return $result;			
+	}   
+
+    public function setActivateUser($idUser){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="UPDATE $this->_name
+				SET  CODE_ACTIVATION = '',
+					 ESTATUS         = 1					 
+			  WHERE $this->_primary = ".$idUser." LIMIT 1";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }	
 }

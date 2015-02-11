@@ -140,9 +140,9 @@ body {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
-  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+  -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,.065);
+     -moz-box-shadow: 5px 5px 5px rgba(0,0,0,.065);
+          box-shadow: 5px 5px 5px rgba(0,0,0,.065);       
 }
 .bs-docs-sidenav > li > a {
   display: block;
@@ -308,6 +308,9 @@ body {
 .no-margin-b{
   margin-bottom: 0px;
 }
+.no-margin-left{
+  margin-left: 0px!important;
+}
 
 .fa-1 {
   font-size: 1.5em;
@@ -375,3 +378,50 @@ body {
     margin-top: 0;
     position: absolute;
 }
+
+
+.row-min-h30{
+  min-height: 30px;
+}
+.row-min-h{
+  min-height: 550px;
+}
+.row-min-h200{
+  min-height: 200px;
+}
+.row-min-h300{
+  min-height: 300px;
+}
+.row-min-h350{
+  min-height: 350px;
+}
+.row-min-h450{
+  min-height: 450px;
+}
+.row-min-h470{
+  min-height: 470px;
+}
+.row-min-h550{
+  min-height: 550px;
+}
+.row-min-h600{
+  min-height: 600px;
+}
+.row-min-h650{
+  min-height: 650px;
+}
+.row-min-h700{
+  min-height: 700px;
+}
+
+.row-min-h900{
+  min-height: 900px;
+}
+.row-min-h1200{
+  min-height: 1200px;
+}
+
+.cursor-hand{
+  cursor: pointer;  
+}
+

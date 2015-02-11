@@ -20,8 +20,8 @@ class My_Model_Sucursales extends My_Db_Table
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
-			$result = $query;			
-		}	
+			$result = $query;
+		}
         
 		return $result;			
 	}   	
@@ -44,4 +44,28 @@ class My_Model_Sucursales extends My_Db_Table
         
 		return $result;   		
 	}	
+	
+    public function insertRowRegister($data){
+        $result     = Array();
+        $result['status']  = false;    
+
+
+        $sql="INSERT INTO $this->_name	
+        		SET	ID_EMPRESA 		=  ".$data['inputIdEmpresa'].",
+        			DESCRIPCION		= '".$data['inputDescripcion']."',
+        			FECHA_REGISTRO	= CURRENT_TIMESTAMP";       			  
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']  = $query_id[0]['ID_LAST'];  			 	
+				$result['status']  = true;	
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	
+    }  		
 }
