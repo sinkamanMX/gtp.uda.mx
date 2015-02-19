@@ -70,7 +70,7 @@ class admin_RoutesController extends My_Controller_Action
 			$this->_dataIn['inputEmpresa'] = $this->view->idEmpresa;			
 			if($this->_idUpdate >-1){
 				$aDataInfo    = $classObject->getData($this->_idUpdate);
-				$sTime		  = $aDataInfo['TIEMPO_ESTIMADO'];
+				$sTime		  = $aDataInfo['ESTATUS'];
 			}
 			
 			$this->_dataIn['inputLatOrigen']  = 0.000000;

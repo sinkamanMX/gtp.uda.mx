@@ -39,17 +39,17 @@ $( document ).ready(function() {
 	} );
 });	
 
-
 function infoTravel(idTravelInfo){
 	$('#loader1').show();
 	$('#iFrameModaltravel').hide();    
     $('#iFrameModaltravel').attr('src','/travels/main/infotravel?catId='+idTravelInfo);
     $('#myModalTravel').modal('show');   
 }
-
+/*
 function newTravel(){
 	$('#loader2').show();
 	$('#iFrameNewtravel').hide();    
     $('#iFrameNewtravel').attr('src','/travels/main/newtravel');
     $('#ModalNewTravel').modal('show');  	
 }
+*/

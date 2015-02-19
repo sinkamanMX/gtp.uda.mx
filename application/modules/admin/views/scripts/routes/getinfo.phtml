@@ -1,4 +1,4 @@
-<?php $this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false') ?>
+<?php //$this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false') ?>
 <?php $this->headScript()->appendFile('/js/modules/routes/validateRoutes.js') ?> 
 <?php $disabled = ($this->dataUser['EDITAR']==0 && $this->dataUser['LECTURA']==1) ? 'disabled':'';?>
 <div class="row panel-data">
@@ -106,7 +106,7 @@
 								<?php if($disabled!='disabled'):?>
 								<div class="form-actions">
 									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn" onClick="javascript:backToMain()">Cancel</button>
+									<button type="button" class="btn" onClick="javascript:backToMain()">Cancelar</button>
 								</div>
 								<?php endif;?>
 						</fieldset>

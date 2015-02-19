@@ -36,6 +36,7 @@ $().ready(function() {
 });
 
 function initMapToDraw(){
+    /*
     infoWindow = new google.maps.InfoWindow;
     var mapOptions = {
       zoom: 5,
@@ -45,7 +46,7 @@ function initMapToDraw(){
     mapOrigen = new google.maps.Map(document.getElementById('mapOrigen'),mapOptions);    
     mapDestino= new google.maps.Map(document.getElementById('mapDestino'),mapOptions);  
 
-
+*/
 }
 
 function backToMain(){

@@ -45,7 +45,8 @@ class My_Model_Unidades extends My_Db_Table
         $result['status']  = false;
         
         $sql="INSERT INTO $this->_name
-				SET  ID_TRANSPORTISTA 	=  ".$data['inputTransportista'].",
+				SET  ID_TRANSPORTISTA 	= ".$data['inputTransportista'].",
+					 ID_PROVEEDOR       = ".$data['inputProveedor'].",
 					 ECONOMICO 			= '".$data['inputEco']."',
 					 PLACAS				= '".$data['inputPlacas']."',
 					 IDENTIFICADOR		= '".$data['inputIden']."',
@@ -72,7 +73,8 @@ class My_Model_Unidades extends My_Db_Table
         $result['status']  = false;
 
         $sql="UPDATE  $this->_name
-				SET  ID_TRANSPORTISTA 	=  ".$data['inputTransportista'].",
+				SET  ID_TRANSPORTISTA 	= ".$data['inputTransportista'].",
+					 ID_PROVEEDOR       = ".$data['inputProveedor'].",    
 					 ECONOMICO 			= '".$data['inputEco']."',
 					 PLACAS				= '".$data['inputPlacas']."',
 					 IDENTIFICADOR		= '".$data['inputIden']."',
@@ -124,5 +126,33 @@ class My_Model_Unidades extends My_Db_Table
         
 		return $result;			
 	}    
+	
+	public function getDataComplete($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT U.*, P.DESCRIPCION AS NAME_PROVEEDOR, P.USUARIO, P.PASSWORD, P.URL
+				FROM $this->_name U
+				INNER JOIN PROVEEDORES P ON U.ID_PROVEEDOR = P.ID_PROVEEDOR				
+                WHERE U.$this->_primary = $idObject LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];			
+		}	
+        
+		return $result;			
+	}   	
     
+    public function validateUnitByPlaque($sPlaque){
+		$result= false;
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT  *
+                FROM $this->_name
+                WHERE PLACAS = '$sPlaque' LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = true;			
+		}
+        
+		return $result;	    	
+    }	
 }

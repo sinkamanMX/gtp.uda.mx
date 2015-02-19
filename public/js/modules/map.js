@@ -40,6 +40,22 @@ $( document ).ready(function() {
 	$('#myModalOptions').on('hidden.bs.modal', function () {
     	mapLoadData()
 	})
+
+    $('#iFrameModaltravel').on('load', function () {        
+        $('#loader1').hide();
+        $('#iFrameModaltravel').show();
+    });
+
+    $('#iFrameModalinc').on('load', function () {        
+        $('#loader2').hide();
+        $('#iFrameModalinc').show();
+    });  
+
+    
+    $('#iFrameModaManual').on('load', function () {        
+        $('#loader3').hide();
+        $('#iFrameModaManual').show();
+    });        
 });
 
 function initMapToDraw(){
@@ -280,6 +296,8 @@ function infoMarkerTable(marker,content){
 }
 
 function editTravel(dataTavel){
+	$('#loader1').show();
+	$('#iFrameModaltravel').hide(); 
     $('#iFrameModaltravel').attr('src','/main/map/infotravel?catId='+dataTavel);
     $('#myModalTravel').modal('show');   
 }
@@ -335,11 +353,19 @@ function startStopTravel(idObject,optionValue){
 }
 
 function setIncidencia(dataTravel){
+	$('#loader2').show();
+	$('#iFrameModalinc').hide(); 
     $('#iFrameModalinc').attr('src','/main/map/setincidencia?catId='+dataTravel);
     $('#myModalInc').modal('show');   	
 }
 
 function setPositionManual(dataTravel){
+	$('#loader3').show();
+	$('#iFrameModaManual').hide(); 		
     $('#iFrameModaManual').attr('src','/main/map/manualpos?catId='+dataTravel);
     $('#myModalManual').modal('show');   		
+}
+
+function goToTrackSystem(idTravel){
+	window.open("/main/map/external?catId="+idTravel ,'_blank');
 }

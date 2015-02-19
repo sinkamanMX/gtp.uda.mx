@@ -5,7 +5,8 @@ $().ready(function() {
             inputPlacas	: "required",
             inputIden	: "required",
             inputStatus	: "required",
-            inputTransportista: "required"
+            inputTransportista: "required",
+            inputProveedor: "required",
 
             /*Si se requiere validar un campo de solo nùmeros
             precio: {
@@ -32,7 +33,8 @@ $().ready(function() {
             inputPlacas	: "Campo Requerido",
             inputIden	: "Campo Requerido",
             inputStatus	: "Debe de seleccionar una opción",
-            inputTransportista : "Debe de seleccionar una opción"
+            inputTransportista : "Debe de seleccionar una opción",
+            inputProveedor: "Debe de seleccionar una opción"
             /* 
 			precio		: {
 			         required: "Campo Requerido",
@@ -55,6 +57,11 @@ $().ready(function() {
             form.submit();
         }
     });	
+
+    $('.upperClass').keyup(function()
+    {
+        $(this).val($(this).val().toUpperCase());
+    }); 
 });
 
 function backToMain(){

@@ -1,9 +1,14 @@
 $().ready(function() {
 	$("#FormData").validate({
         rules: {
-            inputDescripcion	: "required",
+            inputDescripcion: "required",
             inputPrioridad	: "required",
-            inputCorreo	: "required"
+            inputCorreo	    : "required",
+            inputCosto      : "required",
+            inputCextra     : {
+                required: true,
+                number: true
+            },
 
             /*Si se requiere validar un campo de solo nùmeros
             precio: {
@@ -26,9 +31,14 @@ $().ready(function() {
         
         // Se especifica el texto del mensaje a mostrar
         messages: {
-            inputDescripcion	: "Campo Requerido",
+            inputDescripcion: "Campo Requerido",
             inputPrioridad  : "Debe indicar la prioridad",
-            inputCorreo : "Debe indicar si genera correo"
+            inputCorreo     : "Debe indicar si genera correo",
+            inputCosto      : "Debe seleccionar una opción",
+            inputCextra     : {
+                required: "Campo Requerido",
+                number: "Este campo acepta solo números"
+            }
             /* 
 			precio		: {
 			         required: "Campo Requerido",
@@ -51,7 +61,28 @@ $().ready(function() {
             form.submit();
         }
     });	
+
+    $('.upperClass').keyup(function()
+    {
+        $(this).val($(this).val().toUpperCase());
+    }); 
+
+    var optionInit = $("#inputCostoExtra").val();
+    if(optionInit==0){
+        $("#divCost").hide('slow');
+        $("#inputCextra").rules("remove", "required");
+    }
 });
+
+function addCost(optionSelect){
+    if(optionSelect==1){
+        $("#divCost").show('slow');
+        $("#inputCextra").rules("add",  {required:true});
+    }else{
+        $("#divCost").hide('slow');
+        $("#inputCextra").rules("remove", "required");
+    }
+}
 
 function backToMain(){
 	var mainPage = $("#hRefLinkMain").val();

@@ -45,13 +45,13 @@
 								<div class="control-group">
 									<label class="control-label">Nombre<span class="required">*</span></label>
 									<div class="controls">
-										<input type="text" name="inputDescripcion"  class="span6 m-wrap" value="<?php echo @$this->data['DESCRIPCION']; ?>"  <?php echo $disabled;?> >
+										<input type="text" name="inputDescripcion" autocomplete="off" class="span6 m-wrap upperClass" value="<?php echo @$this->data['DESCRIPCION']; ?>"  <?php echo $disabled;?> >
 									</div>
 								</div>		                    
 								<div class="control-group">
 									<label class="control-label">Prioridad Alta<span class="required">*</span></label>
 									<div class="controls">
-										<select class="span6 m-wrap" name="inputPrioridad" <?php echo $disabled;?> >
+										<select class="span6 m-wrap" name="inputPrioridad" autocomplete="off"  <?php echo $disabled;?> >
 											<?php echo $this->prioridad; ?>
 										</select>
 									</div>
@@ -59,17 +59,31 @@
 								<div class="control-group">
 									<label class="control-label">Enviar correo<span class="required">*</span></label>
 									<div class="controls">
-										<select class="span6 m-wrap" name="inputCorreo" <?php echo $disabled;?> >
+										<select class="span6 m-wrap" name="inputCorreo" autocomplete="off"  <?php echo $disabled;?> >
 											<?php echo $this->enviarmail; ?>
 										</select>
 									</div>
 								</div>
-								
+								<div class="control-group">
+									<label class="control-label">Tiene Costo Extra<span class="required">*</span></label>
+									<div class="controls">
+										<select class="span6 m-wrap" name="inputCosto" autocomplete="off"  onChange="addCost(this.value)" <?php echo $disabled;?> >
+											<?php echo $this->bPrecioExt; ?>
+										</select>
+									</div>
+								</div>								
+								<div id="divCost" class="control-group" style="display:<?php echo (@$this->data['COSTO_EXTRA']==1) ? 'block' : 'none'; ?>">
+									<label class="control-label">Costo ($)<span class="required">*</span></label>
+									<div class="controls">
+										<input type="text" name="inputCextra"  autocomplete="off" class="span6 m-wrap upperClass" value="<?php echo @$this->data['PRECIO_EXTRA']; ?>"  <?php echo $disabled;?> >
+										<input type="hidden" id="inputCostoExtra" value="<?php echo @$this->data['COSTO_EXTRA']; ?>">
+									</div>
+								</div>
 								
 								<?php if($disabled!='disabled'):?>
 								<div class="form-actions">
 									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn" onClick="javascript:backToMain()">Cancel</button>
+									<button type="button" class="btn" onClick="javascript:backToMain()">Cancelar</button>
 								</div>
 								<?php endif;?>
 						</fieldset>

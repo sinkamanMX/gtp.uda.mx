@@ -10,6 +10,7 @@
     <TITLE> Grupo UDA ::: GPS Trip Polling</TITLE>
     <!-- Bootstrap -->
         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="/vendors/easypiechart/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
         <link href="/assets/styles.css" rel="stylesheet" media="screen">
@@ -29,7 +30,7 @@
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>   
+        <!--<script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>   -->
   
     </head>
     
@@ -40,16 +41,24 @@
                                   )); ?>   
         <div class="container-fluid">
             <div class="row-fluid">  
-                <?php echo $this->render('menu.phtml', 
-                                          array (
-                                            'dataUser'    => $this->dataUser,
-                                            'modules'     => $this->modules
-                                          )); ?>
-                <div class="span9" id="content">
-                    <div class="row-fluid">
-                        <?php echo $this->layout()->content; ?>
-                    </div>
-                </div>        
+                <?php if(!isset($this->bPageAll)):?>
+                    <?php echo $this->render('menu.phtml', 
+                                              array (
+                                                'dataUser'    => $this->dataUser,
+                                                'modules'     => $this->modules
+                                              )); ?>
+                    <div class="span9" id="content">
+                        <div class="row-fluid">
+                            <?php echo $this->layout()->content; ?>
+                        </div>
+                    </div>        
+                <?php else:?>
+                    <div class="span12" id="content">
+                        <div class="row-fluid">
+                            <?php echo $this->layout()->content; ?>
+                        </div>
+                    </div>        
+                <?php endif;?>
             </div>
         </div>
 

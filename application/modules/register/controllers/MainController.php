@@ -37,7 +37,7 @@ class register_MainController extends My_Controller_Action
 			$cUsuarios  	 = new My_Model_Usuarios();
 			$cTransportistas = new My_Model_Transportistas();
 			$cFunctions		 = new My_Controller_Functions();
-			
+						
 			$sessions 	= new My_Controller_Auth();
 	        if($sessions->validateSession()){
 	            $this->_redirect('/main/main/inicio');		
@@ -71,9 +71,9 @@ class register_MainController extends My_Controller_Action
 									$bodymail   = '<h3>Estimado '.$this->_dataIn['inputName'].' '.$this->_dataIn['inputApps'].':</h3>'.
 												  'Para empezar a utilizar su cuenta, es necesario confirmar su correo electronico<br/>'.
 												  'Para hacerlo, debes de ingresar al siguiente link:'.
-												  '<a href="http://gtp.grupouda.com.mx/register/main/activation?keyACode='.$this->_dataIn['codeActivation'].'">Da Click Aqui</a><br/>'.
+												  '<a href="http://viajes.grupouda.com.mx/register/main/activation?keyACode='.$this->_dataIn['codeActivation'].'">Da Click Aqui</a><br/>'.
 												  'o bien copia y pega en tu navegador el siguiente enlace<br>'.
-												  '<b> http://gtp.grupouda.com.mx/register/main/activation?keyACode='.$this->_dataIn['codeActivation'].'</b>';									
+												  '<b> http://viajes.grupouda.com.mx/register/main/activation?keyACode='.$this->_dataIn['codeActivation'].'</b>';									
 									$aMailer    = Array(
 										'emailTo' 	=> $this->_dataIn['inputUser'],
 										'nameTo' 	=> $this->_dataIn['inputName'].' '.$this->_dataIn['inputApps'],
@@ -102,6 +102,7 @@ class register_MainController extends My_Controller_Action
 
 	    	$this->view->errors 	 = $this->_aErrors;
 	    	$this->view->resultOp    = $this->_resultOp;
+	    	$this->view->bUsuarioUda = $cFunctions->cboOptions(0);
         } catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                

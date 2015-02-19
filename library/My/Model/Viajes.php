@@ -408,4 +408,84 @@ class My_Model_Viajes extends My_Db_Table
         
 		return $result;	    	
     }
+    
+    public function insertTravel($data){
+        $result     = Array();
+        $result['status']  = false;
+        
+        $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';        
+        
+        $sql="INSERT INTO GTP_VIAJES SET
+				ID_ESTATUS_PAGO =  1,
+        		ID_RUTA			=  ".$data['inputRuta'].",
+        		ID_TIPO_VIAJE	=  ".$data['inputTviaje'].",			        		
+				ID_CLIENTE 		=  ".$data['inputCliente'].",
+				ID_SUCURSAL 	=  ".$data['inputSucursal'].",
+				ID_UNIDAD		=  ".$data['inputUnidades'].",
+				ID_OPERADOR		=  ".$data['inputOperadores'].",
+				ID_ESTATUS		= 0,
+				USUARIO_REGISTRO=  ".$data['userRegister'].",
+				CLAVE			= '".$data['inputNoTravel']."',
+				DESCRIPCION		= '".$data['inputDescripcion']."',
+				INICIO			= '".$data['inputFechaIn']."',
+				FIN				= '".$fechaFin."',
+				CREADO			= CURRENT_TIMESTAMP";
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']	   = $query_id[0]['ID_LAST'];
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }   
+
+    public function getViajesnoPay($idEmpresa){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO
+				FROM GTP_VIAJES V
+				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				WHERE S.ID_EMPRESA = $idEmpresa
+				  AND V.ID_ESTATUS_PAGO = 1
+				ORDER BY V.ID_VIAJE DESC;";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;
+    }    
+    
+    public function getDataComplete($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD
+				FROM GTP_VIAJES V
+				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				INNER JOIN EMPRESAS   E ON S.ID_EMPRESA  = E.ID_EMPRESA
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				WHERE V.ID_VIAJE = $idObject
+				LIMIT 1";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];
+		}	
+        
+		return $result;
+    }      
 }	

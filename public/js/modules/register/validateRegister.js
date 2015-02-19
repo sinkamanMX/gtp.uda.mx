@@ -27,7 +27,10 @@ $().ready(function() {
             inputUser           : {
                 required    : true,
                 email       : true
-            },
+            },  
+            inputClienteUDA  : "required",
+            inputUserUda     : "required",
+            inputPasswordUda : "required"
         },
         messages: {
             inputDescripcion	: "Campo Requerido",
@@ -49,14 +52,17 @@ $().ready(function() {
                 maxlength : "El Teléfono debe de ser de 10 dígitos"
             },
             inputPassword       : "Campo Requerido",
+            inputClienteUDA     : "Campo Requerido",
             inputPasswordSec    : {
                 required    : "Campo Requerido",
                 equalTo     : "La contraseña no coincide."
             },
-            inputUser           : {
-                required: "Campo Requerido",
-                email: "Debe de ingresar un mail válido"
-            },            
+            inputUser : {
+                required     : "Campo Requerido",
+                email        :   "Debe de ingresar un mail válido"
+            },        
+            inputUserUda     : "Campo Requerido",
+            inputPasswordUda : "Campo Requerido"
         },
         
         submitHandler: function(form) {
@@ -68,4 +74,20 @@ $().ready(function() {
     {
         $(this).val($(this).val().toUpperCase());
     }); 
+
+    $(".divUserUda").hide('fast');
+    $("#inputUserUda").rules("remove", "required");
+    $("#inputPasswordUda").rules("remove", "required");
 });
+
+function requiredData(optionSelect){
+    if(optionSelect==1){
+        $(".divUserUda").show('slow');
+        $("#inputUserUda").rules("add",  {required:true});
+        $("#inputPasswordUda").rules("add",  {required:true});
+    }else{
+        $(".divUserUda").hide('slow');
+        $("#inputUserUda").rules("remove", "required");
+        $("#inputPasswordUda").rules("remove", "required");
+    }
+}

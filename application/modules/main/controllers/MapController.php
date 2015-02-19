@@ -45,7 +45,6 @@ class main_MapController extends My_Controller_Action
     
     public function indexAction(){
     	try{
-
     		
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
@@ -240,12 +239,17 @@ class main_MapController extends My_Controller_Action
     }
     
     public function manualposAction(){
+    	$aDataViaje = Array();
     	$this->view->layout()->setLayout('layout_blank');	
 		$data = $this->_request->getParams();
 		$result = false;
 		$validateNumbers = new Zend_Validate_Digits();
 		$validateString  = new Zend_Validate_Alnum();		
 		$travels 		 = new My_Model_Viajes();
+		
+		if(isset($data['catId'])){
+			$aDataViaje = $travels->getDataComplete($data['catId']);
+		}
 		
 		if(isset($data['option'])){
 			if($validateNumbers->isValid($data['catId'])  && 
@@ -270,7 +274,102 @@ class main_MapController extends My_Controller_Action
 		} 
 		
 		$this->view->incidencias = $travels->getTipoIncidencias($this->view->dataUser['ID_EMPRESA']);
-		$this->view->insert = $result;
-		$this->view->catId = $data['catId'];    	
+		$this->view->insert 	 = $result;
+		$this->view->catId 		 = $data['catId'];
+		$this->view->aDataViaje	 = $aDataViaje;    	
+    }
+    
+    public function externalAction(){
+    	try{
+	    	$this->view->layout()->setLayout('layout_blank');	
+			$data 	 = $this->_request->getParams();
+			$result  		 = false;
+			$cViajes 		 = new My_Model_Viajes();
+			$cUnidades		 = new My_Model_Unidades();
+			$aDataViaje  	 = Array();
+			$aDataUnidad 	 = Array();
+			$validateNumbers = new Zend_Validate_Digits();
+			 
+			if($validateNumbers->isValid($data['catId']) ){
+				$idViaje 	= $data['catId'];
+				$aDataViaje = $cViajes->getData($idViaje);
+				$aDataUnidad= $cUnidades->getDataComplete($aDataViaje['ID_UNIDAD']);
+			}else{
+				$this->errors['noinfo'] = 1;
+			}
+					
+			$this->view->aDataUnidad = $aDataUnidad;
+			$this->view->aDataViaje  = $aDataViaje;
+			$this->view->aErrors	 = $this->errors;
+    	} catch (Zend_Exception $e) {
+        	echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }		
+    }  
+
+    public function getpositionlogAction(){
+		try{
+			$answer = Array('answer' => 'no-data');
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+			
+			$validateNumbers = new Zend_Validate_Digits();
+			$validateString  = new Zend_Validate_Alnum();		
+			$cViajes 		 = new My_Model_Viajes();	
+			$cUnidades		 = new My_Model_Unidades();		
+			
+			if($validateNumbers->isValid($this->dataIn['catId']) ){
+				$idViaje 	= $this->dataIn['catId'];
+				$aDataViaje = $cViajes->getDataComplete($idViaje);
+				$aDataUnidad= $cUnidades->getDataComplete($aDataViaje['ID_UNIDAD']);
+				$userUda 	= $aDataViaje['USUARIO_UDA'];
+    			$passUda 	= $aDataViaje['PASSWORD_UDA'];				
+				
+    		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+				$aParams 	  = array('sLogin'     => $userUda,
+			                  		  'sPassword'  => $passUda,
+									  'sPlate' 	   => $aDataUnidad['PLACAS']);
+				
+				$result=$soap_client->HistoyDataLastLocationByPlate($aParams);
+				
+				if (is_object($result)){
+			       	$x = get_object_vars($result);
+					$y = get_object_vars($x['HistoyDataLastLocationByPlateResult']);
+					$xml = $y['any'];		
+					if($xml2 = simplexml_load_string($xml)){
+						$c = 0;
+						for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
+							$aDataPosition  = Array();
+							$sFechaServer 	= (string) $xml2->Response->Plate[$i]->hst->DateTimeServer;
+							$sFechaServer 	= str_replace("/", "-", $sFechaServer);
+							$sLocation      =  (string)$xml2->Response->Plate[$i]->hst->Location;							
+							$vowels = array("&", "%", "'", '"' );
+							$sLocation  = str_replace($vowels, " ", $sLocation);
+							
+							$aDataPosition['sFechaServer'] 	= $sFechaServer; 
+							$aDataPosition['fLatitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Latitude;
+							$aDataPosition['fLongitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Longitude;
+							$aDataPosition['iVelocidad']  	= (string)$xml2->Response->Plate[$i]->hst->Speed;
+							$aDataPosition['iAngle']		= (string)$xml2->Response->Plate[$i]->hst->Angle;
+							$aDataPosition['sLocation']		= $sLocation;
+							
+							$answer = Array('answer' => 'ok',
+										   'dataPos' => $aDataPosition);
+			        	}			        	
+					}else{
+						$answer = Array('answer' => 'problem');
+					}
+				}else{
+					$answer = Array('answer' => 'problem');
+				}
+			}else{
+	            $answer = Array('answer' => 'problem');	
+	        }
+	        
+	        echo Zend_Json::encode($answer);   
+    	} catch (Zend_Exception $e) {
+        	echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }	 	
     }
 }

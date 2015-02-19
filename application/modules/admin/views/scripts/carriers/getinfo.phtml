@@ -45,25 +45,25 @@
 								<div class="control-group">
 									<label class="control-label">Nombre<span class="required">*</span></label>
 									<div class="controls">
-										<input type="text" name="inputDescripcion"  class="span6 m-wrap" value="<?php echo @$this->data['DESCRIPCION']; ?>"  <?php echo $disabled;?> >
+										<input type="text" name="inputDescripcion"  class="span6 m-wrap upperClass" value="<?php echo @$this->data['DESCRIPCION']; ?>"  <?php echo $disabled;?> >
 									</div>
 								</div>		                    
 								<div class="control-group">
 									<label class="control-label">Razón Social<span class="required">*</span></label>
 									<div class="controls">
-										<input type="text" name="inputRazonSocial" class="span6 m-wrap" value="<?php echo @$this->data['RAZON_SOCIAL']; ?>"  <?php echo $disabled;?> >
+										<input type="text" name="inputRazonSocial" class="span6 m-wrap upperClass" value="<?php echo @$this->data['RAZON_SOCIAL']; ?>"  <?php echo $disabled;?> >
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label">Dirección<span class="required">*</span></label>
 									<div class="controls">
-										<input name="inputDireccion" type="text" class="span6 m-wrap" value="<?php echo @$this->data['DIRECCION']; ?>" <?php echo $disabled;?> >
+										<input name="inputDireccion" type="text" class="span6 m-wrap upperClass" value="<?php echo @$this->data['DIRECCION']; ?>" <?php echo $disabled;?> >
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label">Contacto:<span class="required">*</span></label>
 									<div class="controls">
-									  <input name="inputContacto" type="text" class="span6 m-wrap" value="<?php echo @$this->data['CONTACTO']; ?>" <?php echo $disabled;?> >
+									  <input name="inputContacto" type="text" class="span6 m-wrap upperClass" value="<?php echo @$this->data['CONTACTO']; ?>" <?php echo $disabled;?> >
 									</div>
 								</div>
 								<div class="control-group">
@@ -95,7 +95,7 @@
 								<?php if($disabled!='disabled'):?>
 								<div class="form-actions">
 									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn" onClick="javascript:backToMain()">Cancel</button>
+									<button type="button" class="btn" onClick="javascript:backToMain()">Cancelar</button>
 								</div>
 								<?php endif;?>
 						</fieldset>

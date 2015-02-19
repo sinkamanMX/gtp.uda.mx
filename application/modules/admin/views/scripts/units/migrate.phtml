@@ -1,0 +1,48 @@
+<div class="row panel-data">
+    <input id="hRefLinkEdit" type="hidden" value="/admin/units/getinfo?idRow=" />
+	<div class="span12">
+		<!-- block -->
+        <div class="block">
+            <div class="navbar navbar-inner block-header">
+                <div class="muted pull-left">Migrando Unidades</div>
+            </div>
+            <div class="block-content collapse in">
+                <div class="span12 text-center">
+                    <?php if(count(@$this->errors)>0):?>
+                            <?php if(@$this->errors['no-service']==1):?>
+                                <div class="alert alert-error" style="display:block;">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <b>¡Atención Error!</b>
+                                    <div>El servicio no se encuentra disponible, favor de intentarlo mas tarde.</div>
+                                 </div>                                
+                            <?php elseif(@$this->errors['no-info']==1):?>
+                                <div class="alert alert-error" style="display:block;">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <b>¡Atención Error!</b>
+                                    <div>No hay informacion, favor de verificar usuario y contraseña.</div>
+                                 </div>                                  
+                            <?php elseif(@$this->errors['no-units']==1):?>     
+                                <div class="alert alert-error" style="display:block;">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <b>¡Atención Error!</b>
+                                    <div>El usuario no tiene unidades asignadas.</div>
+                                 </div>                                                         
+                            <?php endif;?>
+                    <?php endif; ?>
+
+                    <?php if(@$this->resultOp=='okRegister'):?>
+                        <div class="alert alert-success alert-dismissable" style="display:block;">
+                            <i class="fa fa-check"></i>                                                      
+                            Las unidades se han registrado correctamente<br/>
+                            Para continuar dar click <a href="/admin/units/index"> AQUI</a>
+                        </div>                      
+                    <?php endif;?> 
+                    <!--Procesando Inforación-->
+                </div>
+                <!--<div class="span12 no-margin-left">
+                    <img class="offset5" src="/images/assets/loading.gif" alt="loading gif"/>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>

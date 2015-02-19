@@ -1,6 +1,7 @@
 function getoptionsCbo(idCboTo,classObject,idObject,chosen){	
-	$("#div"+idCboTo).html("Cargando Información");
+	$("#div"+idCboTo).html('<img src="/images/assets/loading.gif" alt="loading gif"/>');
     var classChosen = (chosen) ? 'chosen-select': '';
+
     $.ajax({
         url: "/main/dashboard/getselect",
         type: "GET",
@@ -8,7 +9,7 @@ function getoptionsCbo(idCboTo,classObject,idObject,chosen){
         		oprDb : classObject },
         success: function(data) { 
         	$("#div"+idCboTo).html("");
-        	var dataCbo = '<select class="span4 m-wrap '+classChosen+'" id="input'+idCboTo+'" name="input'+idCboTo+'">';
+        	var dataCbo = '<select class="m-wrap '+classChosen+'" id="input'+idCboTo+'" name="input'+idCboTo+'">';
         	if(data!="no-info"){
         		dataCbo += '<option value="">Seleccionar una opción</option>'+data+'</select>';
         	}else{
@@ -21,4 +22,3 @@ function getoptionsCbo(idCboTo,classObject,idObject,chosen){
         }
     });  	
 }
-

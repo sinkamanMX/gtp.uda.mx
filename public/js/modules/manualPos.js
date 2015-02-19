@@ -72,11 +72,47 @@ $( document ).ready(function() {
         autoclose: true,
         todayBtn: true
     });    
+
+    $('.noEnterSubmit').keypress(function(e){
+        if ( e.which == 13 ) return false;
+        //or...
+        if ( e.which == 13 ) e.preventDefault();
+    });    
 });
 
+  function getPosition(){
+    $("#btnGetPosition").hide('slow');    
+    var catId = $("#catId").val();
 
-$('.noEnterSubmit').keypress(function(e){
-    if ( e.which == 13 ) return false;
-    //or...
-    if ( e.which == 13 ) e.preventDefault();
-});
+    $.ajax({
+        url: "/main/map/getpositionlog",
+        type: "GET",
+        dataType : 'json',
+        data: { catId: catId },
+        success: function(data) {
+            var result = data.answer; 
+            if(result=='ok'){
+              var oPosition = data.dataPos; 
+              var sLatitud  = oPosition.fLatitude;
+              var sLongitud = oPosition.fLongitude;
+              
+              $("#inputFecha").val(oPosition.sFechaServer);
+              $("#inputLatitud").val(sLatitud);
+              $("#inputLongitud").val(sLongitud);
+              $("#inputAngulo").val(oPosition.iAngle);
+              $("#inputVelocidad").val(oPosition.iVelocidad);
+              $("#inputDir").val(oPosition.sLocation);
+              $("#inputObservaciones").html('Posicion obtenida de grupo UDA');
+
+              $("#inputFecha").prop( "disabled", false );      
+              $("#inputLatitud").prop( "disabled", false );      
+              $("#inputLongitud").prop( "disabled", false );      
+              $("#inputAngulo").prop( "disabled", false );      
+              $("#inputVelocidad").prop( "disabled", false );      
+              $("#inputDir").prop( "disabled", false );      
+            }else{
+              alert("La unidad no tiene pocisión válida");
+            }
+        }
+    });
+  }

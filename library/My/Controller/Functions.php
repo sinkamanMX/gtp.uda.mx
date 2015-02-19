@@ -166,7 +166,7 @@ class My_Controller_Functions
 		$mail = new Zend_Mail('UTF-8');
 		$mail->addHeader('Content-Type', 'text/plain; charset=utf-8');
 
-		$mail->setFrom('contacto@taccsi.com', 'Taccsi');
+		$mail->setFrom('contacto@grupouda.com.mx', 'Viajes Grupo UDA');
 		$mail->addTo($aMailer['emailTo'], $aMailer['nameTo']);	
 		$mail->setSubject(html_entity_decode($aMailer['subjectTo']));
 		$mail->setBodyHtml(html_entity_decode($aMailer['bodyTo']));

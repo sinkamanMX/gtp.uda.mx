@@ -44,11 +44,15 @@ class My_Model_Incidencias extends My_Db_Table
         $result     = Array();
         $result['status']  = false;
         
+        $complement = ($data['inputCosto']==1) ? $data['inputCextra'] : 'NULL';
+        
         $sql="INSERT INTO $this->_name
 				SET  ID_EMPRESA 		=  ".$idEmpresa.",
 					 DESCRIPCION 		= '".$data['inputDescripcion']."',
 					 PRIORIDAD    		=  ".$data['inputPrioridad'].",
-                     CORREO             = ".$data['inputCorreo'];
+					 COSTO_EXTRA		=  ".$data['inputCosto'].", 
+					 PRECIO_EXTRA 		=  ".$complement.",
+                     CORREO             =  ".$data['inputCorreo'];
         try{            
     		$query   = $this->query($sql,false);
     		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
@@ -68,12 +72,16 @@ class My_Model_Incidencias extends My_Db_Table
     public function updateRow($data,$idEmpresa,$idIncidencia){
         $result     = Array();
         $result['status']  = false;
-
+        
+        $complement = ($data['inputCosto']==1) ? $data['inputCextra'] : 'NULL';
+                
         $sql="UPDATE  $this->_name
 				SET  ID_EMPRESA         =  ".$idEmpresa.",
                      DESCRIPCION        = '".$data['inputDescripcion']."',
                      PRIORIDAD          =  ".$data['inputPrioridad'].",
-                     CORREO             = ".$data['inputCorreo']."
+					 COSTO_EXTRA		=  ".$data['inputCosto'].", 
+					 PRECIO_EXTRA 		=  ".$complement.",                     
+                     CORREO             =  ".$data['inputCorreo']."
                WHERE $this->_primary = $idIncidencia";
         try{            
     		$query   = $this->query($sql,false);
@@ -86,5 +94,20 @@ class My_Model_Incidencias extends My_Db_Table
             echo $sql;
         }
 		return $result;	      	
-    }       
+    }    
+
+    public function getIncidenciasCosto(){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT  *
+                FROM $this->_name
+                WHERE COSTO_EXTRA IS NOT NULL
+                ORDER BY DESCRIPCION DESC";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;			
+		}	
+        
+		return $result;	    	
+    }
 }

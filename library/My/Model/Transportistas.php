@@ -117,5 +117,20 @@ class My_Model_Transportistas extends My_Db_Table
             echo $e->getErrorMessage();
         }
 		return $result;	     	
-    }      
+    }   
+
+    public function getFirst($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 
+    	$sql ="SELECT *
+    			FROM $this->_name
+                WHERE ID_EMPRESA = $idObject 
+               ORDER BY CREADO DESC LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];			
+		}	
+        
+		return $result;	    	
+    } 
 }

@@ -56,6 +56,11 @@ $().ready(function() {
             form.submit();
         }
     });	
+
+    $('.upperClass').keyup(function()
+    {
+        $(this).val($(this).val().toUpperCase());
+    }); 
 });
 
 function backToMain(){

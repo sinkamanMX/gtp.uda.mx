@@ -62,13 +62,15 @@ class admin_incidentsController extends My_Controller_Action
     }
     
     public function getinfoAction(){
-		$dataInfo = Array();
+		$dataInfo 	 = Array();
 		$classObject = new My_Model_Incidencias();
-		$functions = new My_Controller_Functions();
+		$functions 	 = new My_Controller_Functions();
 		//$transports= new My_Model_Unidades();
+		$bCostoExtra = 0;
 		
 		if($this->idToUpdate >-1){
 			$dataInfo    = $classObject->getData($this->idToUpdate);
+			$bCostoExtra = @$dataInfo['COSTO_EXTRA'];
 		}
 		
 		if($this->operation=='update'){			
@@ -107,9 +109,9 @@ class admin_incidentsController extends My_Controller_Action
 	        die();   			
 		}
 		
-		$this->view->prioridad  = $functions->cbo_number(5,@$dataInfo['PRIORIDAD'],false);
+		$this->view->prioridad  = $functions->cbo_number(2,@$dataInfo['PRIORIDAD'],false);
 		$this->view->enviarmail = $functions->cboOptions(@$dataInfo['CORREO']);
-		//$this->view->transportistas = $transports->getRowsEmp(1);
+		$this->view->bPrecioExt = $functions->cboOptions($bCostoExtra);
 		$this->view->data 		= $dataInfo; 
 		$this->view->error 		= $this->errors;	
     	$this->view->mOption 	= 'incidents';

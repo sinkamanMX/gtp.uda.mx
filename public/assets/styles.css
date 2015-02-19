@@ -273,6 +273,17 @@ body {
   }
 }
 
+.hmodal600 {
+  height: 600px;
+  width: 99.9%;
+}
+@-moz-document url-prefix() {
+    .hmodal600{
+    height: 600px;
+    width: 99.9%;
+  }
+}
+
 .hmodal350 {
   height: 350px;
   width: 99.9%;
@@ -298,7 +309,7 @@ body {
 }
 
 .bg-white{
-  background-color: #FFFFFF;
+  background-color: #FFFFFF!important;
 }
 
 .no-margin-t{
@@ -309,7 +320,7 @@ body {
   margin-bottom: 0px;
 }
 .no-margin-left{
-  margin-left: 0px!important;
+  margin-left: 0px !important;
 }
 
 .fa-1 {

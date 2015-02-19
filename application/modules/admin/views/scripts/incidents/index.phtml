@@ -21,25 +21,19 @@
                             <thead>
                                 <tr>
                                     <th>Descripción</th>
-                                    <th>Prioridad</th>
-                                    <th>Enviar Correo</th>
-                                    <th>Opciones</th>
+                                    <th class="span2 text-center">Prioridad</th>
+                                    <th class="span2 text-center">Enviar Correo</th>
+                                    <th class="span2 text-center">Costo Extra</th>
+                                    <th class="text-center" >Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>                                
                                 <?php foreach($this->datatTable as $key => $items): ?>  
                                 <tr class="odd gradeX">
                                     <td><?php echo $items['DESCRIPCION']; ?></td>
-                                    <td><?php if ($items['PRIORIDAD'] == 1){
-                                                echo "ALTA";
-                                              } else {
-                                                echo "BAJA";
-                                              }  ?></td>
-                                     <td><?php if ($items['CORREO'] == 1){
-                                                echo "SI";
-                                              } else {
-                                                echo "NO";
-                                              }  ?></td>
+                                    <td class="text-center"><?php echo ($items['PRIORIDAD'] == 1)   ? 'ALTA': 'BAJA'; ?></td>
+                                    <td class="text-center"><?php echo ($items['CORREO'] == 1)      ? 'SI'  : 'NO'  ; ?></td>
+                                    <td class="text-center"><?php echo ($items['COSTO_EXTRA'] == 1) ? 'SI'  : 'NO'  ; ?></td>
                                     <td class="text-center">
                                         <?php if($this->dataUser['LECTURA']==1): ?>
                                             <a href="/admin/incidents/getinfo?catId=<?php echo $items['ID_INCIDENCIA']; ?>"><button class="btn btn-primary"> <i class="icon-eye-open icon-white"></i></button></a>   

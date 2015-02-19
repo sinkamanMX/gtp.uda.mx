@@ -53,17 +53,20 @@ $( document ).ready(function() {
     var todayMonth = (dateInter<10) ? "0"+dateInter : dateInter;
     var todayDay   = (nowTemp.getDate()<10) ? "0"+nowTemp.getDate(): nowTemp.getDate();        
 
-    $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00');    
+    if($("#inputFechaIn").val()==""){
+      $("#inputFechaIn").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00');      
+    }
 
-
+    if($("#inputFechaFin").val()==""){
+      $("#inputFechaFin").val(nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 23:59');    
+    }
+    
     var checkin = $('#inputFechaIn').datetimepicker({
         format: "yyyy-mm-dd HH:ii",
         showMeridian: false,
         autoclose: true,
         todayBtn: true,
-        startDate: nowTemp.getFullYear()+"-"+todayMonth+"-"+todayDay+ ' 00:00'
     }).on('changeDate', function(ev) {
-
       if(ev.date.valueOf() > $('#inputFechaFin').datetimepicker('getDate').valueOf()){
         $('#inputFechaFin').datetimepicker('setDate', ev.date);   
       }
@@ -79,11 +82,11 @@ $( document ).ready(function() {
         autoclose: true,
         todayBtn: true
     }).on('changeDate', function(ev) {
-      if(ev.date.valueOf() > $('#inputFechaIn').datetimepicker('getDate').valueOf()){
+      if(ev.date.valueOf() < $('#inputFechaIn').datetimepicker('getDate').valueOf()){
         $('#inputFechaIn').datetimepicker('setDate', ev.date);   
       }
       $('#inputFechaIn').datetimepicker('setEndDate', ev.date);
-    });                    
+    });               
 
   $("#FormData").validate({
         rules: {
