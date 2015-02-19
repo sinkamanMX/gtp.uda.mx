@@ -160,6 +160,7 @@ class travels_MainController extends My_Controller_Action
 			$transportistas = new My_Model_Transportistas();
 			$cTipoViajes	= new My_Model_TipoViajes();
 			$cRutas			= new My_Model_Rutas();
+			$cViajes 		= new My_Model_Viajes();
 
 			$this->view->sucursales     = $sucursales->getRowsEmp($this->_dataUser['ID_EMPRESA']);
 			$this->view->transportistas = $transportistas->getRowsEmp($this->_dataUser['ID_EMPRESA']);
@@ -173,7 +174,26 @@ class travels_MainController extends My_Controller_Action
 					unset($aNamespace->dataGral);					
 				}
 				$aNamespace->dataGral = $this->_dataIn;
-				$this->_redirect("/travels/main/paytravel");
+				
+				if($this->_dataUser['COBRAR_VIAJES']==1){					
+					$this->_redirect("/travels/main/paytravel");						
+				}else{
+					$aTravelInfo = $aNamespace->dataGral;					
+					$aMoreInfo	 = $cRutas->getData($aTravelInfo['inputRuta']);
+					$aTipoViaje	 = $cTipoViajes->getData($aTravelInfo['inputTviaje']);					
+					$aTravelInfo['userRegister'] = $this->_dataUser['ID_USUARIO'];
+					
+					$insertViaje = $cViajes->insertTravel($aTravelInfo);
+					if($insertViaje['status']){
+						$idViaje = $insertViaje['id'];
+												
+						unset($aNamespace->dataGral);
+						$this->_redirect("/travels/main/resume?catId=".$idViaje);
+					}else{
+						$this->_aErrors['no-insert'] = 1;
+					}	
+
+				}
 			}
 						
 			if(isset($aNamespace->dataGral)){
@@ -325,7 +345,8 @@ class travels_MainController extends My_Controller_Action
 			$this->view->dataTravel   = $aTravelInfo;
 			$this->view->aMoreInfo	  = $aMoreInfo;
 			$this->view->aTipoViaje	  = $aTipoViaje;
-			$this->view->aErrors	  = $this->_aErrors;			
+			$this->view->aErrors	  = $this->_aErrors;
+						
 			
 		}catch(Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
