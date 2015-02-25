@@ -17,12 +17,12 @@ class My_Model_Viajes extends My_Db_Table
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,
 				ST.ID_ESTATUS
 				FROM GTP_VIAJES V
-				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
-				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
-				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
-				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
-				WHERE S.ID_EMPRESA = $idObject	
-				  AND V.ID_ESTATUS IN (1,2,3)
+				LEFT JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				LEFT JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				LEFT JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				WHERE /*S.ID_EMPRESA = $idObject
+				  AND */ V.ID_ESTATUS IN (1,2,3)
 				ORDER BY V.ID_VIAJE DESC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -120,6 +120,8 @@ class My_Model_Viajes extends My_Db_Table
         $result['status']  = false;
         
         $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';
+        $sNoTravel 	= (isset($data['inputNoTravel']))    ? "CLAVE				= '".$data['inputNoTravel']."',": "";
+        $sDesc 		= (isset($data['inputDescripcion'])) ? " DESCRIPCION		= '".$data['inputDescripcion']."',": "";
 
         $sql="UPDATE  $this->_name SET
 					  ID_CLIENTE 		=  ".$data['inputCliente'].",
@@ -127,8 +129,8 @@ class My_Model_Viajes extends My_Db_Table
 					  ID_UNIDAD			=  ".$data['inputUnidades'].",
 					  ID_OPERADOR		=  ".$data['inputOperadores'].",
 					  USUARIO_REGISTRO	=  ".$data['userRegister'].",
-					  CLAVE				= '".$data['inputNoTravel']."',
-					  DESCRIPCION		= '".$data['inputDescripcion']."',
+					  $sNoTravel
+					  $sDesc
 					  INICIO			= '".$data['inputFechaIn']."',
 					  FIN				= '".$fechaFin."'
 					 WHERE $this->_primary =".$data['catId']." LIMIT 1";
@@ -363,21 +365,30 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	     	
     } 
 
-    public function getViajesByDate($idEmpresa){
+    public function getViajesByDate($idEmpresa,$idStatus=4,$date=-1){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
+		
+		$sFilter = ($date==-1) ? ' AND (CURRENT_DATE BETWEEN CAST(V.INICIO AS DATE) AND CAST(V.FIN AS DATE)) ': ''; 
+		
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
-				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD, T.DESCRIPCION AS N_TRANS
+				, CONCAT(O.`NOMBRE`,' ',O.`APELLIDOS`) AS N_OPERADOR, A.DESCRIPCION AS TIPO, R.DESCRIPCION AS DES_RUTA, ST.DESCRIPCION AS STATUS_VIAJE
 				FROM GTP_VIAJES V
-				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
-				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
-				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
-				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
-				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				LEFT JOIN TIPO_VIAJES A ON V.ID_TIPO_VIAJE = A.ID_TIPO_VIAJE
+				LEFT JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				LEFT JOIN EMPRESAS   E ON S.ID_EMPRESA  = E.ID_EMPRESA
+				LEFT JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				LEFT JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				LEFT JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO	
+				LEFT JOIN GTP_OPERADORES    O ON V.ID_OPERADOR   = O.ID_OPERADOR			
+				LEFT JOIN GTP_TRANSPORTISTA T ON U.`ID_TRANSPORTISTA` = T.ID_TRANSPORTISTA
+				LEFT JOIN RUTAS R ON V.ID_RUTA = R.ID_RUTA	
 				WHERE S.ID_EMPRESA = $idEmpresa
-				  AND (CURRENT_DATE BETWEEN CAST(V.INICIO AS DATE) AND CAST(V.FIN AS DATE))
-				  AND V.ID_ESTATUS IN (4)
-				ORDER BY V.ID_VIAJE DESC;";
+					$sFilter
+				  AND V.ID_ESTATUS IN ($idStatus)
+				ORDER BY V.ID_VIAJE DESC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;
@@ -409,21 +420,21 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	    	
     }
     
-    public function insertTravel($data){
+    public function insertTravel($data,$statusPago=1,$status=0){
         $result     = Array();
         $result['status']  = false;
         
         $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';        
         
         $sql="INSERT INTO GTP_VIAJES SET
-				ID_ESTATUS_PAGO =  1,
+				ID_ESTATUS_PAGO =  ".$statusPago.",
         		ID_RUTA			=  ".$data['inputRuta'].",
         		ID_TIPO_VIAJE	=  ".$data['inputTviaje'].",			        		
 				ID_CLIENTE 		=  ".$data['inputCliente'].",
 				ID_SUCURSAL 	=  ".$data['inputSucursal'].",
 				ID_UNIDAD		=  ".$data['inputUnidades'].",
 				ID_OPERADOR		=  ".$data['inputOperadores'].",
-				ID_ESTATUS		= 0,
+				ID_ESTATUS		=  ".$status.",
 				USUARIO_REGISTRO=  ".$data['userRegister'].",
 				CLAVE			= '".$data['inputNoTravel']."',
 				DESCRIPCION		= '".$data['inputDescripcion']."',
@@ -471,14 +482,19 @@ class My_Model_Viajes extends My_Db_Table
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
-				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD, T.DESCRIPCION AS N_TRANS
+				, CONCAT(O.`NOMBRE`,' ',O.`APELLIDOS`) AS N_OPERADOR, A.DESCRIPCION AS TIPO, R.DESCRIPCION AS N_RUTA, ST.DESCRIPCION AS N_STATUS
 				FROM GTP_VIAJES V
-				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
-				INNER JOIN EMPRESAS   E ON S.ID_EMPRESA  = E.ID_EMPRESA
-				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
-				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
-				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
-				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				INNER JOIN TIPO_VIAJES A ON V.ID_TIPO_VIAJE = A.ID_TIPO_VIAJE
+				LEFT JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				LEFT JOIN EMPRESAS   E ON S.ID_EMPRESA  = E.ID_EMPRESA
+				LEFT JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				LEFT JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				LEFT JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO	
+				LEFT JOIN GTP_OPERADORES    O ON V.ID_OPERADOR   = O.ID_OPERADOR			
+				LEFT JOIN GTP_TRANSPORTISTA T ON U.`ID_TRANSPORTISTA` = T.ID_TRANSPORTISTA
+				INNER JOIN RUTAS R ON V.ID_RUTA = R.ID_RUTA		
 				WHERE V.ID_VIAJE = $idObject
 				LIMIT 1";
 		$query   = $this->query($sql);
@@ -487,5 +503,58 @@ class My_Model_Viajes extends My_Db_Table
 		}	
         
 		return $result;
-    }      
+    }     
+
+    public function updatePaymentStatus($sStatus,$idObject){
+        $result     = Array();
+        $result['status']  = false;        
+        
+        $idStatusPay = 1;
+        switch ($sStatus) {
+        	case "Denied":
+        		$idStatusPay = 3;
+        	break;
+        	case "Completed":
+        		$idStatusPay = 2;
+        	break;        	        	        	
+        	default:
+        		$idStatusPay = 1; 
+        	break;
+        }
+
+        $sql="UPDATE  $this->_name SET
+				ID_ESTATUS_PAGO 	  = ".$idStatusPay."				
+				WHERE $this->_primary = ".$idObject." LIMIT 1";
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }  
+/*
+    public function getDataComplete($idObject){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
+				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO
+				FROM GTP_VIAJES V
+				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD  = U.ID_UNIDAD
+				INNER JOIN GTP_CLIENTES C ON V.ID_CLIENTE = C.ID_CLIENTE 
+				INNER JOIN GTP_ESTATUS_PAGO P ON V.ID_ESTATUS_PAGO = P.ID_ESTATUS_PAGO
+				WHERE V.ID_VIAJE = $idObject
+				ORDER BY V.ID_VIAJE DESC";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;    	
+    }*/
 }	

@@ -125,9 +125,9 @@
 				                	<div class="span12 no-margin-left">
 				                		<div class="span4">
 											<div class="control-group">
-												<label class="control-label">Cliente UDA:<span class="required">*</span></label>
+												<label class="control-label">Cliente Ovision:<span class="required">*</span></label>
 												<div class="controls">												
-													<select class="span6 m-wrap"  autocomplete="off" name="inputClienteUDA" onChange="requiredData(this.value)">
+													<select class="span6 m-wrap"  autocomplete="off" id="inputClienteUDA" name="inputClienteUDA" onChange="requiredData(this.value)">
 														<?php echo $this->bUsuarioUda; ?>
 													</select>
 												</div>
@@ -135,17 +135,17 @@
 				                		</div>
 					                		<div class="span4">
 												<div class="control-group divUserUda">
-													<label class="control-label">Usuario UDA:<span class="required"></span></label>
+													<label class="control-label">Usuario Ovision:<span class="required"></span></label>
 													<div class="controls">
-													  <input id="inputUserUda" name="inputUserUda" type="text" autocomplete="off" class="span12 m-wrap" value="<?php echo @$this->data['inputUserUda']; ?>">
+													  <input id="inputUserUda" name="inputUserUda" type="text" autocomplete="off" class="span12 m-wrap" value="<?php echo @$this->data['USUARIO_UDA']; ?>">
 													</div>
 												</div>
 					                		</div>
 					                		<div class="span4">
 												<div class="control-group divUserUda">
-													<label class="control-label">Contraseña UDA:<span class="required"></span></label>
+													<label class="control-label">Contraseña Ovision:<span class="required"></span></label>
 													<div class="controls">
-													  <input id="inputPasswordUda" name="inputPasswordUda" type="text" autocomplete="off" class="span12 m-wrap" value="<?php echo @$this->data['inputPasswordUda']; ?>">
+													  <input id="inputPasswordUda" name="inputPasswordUda" type="text" autocomplete="off" class="span12 m-wrap" value="<?php echo @$this->data['PASSWORD_UDA']; ?>">
 													</div>
 												</div>													                			
 					                		</div>			                		

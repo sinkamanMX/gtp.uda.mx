@@ -172,4 +172,18 @@ class My_Controller_Functions
 		$mail->setBodyHtml(html_entity_decode($aMailer['bodyTo']));
 		$enviado = $mail->send($sTransport);		
 	}	
+	
+	function sendMailAdmins($aMailer){
+		//$sTransport = new Zend_Mail_Transport_Sendmail($this->configMail['urlSmtp'], $this->configMail);
+		$sTransport = new Zend_Mail_Transport_Smtp($this->configMail['urlSmtp'], $this->configMail);
+		$mail = new Zend_Mail('UTF-8');
+		$mail->addHeader('Content-Type', 'text/plain; charset=utf-8');
+
+		$mail->setFrom('contacto@grupouda.com.mx', 'Viajes Grupo UDA');
+		$mail->addTo($aMailer['emailTo'], $aMailer['nameTo']);	
+		$mail->addTo($aMailer['emailTo2'], $aMailer['nameTo']);	
+		$mail->setSubject(html_entity_decode($aMailer['subjectTo']));
+		$mail->setBodyHtml(html_entity_decode($aMailer['bodyTo']));
+		$enviado = $mail->send($sTransport);			
+	}
 }

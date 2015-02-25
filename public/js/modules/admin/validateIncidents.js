@@ -4,11 +4,6 @@ $().ready(function() {
             inputDescripcion: "required",
             inputPrioridad	: "required",
             inputCorreo	    : "required",
-            inputCosto      : "required",
-            inputCextra     : {
-                required: true,
-                number: true
-            },
 
             /*Si se requiere validar un campo de solo nùmeros
             precio: {
@@ -34,11 +29,6 @@ $().ready(function() {
             inputDescripcion: "Campo Requerido",
             inputPrioridad  : "Debe indicar la prioridad",
             inputCorreo     : "Debe indicar si genera correo",
-            inputCosto      : "Debe seleccionar una opción",
-            inputCextra     : {
-                required: "Campo Requerido",
-                number: "Este campo acepta solo números"
-            }
             /* 
 			precio		: {
 			         required: "Campo Requerido",

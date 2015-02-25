@@ -75,7 +75,7 @@ class admin_CompaniesController extends My_Controller_Action
 			if($this->_idUpdate >-1){
 				$aDataInfo  = $cEmpresas->getData($this->_idUpdate);
 				$sEstatus	= $aDataInfo['ESTATUS'];
-				$sClientUda = $aDataInfo['USUARIO_UDA'];
+				$sClientUda = $aDataInfo['CLIENTE_UDA'];
 				$sCViajes 	= $aDataInfo['COBRAR_VIAJES'];
 			}
 			

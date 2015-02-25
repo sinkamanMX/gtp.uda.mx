@@ -45,11 +45,10 @@ function infoTravel(idTravelInfo){
     $('#iFrameModaltravel').attr('src','/travels/main/infotravel?catId='+idTravelInfo);
     $('#myModalTravel').modal('show');   
 }
-/*
-function newTravel(){
-	$('#loader2').show();
-	$('#iFrameNewtravel').hide();    
-    $('#iFrameNewtravel').attr('src','/travels/main/newtravel');
-    $('#ModalNewTravel').modal('show');  	
+
+function closeWindows(){
+  $('#loader1').show();
+  $('#iFrameModaltravel').hide();    
+  $('#myModalTravel').modal('hide');  
+  location.href="/travels/main/index"; 
 }
-*/

@@ -49,10 +49,12 @@ class travels_MainController extends My_Controller_Action
     public function indexAction(){
 	    try{
 	    	$cViajes 	 = new My_Model_Viajes();
-
-	    	$this->view->aViajes 	  = $cViajes->getViajesByDate($this->_dataUser['ID_EMPRESA']);
-	    	$this->view->aIncidencias =	$cViajes->getIncidenciasTravels($this->_dataUser['ID_EMPRESA']);
-	    	$this->view->aViajesNoPay = $cViajes->getViajesnoPay($this->_dataUser['ID_EMPRESA']);
+	    	
+	    	$this->view->aIncidencias   = $cViajes->getIncidenciasTravels($this->_dataUser['ID_EMPRESA']);
+	    	$this->view->aViajesFinish  = $cViajes->getViajesByDate($this->_dataUser['ID_EMPRESA']);
+	    	$this->view->aViajesCurrent = $cViajes->getViajesByDate($this->_dataUser['ID_EMPRESA'],2,1);
+	    	$status = "1,5";
+	    	$this->view->aViajesNew     = $cViajes->getViajesByDate($this->_dataUser['ID_EMPRESA'],$status,1);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -103,27 +105,37 @@ class travels_MainController extends My_Controller_Action
 			$sTipoViaje		 = $dataInfo['ID_TIPO_VIAJE'];
 			$sRuta			 = $dataInfo['ID_RUTA'];
 		}	
-		
+
 		if($this->_dataOp=='update'){			
 			if($this->_idUpdate>-1){
+				$this->_dataIn['userRegister'] = $this->_dataUser['ID_USUARIO']; 
+				
 				 $updated = $classObject->updateRow($this->_dataIn);
 				 if($updated['status']){
 				 	$dataInfo    = $classObject->getData($this->_idUpdate);
+				 	
+					$bodymail   = '<h3>Atencion</h3>'.
+									'El usuario <b>'.$this->_dataUser['USUARIO'].'</b> de la Empresa: <b>'.$this->_dataUser['N_EMPRESA'].'</b><br/>'.
+									'Ha realizado cambios en el viaje con Clave: <b>'.$dataInfo['CLAVE']."</b></br>".
+									'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
+									'o bien copia y pega en tu navegador el siguiente enlace<br>'.
+									'<b> http://viajes.grupouda.com.mx</b>';									
+					$aMailer    = Array(
+						'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
+						'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
+						'nameTo' 	=> "Area de Monitoreo UDA",
+						'subjectTo' => ('GTP - Grupo UDA'),
+						'bodyTo' 	=> $bodymail,
+					);
+					$enviar = $functions->sendMailAdmins($aMailer);					 	
+				 	
+				 	
 				 	$this->_resultOp = 'okRegister';	
 				 }
 			}else{
 				$this->_aErrors['status'] = 'no-info';
 			}	
-		}else if($this->_dataOp=='new'){
-			$insert = $classObject->insertRow($this->_dataIn);
-			if($insert['status']){
-				$this->_idUpdate	= $insert['id'];
-				$this->_resultOp    = 'okRegister';	
-				$dataInfo    = $classObject->getData($this->idToUpdate);
-			}else{
-				$this->_aErrors['status'] = 'no-insert';
-			}
-		}				
+		}			
 		
 		$this->view->clientes 	= $clientes; 
 		$this->view->idTransportista = $IdTransportistas['ID_TRANSPORTISTA'];
@@ -183,12 +195,27 @@ class travels_MainController extends My_Controller_Action
 					$aTipoViaje	 = $cTipoViajes->getData($aTravelInfo['inputTviaje']);					
 					$aTravelInfo['userRegister'] = $this->_dataUser['ID_USUARIO'];
 					
-					$insertViaje = $cViajes->insertTravel($aTravelInfo);
+					$insertViaje = $cViajes->insertTravel($aTravelInfo,2,1);
 					if($insertViaje['status']){
 						$idViaje = $insertViaje['id'];
 												
-						unset($aNamespace->dataGral);
-						$this->_redirect("/travels/main/resume?catId=".$idViaje);
+						$bodymail   = '<h3>Atencion</h3>'.
+										'Se ha registrado un viaje para monitorear.<br/>'.
+										'Para revisarlo, debes de ingresar al siguiente link:'.
+										'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
+										'o bien copia y pega en tu navegador el siguiente enlace<br>'.
+										'<b> http://viajes.grupouda.com.mx</b>';									
+						$aMailer    = Array(
+							'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
+							'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
+							'nameTo' 	=> "Area de Monitoreo UDA",
+							'subjectTo' => ('GTP - Grupo UDA'),
+							'bodyTo' 	=> $bodymail,
+						);
+						$enviar = $functions->sendMailAdmins($aMailer);	
+												
+						unset($aNamespace->dataGral);												
+						$this->_redirect("/travels/main/index");
 					}else{
 						$this->_aErrors['no-insert'] = 1;
 					}	
@@ -243,7 +270,7 @@ class travels_MainController extends My_Controller_Action
 			$cRutas		  = new My_Model_Rutas();
 			$cTipoViajes  = new My_Model_TipoViajes();
 			$cExtras	  = new My_Model_Extras();
-			$aIncidencias = $cIncidencias->getIncidenciasCosto();
+			$aExtras 	  = $cExtras->getExtrasCosto();
 			
 			$aNamespace = new Zend_Session_Namespace("solTravel");
 			if(isset($aNamespace->dataGral)){
@@ -257,15 +284,15 @@ class travels_MainController extends My_Controller_Action
 					if($insertViaje['status']){
 						$idViaje = $insertViaje['id'];
 						
-						foreach($aIncidencias as $key => $items){
-							if(isset($this->_dataIn['cboInc_'.$items['ID_INCIDENCIA']])){
-								if($this->_dataIn['cboInc_'.$items['ID_INCIDENCIA']]>0){
-									$iCountInc	= $this->_dataIn['cboInc_'.$items['ID_INCIDENCIA']];
-									$aInfoInc   = $cIncidencias->getData($items['ID_INCIDENCIA']);
+						foreach($aExtras as $key => $items){
+							if(isset($this->_dataIn['cboInc_'.$items['ID_EXTRA']])){
+								if($this->_dataIn['cboInc_'.$items['ID_EXTRA']]>0){
+									$iCountInc	= $this->_dataIn['cboInc_'.$items['ID_EXTRA']];
+									$aInfoInc   = $cExtras->getData($items['ID_EXTRA']);
 									
 									$dataInsert   = Array();
 									$dataInsert['inputIdViaje'] 	= $idViaje;
-									$dataInsert['inputIncidencia'] 	= $items['ID_INCIDENCIA'];
+									$dataInsert['inputExtra'] 		= $items['ID_EXTRA'];
 									$dataInsert['inputTotal'] 		= $aInfoInc['PRECIO_EXTRA'] * $iCountInc;
 									$dataInsert['inputCantidad']    = $iCountInc;  
 									$insertRelInc = $cExtras->insertTravel($dataInsert);	
@@ -277,6 +304,21 @@ class travels_MainController extends My_Controller_Action
 						}
 						
 						if(count($this->_aErrors)==0){
+							$bodymail   = '<h3>Atencion</h3>'.
+											'Se ha registrado un viaje para monitorear.<br/>'.
+											'Para revisarlo, debes de ingresar al siguiente link:'.
+											'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
+											'o bien copia y pega en tu navegador el siguiente enlace<br>'.
+											'<b> http://viajes.grupouda.com.mx</b>';									
+							$aMailer    = Array(
+								'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
+								'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
+								'nameTo' 	=> "Area de Monitoreo UDA",
+								'subjectTo' => ('GTP - Grupo UDA'),
+								'bodyTo' 	=> $bodymail,
+							);
+							$enviar = $functions->sendMailAdmins($aMailer);
+															
 							unset($aNamespace->dataGral);
 							$this->_redirect("/travels/main/resume?catId=".$idViaje);
 						}else{
@@ -290,7 +332,7 @@ class travels_MainController extends My_Controller_Action
 				$this->_redirect("/travels/main/newtravel");
 			}
 			
-			$this->view->aIncidencias = $aIncidencias;
+			$this->view->aIncidencias = $aExtras;
 			$this->view->aNumbers	  = $cFunciones->cbo_number(26);
 			$this->view->dataTravel   = $aTravelInfo;
 			$this->view->aMoreInfo	  = $aMoreInfo;
@@ -353,5 +395,5 @@ class travels_MainController extends My_Controller_Action
         	echo "Message: " . $e->getMessage() . "\n";                
         } 	
     }
-	
+    
 }

@@ -253,7 +253,7 @@ function centerMap(dataTravel){
 	    			'<tr><td align="right"><b>Unidad</b></td><td align="left">'+travelInfo[6]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Hora del Evento</b></td><td align="left">'+travelInfo[12]+'</td><tr>'+
 	    			'<tr><td align="right"><b>Velocidad</b></td><td align="left">'+travelInfo[14]+' kms/h.</td><tr>'+
-	    			'<tr><td align="right"><b>Incidencia</b></td><td align="left">'+travelInfo[17]+' kms/h.</td><tr>'+
+	    			'<tr><td align="right"><b>Incidencia</b></td><td align="left">'+travelInfo[17]+' </td><tr>'+
 	    			'<tr><td align="right"><b>Ubicación</b></td><td align="left">'+travelInfo[13]+'</td><tr>'+
 	    			'</table>';
 		markers.push(marker1);

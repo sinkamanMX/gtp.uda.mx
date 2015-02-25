@@ -15,20 +15,20 @@
 		        <button class="close" data-dismiss="alert"></button>
 		        Datos registrados correctamente.
 				<script>
-					parent.closeWindow();
+					parent.closeWindows();
 				</script>		        
 		    </div>  
-		<?php endif; ?>	
-			<form id="FormData" class="form-horizontal ">
+		<?php endif; ?>				
+			<form method="POST" action="/travels/main/infotravel" id="FormData" class="form-horizontal ">
                 <input type="hidden" name="optReg" value="<?php echo ($this->idToUpdate>0) ? 'update': 'new';?>" />
-                <input type="hidden" name="catId" value="<?php echo $this->catId; ?>" />
+                <input type="hidden" name="catId" value="<?php echo $this->catId; ?>" />                
 				<fieldset>
 					<div class="">
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label">Inicio<span class="required">*</span></label>
 								<div class="controls">
-			                          <input id="inputFechaIn" name="inputFechaIn" data-required="1"  type="text" class="form-control" value="<?php echo @$this->data['INICIO']; ?>" id="inputDate" disabled >
+			                          <input id="inputFechaIn" name="inputFechaIn" data-required="1"  type="text" class="form-control" value="<?php echo @$this->data['INICIO']; ?>" id="inputDate" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >
 								</div>
 							</div>				
 						</div>
@@ -36,7 +36,7 @@
 							<div class="control-group">
 								<label class="control-label">Fin<span class="required">*</span></label>
 								<div class="controls">
-									<input type="text" id="inputFechaFin" name="inputFechaFin" class="m-wrap" value="<?php echo (@$this->data['FIN']); ?>"  disabled>
+									<input type="text" id="inputFechaFin" name="inputFechaFin" class="m-wrap" value="<?php echo (@$this->data['FIN']); ?>" <?php echo ($this->data['ID_ESTATUS']==4) ? 'disabled': '' ;?> >
 								</div>
 							</div>							
 						</div>						
@@ -47,7 +47,7 @@
 							<div class="control-group">
 								<label class="control-label">Ruta<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" disabled>
+									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" <?php echo ($this->data['ID_ESTATUS']==4) ? 'disabled': '' ;?> >
 										<option value="">Seleccionar una opción</option>
 										<?php echo @$this->aRutas;?>
 									</select>
@@ -58,7 +58,7 @@
 							<div class="control-group">
 								<label class="control-label">Tipo Viaje<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" disabled>
+									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >
 										<option value="">Seleccionar una opción</option>
 										<?php echo @$this->aTipoViaje;?>
 									</select>
@@ -72,7 +72,7 @@
 							<div class="control-group">
 								<label class="control-label">Número<span class="required">*</span></label>
 								<div class="controls">
-									<input type="text" name="inputNoTravel" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['CLAVE']); ?>" disabled>
+									<input type="text" name="inputNoTravel" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['CLAVE']); ?>" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >
 								</div>
 							</div>
 						</div>
@@ -80,7 +80,7 @@
 							<div class="control-group">
 								<label class="control-label">Descripción<span class="required">*</span></label>
 								<div class="controls">
-									<input type="text" name="inputDescripcion" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['DESCRIPCION']); ?>" disabled>
+									<input type="text" name="inputDescripcion" data-required="1" class="span4 m-wrap" value="<?php echo (@$this->data['DESCRIPCION']); ?>" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >
 								</div>
 							</div>							
 						</div>
@@ -91,7 +91,7 @@
 							<div class="control-group">
 								<label class="control-label">Sucursal<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span4 m-wrap" id="inputSucursal" name="inputSucursal" onChange="getoptionsCbo('Cliente','clients',this.value,false);" disabled>
+									<select class="span4 m-wrap" id="inputSucursal" name="inputSucursal" onChange="getoptionsCbo('Cliente','clients',this.value,false);" <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
 										<option value="">Seleccionar una opción</option>
 				                        <?php foreach ($this->sucursales as $key => $item): ?>
 				                            <option <?php echo ($item['ID_SUCURSAL'] == @$this->data['ID_SUCURSAL']) ? 'selected':'';?> value="<?php echo $item['ID_SUCURSAL']?>"><?php echo $item['DESCRIPCION']?></option>
@@ -106,7 +106,7 @@
 								<label class="control-label">Cliente<span class="required">*</span></label>
 								<div class="controls">
 									<div id="divCliente">
-										<select class="span4 m-wrap" id="inputCliente" name="inputCliente" disabled>
+										<select class="span4 m-wrap" id="inputCliente" name="inputCliente"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
 											<option value="">Seleccionar una opción</option>
 											<?php echo @$this->clientes;?>
 										</select>
@@ -121,7 +121,7 @@
 						<div class="control-group">
 							<label class="control-label">Transportistas<span class="required">*</span></label>
 							<div class="controls">
-								<select class="span4 m-wrap" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);" disabled>
+								<select class="span4 m-wrap" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
 									<option value="">Seleccionar una opción</option>
 			                        <?php foreach ($this->transportistas as $key => $item): ?>
 			                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->idTransportista) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
@@ -137,7 +137,7 @@
 								<label class="control-label">Unidad<span class="required">*</span></label>
 								<div class="controls">
 									<div id="divUnidades">
-										<select class="span4 m-wrap" name="inputUnidades" id="inputUnidades" disabled>
+										<select class="span4 m-wrap" name="inputUnidades" id="inputUnidades"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
 											<option value="">Seleccionar una opción</option>
 					                        <?php foreach ($this->unidades as $key => $item): ?>
 					                            <option <?php echo ($item['ID'] == @$this->data['ID_UNIDAD']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
@@ -152,7 +152,7 @@
 							<label class="control-label">Operador<span class="required">*</span></label>
 							<div class="controls">
 								<div id="divOperadores">
-									<select class="span4 m-wrap"  name="inputOperadores" id="inputOperadores" disabled >
+									<select class="span4 m-wrap"  name="inputOperadores" id="inputOperadores"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?>  >
 										<option value="">Seleccionar una opción</option>
 				                        <?php foreach ($this->operadores as $key => $item): ?>
 				                            <option <?php echo ($item['ID'] == @$this->data['ID_OPERADOR']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
@@ -166,7 +166,8 @@
 					<div class="span12">
 				    	<div class="col-xs-4 col-md-5">
 							<div class="pull-right">			
-								<!--<button type="submit" class="btn btn-default bg-btn-send">Enviar</button>-->
+								<button type="submit" class="btn btn-primary bg-btn-send">Guardar Cambios</button>
+								<button type="button" class="btn" onClick="parent.closeWindows()">Cancelar</button>								
 							</div>    
 				    	</div>						
 					</div>

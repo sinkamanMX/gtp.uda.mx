@@ -52,8 +52,8 @@ class My_Model_Operadores extends My_Db_Table
 					 CLAVE 			    = '".$data['inputClave']."',
 					 NOMBRE				= '".$data['inputNombre']."',
 					 APELLIDOS		    = '".$data['inputApellidos']."',
-					 TELEFONO			=  ".$data['inputTelefono'].",
-					 RADIO				=  ".$data['inputRadio'].",
+					 TELEFONO			= '".$data['inputTelefono']."',
+					 RADIO				= '".$data['inputRadio']."',
 					 ACTIVO				=  ".$data['inputStatus'].",					 
 					 REGISTRO 			= CURRENT_TIMESTAMP";
         try{            

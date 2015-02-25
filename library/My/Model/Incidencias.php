@@ -50,8 +50,6 @@ class My_Model_Incidencias extends My_Db_Table
 				SET  ID_EMPRESA 		=  ".$idEmpresa.",
 					 DESCRIPCION 		= '".$data['inputDescripcion']."',
 					 PRIORIDAD    		=  ".$data['inputPrioridad'].",
-					 COSTO_EXTRA		=  ".$data['inputCosto'].", 
-					 PRECIO_EXTRA 		=  ".$complement.",
                      CORREO             =  ".$data['inputCorreo'];
         try{            
     		$query   = $this->query($sql,false);
@@ -78,9 +76,7 @@ class My_Model_Incidencias extends My_Db_Table
         $sql="UPDATE  $this->_name
 				SET  ID_EMPRESA         =  ".$idEmpresa.",
                      DESCRIPCION        = '".$data['inputDescripcion']."',
-                     PRIORIDAD          =  ".$data['inputPrioridad'].",
-					 COSTO_EXTRA		=  ".$data['inputCosto'].", 
-					 PRECIO_EXTRA 		=  ".$complement.",                     
+                     PRIORIDAD          =  ".$data['inputPrioridad'].",        
                      CORREO             =  ".$data['inputCorreo']."
                WHERE $this->_primary = $idIncidencia";
         try{            
@@ -95,19 +91,4 @@ class My_Model_Incidencias extends My_Db_Table
         }
 		return $result;	      	
     }    
-
-    public function getIncidenciasCosto(){
-		$result= Array();
-		$this->query("SET NAMES utf8",false); 
-    	$sql ="SELECT  *
-                FROM $this->_name
-                WHERE COSTO_EXTRA IS NOT NULL
-                ORDER BY DESCRIPCION DESC";	
-		$query   = $this->query($sql);
-		if(count($query)>0){		  
-			$result = $query;			
-		}	
-        
-		return $result;	    	
-    }
 }

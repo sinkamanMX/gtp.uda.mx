@@ -79,9 +79,12 @@ $().ready(function() {
         $(this).val($(this).val().toUpperCase());
     }); 
 
-    $(".divUserUda").hide('fast');
-    $("#inputUserUda").rules("remove", "required");
-    $("#inputPasswordUda").rules("remove", "required");
+    var bUdaUser = $("#inputClienteUDA").val();
+    if(bUdaUser==0){
+        $(".divUserUda").hide('fast');
+        $("#inputUserUda").rules("remove", "required");
+        $("#inputPasswordUda").rules("remove", "required");
+    }
 
     if($("#optReg")=='update'){
     	$("#inputDireccion").rules("remove", "required");

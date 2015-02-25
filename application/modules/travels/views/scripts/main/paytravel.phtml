@@ -90,7 +90,7 @@
 		                	</div>	
 		                	-->	                	
 		                	<div class="span12 no-margin-left">
-		                		<h4>Adquirir Incidencias</h4>
+		                		<h4>Servicios Extras</h4>
 		                		<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
 		                			<tr>		                				
 		                				<td>Descripcion</td>
@@ -103,12 +103,12 @@
 		                				<td class=""><?php echo $items['DESCRIPCION']; ?></td>
 		                				<td class="text-center">$ <?php echo number_format($items['PRECIO_EXTRA'], 2, '.', ' '); ?></td>
 		                				<td class="text-center">
-											<select class="span6 m-wrap" name="cboInc_<?php echo $items['ID_INCIDENCIA']; ?>" onChange="calculatePrice(this.value,<?php echo $items['ID_INCIDENCIA']; ?>,<?php echo $items['PRECIO_EXTRA']; ?>);">
+											<select class="span6 m-wrap" name="cboInc_<?php echo $items['ID_EXTRA']; ?>" onChange="calculatePrice(this.value,<?php echo $items['ID_EXTRA']; ?>,<?php echo $items['PRECIO_EXTRA']; ?>);">
 												<?php echo @$this->aNumbers;?>
 											</select>
 										</td>		                				
-		                				<td class="text-center"><span id="lbTotal<?php echo $items['ID_INCIDENCIA']; ?>">$ <?php echo number_format(0, 2, '.', ' '); ?></span>
-		                					<input type="hidden" id="inputTot<?php echo $items['ID_INCIDENCIA']; ?>" class="txtTotal" value="0.00">
+		                				<td class="text-center"><span id="lbTotal<?php echo $items['ID_EXTRA']; ?>">$ <?php echo number_format(0, 2, '.', ' '); ?></span>
+		                					<input type="hidden" id="inputTot<?php echo $items['ID_EXTRA']; ?>" class="txtTotal" value="0.00">
 		                				</td>
 		                			</tr>
 		                			<?php endforeach;?>
