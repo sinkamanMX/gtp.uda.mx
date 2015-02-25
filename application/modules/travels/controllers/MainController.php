@@ -317,7 +317,7 @@ class travels_MainController extends My_Controller_Action
 								'subjectTo' => ('GTP - Grupo UDA'),
 								'bodyTo' 	=> $bodymail,
 							);
-							$enviar = $functions->sendMailAdmins($aMailer);
+							$enviar = $cFunciones->sendMailAdmins($aMailer);
 															
 							unset($aNamespace->dataGral);
 							$this->_redirect("/travels/main/resume?catId=".$idViaje);
