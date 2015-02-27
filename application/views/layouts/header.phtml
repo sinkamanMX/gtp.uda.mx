@@ -8,7 +8,7 @@
                     <a class="brand" href="/main/main/inicio">
                         <?php echo $this->dataUser['N_EMPRESA']; ?>
                         <!--<img class="img" src="/images/clients/deacero.png">-->
-                    </a>
+                    </a>                 
                     <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
                             <li class="dropdown">
@@ -30,6 +30,18 @@
                                 </ul>
                             </li>
                         </ul>
+
+                        <ul class="nav pull-right">
+                            <li>
+                                <div id="spanTravelsPen" style="display:none; margin-top: 5%">
+                                    <a onClick="showTravelPen();" role="button" class="cursor-hand"> 
+                                        <span class="badge badge-warning">
+                                            <img src="/images/assets/warning.gif" style="height: 15px;">
+                                            <span id="lblTravelsPen"></span> Viajes Sin Atender</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>                        
 
                         <ul class="nav">
                             <?php $controlMenu = -1; ?>

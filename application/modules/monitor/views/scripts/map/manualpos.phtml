@@ -1,6 +1,6 @@
 <?php $this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places') ?>
 <?php $this->headScript()->appendFile('/js/modules/manualPos.js') ?> 
-<?php $disabledOptions = ($this->dataUser['CLIENTE_UDA']==0) ? '': 'disabled'; ?>
+<?php $disabledOptions = ($this->dataUser['CLIENTE_UDA']==0) ? 'disabled': 'disabled'; ?>
 <?php if($this->insert):?>
 	<script>
 		parent.positionOk(<?php echo $this->catId; ?>);
@@ -12,7 +12,7 @@
     <li><a href="#incidencias" data-toggle="tab">Incidencias</a></li>
 </ul>
 
-<form method="POST" action="/main/map/manualpos" id="FormData" class="form-horizontal ">
+<form method="POST" action="/monitor/map/manualpos" id="FormData" class="form-horizontal ">
     <input type="hidden" id="catId" name="catId" value="<?php echo $this->catId; ?>" />
     <input type="hidden" name="option" value="insert" />
 		<div id="my-tab-content" class="tab-content">
@@ -32,7 +32,7 @@
 								<label class="control-label"></label>
 								<div class="controls">									
 									<?php if($this->aDataViaje['CLIENTE_UDA']==0):?>
-										<a onClick="parent.goToTrackSystem(<?php echo $this->catId; ?>);">
+										<a onClick="enabledAll();parent.goToTrackSystem(<?php echo $this->catId; ?>);">
 											<span class="btn btn-info noEnterSubmit"> Ingresar sistema del Cliente</span>
 										</a>
 									<?php else: ?>

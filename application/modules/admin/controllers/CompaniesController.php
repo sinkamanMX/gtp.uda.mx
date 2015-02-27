@@ -88,7 +88,7 @@ class admin_CompaniesController extends My_Controller_Action
 						if($insertEmpresa['status']){
 							$idEmpresa = $insertEmpresa['id'];
 							$this->_dataIn['inputIdEmpresa']   = $idEmpresa;
-							$this->_dataIn['inputStatus']      = 0;
+							$this->_dataIn['inputStatus']      = 1;
 							$this->_dataIn['inputDescripcion'] = 'Sucursal '.$this->_dataIn['inputDescripcion'];							
 							
 							$insertSucursal = $cSucursales->insertRowRegister($this->_dataIn);							

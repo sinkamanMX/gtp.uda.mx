@@ -114,22 +114,15 @@ class travels_MainController extends My_Controller_Action
 				 if($updated['status']){
 				 	$dataInfo    = $classObject->getData($this->_idUpdate);
 				 	
-					$bodymail   = '<h3>Atencion</h3>'.
+					$sBodymail   = '<h3>Atencion</h3>'.
 									'El usuario <b>'.$this->_dataUser['USUARIO'].'</b> de la Empresa: <b>'.$this->_dataUser['N_EMPRESA'].'</b><br/>'.
 									'Ha realizado cambios en el viaje con Clave: <b>'.$dataInfo['CLAVE']."</b></br>".
 									'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
 									'o bien copia y pega en tu navegador el siguiente enlace<br>'.
 									'<b> http://viajes.grupouda.com.mx</b>';									
-					$aMailer    = Array(
-						'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
-						'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
-						'nameTo' 	=> "Area de Monitoreo UDA",
-						'subjectTo' => ('GTP - Grupo UDA'),
-						'bodyTo' 	=> $bodymail,
-					);
-					$enviar = $functions->sendMailAdmins($aMailer);					 	
-				 	
-				 	
+					$sSubject  	=	'Modificacion Viaje GTP Grupo UDA';
+					$enviar = $functions->sendMailAdmins($sSubject,$sBodymail);
+
 				 	$this->_resultOp = 'okRegister';	
 				 }
 			}else{
@@ -199,20 +192,14 @@ class travels_MainController extends My_Controller_Action
 					if($insertViaje['status']){
 						$idViaje = $insertViaje['id'];
 												
-						$bodymail   = '<h3>Atencion</h3>'.
+						$sBodymail   = '<h3>Atencion</h3>'.
 										'Se ha registrado un viaje para monitorear.<br/>'.
 										'Para revisarlo, debes de ingresar al siguiente link:'.
 										'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
 										'o bien copia y pega en tu navegador el siguiente enlace<br>'.
-										'<b> http://viajes.grupouda.com.mx</b>';									
-						$aMailer    = Array(
-							'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
-							'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
-							'nameTo' 	=> "Area de Monitoreo UDA",
-							'subjectTo' => ('GTP - Grupo UDA'),
-							'bodyTo' 	=> $bodymail,
-						);
-						$enviar = $functions->sendMailAdmins($aMailer);	
+										'<b> http://viajes.grupouda.com.mx</b>';
+						$sSubject  	=	'Nuevo Viaje GTP Grupo UDA';
+						$enviar 	= $functions->sendMailAdmins($sSubject,$sBodymail);						
 												
 						unset($aNamespace->dataGral);												
 						$this->_redirect("/travels/main/index");
@@ -304,20 +291,14 @@ class travels_MainController extends My_Controller_Action
 						}
 						
 						if(count($this->_aErrors)==0){
-							$bodymail   = '<h3>Atencion</h3>'.
+							$sBodymail  = '<h3>Atencion</h3>'.
 											'Se ha registrado un viaje para monitorear.<br/>'.
 											'Para revisarlo, debes de ingresar al siguiente link:'.
 											'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
 											'o bien copia y pega en tu navegador el siguiente enlace<br>'.
-											'<b> http://viajes.grupouda.com.mx</b>';									
-							$aMailer    = Array(
-								'emailTo' 	=> "sup.monitoreo@grupouda.com.mx",
-								'emailTo2' 	=> "tleader.ccuda@grupouda.com.mx",
-								'nameTo' 	=> "Area de Monitoreo UDA",
-								'subjectTo' => ('GTP - Grupo UDA'),
-								'bodyTo' 	=> $bodymail,
-							);
-							$enviar = $cFunciones->sendMailAdmins($aMailer);
+											'<b> http://viajes.grupouda.com.mx</b>';		
+							$sSubject  	=	'Nuevo Viaje GTP Grupo UDA';
+							$enviar = $functions->sendMailAdmins($sSubject,$sBodymail);
 															
 							unset($aNamespace->dataGral);
 							$this->_redirect("/travels/main/resume?catId=".$idViaje);

@@ -88,3 +88,7 @@ function startStopTravel(idObject,optionValue){
         }
     }); 
 }
+
+function goToTrackSystem(idTravel){    
+    window.open("/main/map/external?catId="+idTravel ,'_blank');
+}

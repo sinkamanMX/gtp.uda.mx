@@ -37,12 +37,12 @@ class My_Model_Usuarios extends My_Db_Table
       	$this->query("SET NAMES utf8",false); 
         
 		$result= Array();
-    	$sql ="SELECT U.* ,P.*, S.*, E.* ,E.NOMBRE AS N_EMPRESA
+    	$sql ="SELECT U.* ,P.*, S.*, E.* ,IF(E.NOMBRE IS NULL ,'MONITOREO',E.NOMBRE) AS N_EMPRESA, U.NOMBRE AS N_USUARIO
 				FROM USUARIOS U
 				INNER JOIN PERFILES    P  ON U.ID_PERFIL     = P.ID_PERFIL
-				INNER JOIN USR_EMPRESA UE ON U.ID_USUARIO    = UE.ID_USUARIO
-				INNER JOIN SUCURSALES  S  ON UE.ID_SUCURSAL  = S.ID_SUCURSAL
-				INNER JOIN EMPRESAS    E  ON S.ID_EMPRESA    = E.ID_EMPRESA
+				LEFT JOIN USR_EMPRESA UE ON U.ID_USUARIO    = UE.ID_USUARIO
+				LEFT JOIN SUCURSALES  S  ON UE.ID_SUCURSAL  = S.ID_SUCURSAL
+				LEFT JOIN EMPRESAS    E  ON S.ID_EMPRESA    = E.ID_EMPRESA
                 WHERE U.ID_USUARIO = $idObject";			         	
 		$query   = $this->query($sql);
 		if(count($query)>0){
@@ -107,6 +107,7 @@ class My_Model_Usuarios extends My_Db_Table
         		SET ID_PERFIL		=  ".$data['inputPerfil'].",
 					USUARIO			= '".$data['inputUser']."',
 					PASSWORD		= SHA1('".$data['inputPassword']."'),
+					PASSWORD_TEXT	= '".$data['inputPassword']."',
 					NOMBRE			= '".$data['inputName']."',
 					APELLIDOS		= '".$data['inputApps']."',
 					EMAIL			= '".$data['inputUser']."',
@@ -183,4 +184,55 @@ class My_Model_Usuarios extends My_Db_Table
         }
 		return $result;	      	
     }	
+    
+	
+    public function setKeyRestore($data){
+        $result  = false;
+        
+        $sql="UPDATE $this->_name	
+        		SET CLAVE_RECUPERACION = '".$data['inputClave']."'
+        		WHERE $this->_primary  = ".$data['idUser']." LIMIT 1";			  
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result = true;								
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;
+    }     
+
+  	public function validateKeyRecovery($sCodeRecovery){
+		$result= Array();
+    	$sql ="SELECT  *
+                FROM ".$this->_name." 
+                WHERE CLAVE_RECUPERACION = '".$sCodeRecovery."' LIMIT 1";
+		$query   = $this->query($sql);
+		if(count($query)>0){
+			$result	 = $query[0];			
+		}	
+		return $result;	
+		
+	}      
+    	
+    public function updatePassword($data){
+        $result  = false;
+        
+        $sql="UPDATE $this->_name
+				SET PASSWORD	=  SHA1('".$data['inputPassword']."'), 
+				PASSWORD_TEXT	= '".$data['inputPassword']."'
+        		WHERE $this->_primary  = ".$data['idReset']." LIMIT 1";		  
+        try{            
+    		$query   = $this->query($sql,false);
+			if($query){
+				$result = true;								
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;
+    }       
 }

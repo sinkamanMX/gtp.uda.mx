@@ -1,4 +1,4 @@
-<?php //$this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false') ?>
+<?php $this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places'); ?>
 <?php $this->headScript()->appendFile('/js/modules/routes/validateRoutes.js') ?> 
 <?php $disabled = ($this->dataUser['EDITAR']==0 && $this->dataUser['LECTURA']==1) ? 'disabled':'';?>
 <div class="row panel-data">
@@ -25,8 +25,13 @@
 					<?php if($disabled!='disabled'):?>
 					<form method="POST" action="/admin/routes/getinfo" id="FormData" class="form-horizontal ">
 					<?php endif;?>	
-		                <input type="hidden" name="optReg" value="<?php echo ($this->idToUpdate>0) ? 'update': 'new';?>" />
+		                <input type="hidden" id="optReg" name="optReg" value="<?php echo ($this->idToUpdate>0) ? 'update': 'new';?>" />
 		                <input type="hidden" name="catId" value="<?php echo $this->catId; ?>" />
+
+		                    <input type="hidden" id="inputLatOrigen"    name="inputLatOrigen"  value="<?php echo @$this->data['LATITUD_ORIGEN'];  ?>">
+		                    <input type="hidden" id="inputLonOrigen"    name="inputLonOrigen"  value="<?php echo @$this->data['LONGITUD_ORIGEN'];  ?>">
+		                    <input type="hidden" id="inputLatDestino"   name="inputLatDestino" value="<?php echo @$this->data['LATITUD_DESTINO']; ?>">
+		                    <input type="hidden" id="inputLonDestino"   name="inputLonDestino" value="<?php echo @$this->data['LONGITUD_DESTINO']; ?>">                    		                
 		                
 		                <?php if($this->resultOp=='okRegister'): ?>
 		                    <div class="alert alert-success">
@@ -62,17 +67,8 @@
 											</div>
 										</div>		                				
 		                			</div>	                			
-		                		</div>
-		                		<!--
-		                		<div class="span12 no-margin-left">
-		                			<div class="span6">
-		                				<div id="mapOrigen"  style="width:100%;height:200px;"></div>	
-		                			</div>
-		                			<div class="span6">
-		                				<div id="mapDestino"  style="width:100%;height:200px;"></div>
-		                			</div>
-		                		</div>
-		                	-->
+		                		</div>		                	
+		                	
 		                		<div class="span12 no-margin-left">
 		                			<div class="span6">
 										<div class="control-group">
@@ -95,6 +91,34 @@
 										</div>	                				
 		                			</div>			                			
 		                		</div>
+
+
+								<div class="span12 no-margin-left">
+		                			<div class="span12">
+										<div class="control-group">
+											<label class="control-label">Buscar<span class="required">*</span></label>
+											<div class="controls">
+												<input type="text" class="form-control noEnterSubmit span10" name="inputSearch" id="inputSearch" placeholder="Calle, Colonia, Delefación o Municipio">
+												<a id="btnClean" style="display:none;" class="btn btn-danger noEnterSubmit" href="javascript:cleanMap()"><i class=" icon-ban-circle icon-white"></i> Limpiar Mapa </a>
+											</div>											
+										</div>		                				
+		                			</div>
+		                		</div>		
+		                		<div class="span12 no-margin-left">
+									<div id="divpErrorLogin" class="alert alert-error" style="display:none;">
+									  <button type="button" class="close" data-dismiss="alert">×</button>
+									  <h4>Error</h4>
+									  <div>Favor de ubicar en el mapa el origen y destino de la Ruta.</div>
+									</div>
+		                		</div>
+		                		<div class="span12 no-margin-left">
+		                			<div id="mapOrigen"  style="width:100%;height:350px;"></div>	
+		                		</div>
+		                		<div class="pull-right no-margin-left">
+		                			<img src="/images/assets/origen.png">Lugar Origen
+		                			<img src="/images/assets/destino.png">Lugar Destino
+		                		</div>				                			                		
+
 								<div class="control-group">
 									<!--<label class="control-label">Estatus<span class="required">*</span></label>
 									<div class="controls">
@@ -105,8 +129,10 @@
 								</div>
 								<?php if($disabled!='disabled'):?>
 								<div class="form-actions">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn" onClick="javascript:backToMain()">Cancelar</button>
+									<div class="pull-right">
+										<button type="submit" class="btn btn-primary">Guardar</button>
+										<button type="button" class="btn" onClick="javascript:backToMain()">Cancelar</button>
+									</div>
 								</div>
 								<?php endif;?>
 						</fieldset>

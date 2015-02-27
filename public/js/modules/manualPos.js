@@ -67,7 +67,7 @@ $( document ).ready(function() {
         }*/
     }); 
     $('#inputFecha').datetimepicker({
-        format: "yyyy-mm-dd HH:ii",
+        format: "yyyy-mm-dd hh:ii",
         showMeridian: false,
         autoclose: true,
         todayBtn: true
@@ -103,16 +103,19 @@ $( document ).ready(function() {
               $("#inputVelocidad").val(oPosition.iVelocidad);
               $("#inputDir").val(oPosition.sLocation);
               $("#inputObservaciones").html('Posicion obtenida de grupo UDA');
-
-              $("#inputFecha").prop( "disabled", false );      
-              $("#inputLatitud").prop( "disabled", false );      
-              $("#inputLongitud").prop( "disabled", false );      
-              $("#inputAngulo").prop( "disabled", false );      
-              $("#inputVelocidad").prop( "disabled", false );      
-              $("#inputDir").prop( "disabled", false );      
+              enabledAll()     ;
             }else{
               alert("La unidad no tiene pocisión válida");
             }
         }
     });
+  }
+
+  function enabledAll(){
+      $("#inputFecha").prop( "disabled", false );      
+      $("#inputLatitud").prop( "disabled", false );      
+      $("#inputLongitud").prop( "disabled", false );      
+      $("#inputAngulo").prop( "disabled", false );      
+      $("#inputVelocidad").prop( "disabled", false );      
+      $("#inputDir").prop( "disabled", false );      
   }

@@ -65,6 +65,7 @@ class My_Model_Adminusuarios extends My_Db_Table
         		SET ID_PERFIL		=  ".$data['inputPerfil'].",
 					USUARIO			= '".$data['inputUser']."',
 					PASSWORD		= SHA1('".$data['inputPassword']."'),
+					PASSWORD_TEXT	= '".$data['inputPassword']."',
 					NOMBRE			= '".$data['inputName']."',
 					APELLIDOS		= '".$data['inputApps']."',
 					EMAIL			= '".$data['inputUser']."',					
@@ -90,7 +91,7 @@ class My_Model_Adminusuarios extends My_Db_Table
         $result     = Array();
         $result['status']  = false;  
 
-        $sPassword = (isset($data['inputPassword']) && $data['inputPassword']!="") ? "PASSWORD		= SHA1('".$data['inputPassword']."'),": " ";
+        $sPassword = (isset($data['inputPassword']) && $data['inputPassword']!="") ? "PASSWORD		= SHA1('".$data['inputPassword']."'), PASSWORD_TEXT	= '".$data['inputPassword']."' , ": " ";
 
         $sql="UPDATE $this->_name	
         		SET ID_PERFIL		=  ".$data['inputPerfil'].",

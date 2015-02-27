@@ -89,17 +89,17 @@ class My_Model_Viajes extends My_Db_Table
         $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';        
         
         $sql="INSERT INTO GTP_VIAJES SET
-			  ID_CLIENTE 		=  ".$data['inputCliente'].",
-			  ID_SUCURSAL 		=  ".$data['inputSucursal'].",
-			  ID_UNIDAD			=  ".$data['inputUnidades'].",
-			  ID_OPERADOR		=  ".$data['inputOperadores'].",
-			  ID_ESTATUS		= 1,
-			  USUARIO_REGISTRO	=  ".$data['userRegister'].",
-			  CLAVE				= '".$data['inputNoTravel']."',
-			  DESCRIPCION		= '".$data['inputDescripcion']."',
-			  INICIO			= '".$data['inputFechaIn']."',
-			  FIN				= '".$fechaFin."',
-			  CREADO			= CURRENT_TIMESTAMP";
+				  ID_CLIENTE 		=  ".$data['inputCliente'].",
+				  ID_SUCURSAL 		=  ".$data['inputSucursal'].",
+				  ID_UNIDAD			=  ".$data['inputUnidades'].",
+				  ID_OPERADOR		=  ".$data['inputOperadores'].",
+				  ID_ESTATUS		= 1,
+				  USUARIO_REGISTRO	=  ".$data['userRegister'].",
+				  CLAVE				= '".$data['inputNoTravel']."',
+				  DESCRIPCION		= '".$data['inputDescripcion']."',
+				  INICIO			= '".$data['inputFechaIn']."',
+				  FIN				= '".$fechaFin."',
+				  CREADO			= CURRENT_TIMESTAMP";
         try{            
     		$query   = $this->query($sql,false);
     		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
@@ -483,7 +483,8 @@ class My_Model_Viajes extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, V.RETRASO, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO, ST.ICONO,C.NOMBRE AS CLIENTE,				
 				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD, T.DESCRIPCION AS N_TRANS
-				, CONCAT(O.`NOMBRE`,' ',O.`APELLIDOS`) AS N_OPERADOR, A.DESCRIPCION AS TIPO, R.DESCRIPCION AS N_RUTA, ST.DESCRIPCION AS N_STATUS
+				, CONCAT(O.`NOMBRE`,' ',O.`APELLIDOS`) AS N_OPERADOR, A.DESCRIPCION AS TIPO, R.DESCRIPCION AS N_RUTA, ST.DESCRIPCION AS N_STATUS,
+				R.DESCRIPCION_ORIGEN,R.LATITUD_ORIGEN,R.LONGITUD_ORIGEN,R.DESCRIPCION_DESTINO,R.LATITUD_DESTINO,R.LONGITUD_DESTINO
 				FROM GTP_VIAJES V
 				INNER JOIN TIPO_VIAJES A ON V.ID_TIPO_VIAJE = A.ID_TIPO_VIAJE
 				LEFT JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL

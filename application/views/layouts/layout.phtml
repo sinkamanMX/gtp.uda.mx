@@ -26,6 +26,7 @@
         <link href="/vendors/wysiwyg/bootstrap-wysihtml5.css" rel="stylesheet" media="screen">      
         <link href="/vendors/chosen.min.css" rel="stylesheet" media="screen">
         <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -98,5 +99,20 @@
       <?php echo $this->headStyle() ?>
       <?php echo $this->headScript() ?>      
     </body>
+    <div class="modal fade hide modal-lg" id="mTravelMonitor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" >Viajes Pendientes de Monitorear</h4>
+          </div>
+          <div class="modal-form i-body">             
+            <input type="hidden" id="idTravel" value="-1" />
+            <div class="hmodal500" id="dTravelMonitor">
 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
 </html>

@@ -173,17 +173,62 @@ class My_Controller_Functions
 		$enviado = $mail->send($sTransport);		
 	}	
 	
-	function sendMailAdmins($aMailer){
-		//$sTransport = new Zend_Mail_Transport_Sendmail($this->configMail['urlSmtp'], $this->configMail);
+	function sendMailAdmins($sSubject,$sBody){
+		$config     = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+		$aDataAdmin = $config->getOption('admin');	
+			
 		$sTransport = new Zend_Mail_Transport_Smtp($this->configMail['urlSmtp'], $this->configMail);
 		$mail = new Zend_Mail('UTF-8');
 		$mail->addHeader('Content-Type', 'text/plain; charset=utf-8');
-
 		$mail->setFrom('contacto@grupouda.com.mx', 'Viajes Grupo UDA');
-		$mail->addTo($aMailer['emailTo'], $aMailer['nameTo']);	
-		$mail->addTo($aMailer['emailTo2'], $aMailer['nameTo']);	
-		$mail->setSubject(html_entity_decode($aMailer['subjectTo']));
-		$mail->setBodyHtml(html_entity_decode($aMailer['bodyTo']));
-		$enviado = $mail->send($sTransport);			
+		
+		$aDestinos = explode(",",$aDataAdmin['mails']);
+		for($i=0;$i<count($aDestinos);$i++){
+			$mail->addTo($aDestinos[$i], $aDataAdmin['name']);	
+		}
+		
+		$mail->setSubject(html_entity_decode($sSubject));
+		$mail->setBodyHtml(html_entity_decode($sBody));
+		$enviado = $mail->send($sTransport);
 	}
+	
+	/**
+	 * 
+	 * $option 1= Incidencia , 2= Inicio Viaje, 3=Fin de Viaje
+	 * 
+	 */
+	function sendNotifications($option=1,$aDataMails,$codeViaje){
+		$sTransport = new Zend_Mail_Transport_Smtp($this->configMail['urlSmtp'], $this->configMail);
+		$mail = new Zend_Mail('UTF-8');
+		$mail->addHeader('Content-Type', 'text/plain; charset=utf-8');
+		$mail->setFrom('contacto@grupouda.com.mx', 'Viajes Grupo UDA');
+		
+		if(count($aDataMails)>0){
+			foreach($aDataMails as $key => $items){
+				$mail->addTo($items['CORREO'],$items['NOMBRE']);	
+			}
+		}
+		
+		switch ($option) {
+		    case 1:
+		        $sSubject = 'Registro de Incidencia en Viaje';
+		        $sBody 	  = '<h3>Atencion</h3>'.
+		        			'Se ha registrado una incidencia durante el trayecto del viaje con clave <b>'.$codeViaje.'</b>';
+		        break;
+		    case 2:
+		        $sSubject = 'Inicio de Viaje';
+		        $sBody 	  = '<h3>Atencion</h3>'.
+		        			'Ha iniciado el viaje con clave <b>'.$codeViaje.'</b>';
+		        break;
+		    case 3:
+		        $sSubject = 'Fin de Viaje';
+		        $sBody 	  = '<h3>Atencion</h3>'.
+		        			'Ha terminado el viaje con clave <b>'.$codeViaje.'</b>';
+		        break;
+		}
+		
+		$mail->setSubject(html_entity_decode($sSubject));
+		$mail->setBodyHtml(html_entity_decode($sBody));
+		$enviado = $mail->send($sTransport);
+	}	
 }

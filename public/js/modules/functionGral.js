@@ -22,3 +22,77 @@ function getoptionsCbo(idCboTo,classObject,idObject,chosen){
         }
     });  	
 }
+
+
+$( document ).ready(function() {
+    getMonitorTravels();    
+});
+
+function getMonitorTravels(){
+
+}
+
+
+
+$( document ).ready(function() {    
+    getStatusExt(); 
+}); 
+
+function getStatusExt(){ 
+    $("#dTravelMonitor").html('<img src="/images/assets/loading.gif" alt="loading gif"/>');
+    $.ajax({
+        url: "/main/main/validatemonitor",
+        type: "GET",
+        dataType : 'json',
+        data: { 
+            typaction: 'validate'
+        },
+        success: function(data) {
+            $("#dTravelMonitor").html('');
+            var iTotalTravels =  0;
+            var aTravels     = data.travels;
+            if(data.answer=='pendings'){
+                var table = $('<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"></table>');
+                table.append('<thead><tr><td>Clave Viaje</td><td>Empresa</td><td>Ult. Registro</td><td>Retardo</td><td></td></tr></thead>' );
+                table.append('<tbody></tbody>');
+
+                $.each(aTravels, function(idx, obj) {
+                    var row = $('<tr></tr>');
+                    row.append('<td>'+obj.CLAVE+'</td>');
+                    row.append('<td>'+obj.NOMBRE+'</td>');
+                    row.append('<td>'+obj.LAST_FECHA+'</td>');
+                    row.append('<td>'+obj.MINUTOS_SIN_REPORTAR+'</td>');
+                    row.append('<td class="text-center"><a href="/monitor/map/index?catId='+obj.ID_VIAJE+'">'+
+                                '<button class="btn-info"> <i class="icon-info-sign icon-white"></i></button>'+
+                                '</a></td>');
+
+                    row.appendTo(table);
+                    iTotalTravels = iTotalTravels+1;           
+                });
+
+
+                table.appendTo($("#dTravelMonitor"));
+            }
+
+            if(iTotalTravels>0){
+                $("#lblTravelsPen").html(iTotalTravels);
+                $("#spanTravelsPen").show("slow");
+            }else{
+                $("#lblTravelsPen").html("");
+                $("#spanTravelsPen").show("hide");
+            }
+
+            callTimer();
+        }
+    });
+}
+
+function callTimer(){                   
+    var timeoutId = setTimeout(function(){   
+      getStatusExt();   
+    },30000);
+}
+
+function showTravelPen(){
+    $("#mTravelMonitor").modal('show');
+}

@@ -77,7 +77,7 @@ class main_MainController extends My_Controller_Action
             if(count($default)>0){
             	$this->_redirect($default['SCRIPT']);
             }else{
-            	$this->_redirect('/main/dashboard/index');	
+            	$this->_redirect('/main/login/index');	
             }
 		}		   	
     }
@@ -134,4 +134,30 @@ class main_MainController extends My_Controller_Action
         	echo "Message: " . $e->getMessage() . "\n";                
         }    	
     }
+    
+    public function validatemonitorAction()
+    {
+		try{
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+			   
+			$answer = Array('answer' => 'no-data');
+			
+			$sessions = new My_Controller_Auth();
+	        if($sessions->validateSession()){
+            	$dataUser = $sessions->getContentSession();
+				$aMonitor = new My_Model_Monitor();
+            	$aDataTravels  = $aMonitor->monitorStatus($dataUser['ID_USUARIO']);
+            	if(count($aDataTravels)>0){
+            		$answer = Array('answer' => 'pendings',
+            						'travels' => $aDataTravels);
+            	}
+			}
+			
+	        echo Zend_Json::encode($answer);   			
+        } catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        }
+    }    
 }

@@ -5,6 +5,8 @@ var infoLocation;
 var markers = [];
 var bounds;
 var arrayTravels=Array();
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
 
 $( document ).ready(function() {
 	$('.table').dataTable( {
@@ -50,6 +52,7 @@ $( document ).ready(function() {
 
 
 function initMapToDraw(){
+  directionsDisplay = new google.maps.DirectionsRenderer();
 	infoWindow = new google.maps.InfoWindow;
     var mapOptions = {
       zoom: 5,
@@ -58,8 +61,28 @@ function initMapToDraw(){
     };
 	map = new google.maps.Map(document.getElementById('Map'),mapOptions);
 	
-	bounds = new google.maps.LatLngBounds();
-	printTravelsMap();
+	bounds = new google.maps.LatLngBounds();	
+  calcRoute();
+}
+
+function calcRoute() {
+    if($("#inputLatOrigen").val()!="" && $("#inputLonOrigen").val()!="" && 
+        $("#inputLatDestino").val()!="" && $("#inputLonDestino").val()!=""){
+        var latsOrigen  = new google.maps.LatLng($("#inputLatOrigen").val(), $("#inputLonOrigen").val());
+        var lastDestino = new google.maps.LatLng($("#inputLatDestino").val(), $("#inputLonDestino").val());
+        var request = {
+          origin: latsOrigen,
+          destination: lastDestino,
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+          directionsDisplay.setMap(map);
+        }
+        });
+    }
+    printTravelsMap();
 }
 
 
@@ -204,10 +227,6 @@ function positionOk(idObject){
     window.location.href = "/monitor/map/index?catId="+idObject;
 }
 
-/*
-
-
 function goToTrackSystem(idTravel){
-	window.open("/monitor/map/external?catId="+idTravel ,'_blank');
+  	window.open("/main/map/external?catId="+idTravel ,'_blank');
 }
-*/

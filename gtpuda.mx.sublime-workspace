@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"app",
+				"appendTo"
+			],
+			[
+				"b",
+				"bControlDraw"
+			],
+			[
 				"id",
 				"idObject"
 			],
@@ -391,54 +399,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "application/modules/travels/views/scripts/main/index.phtml",
-			"settings":
-			{
-				"buffer_size": 10714,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "application/modules/main/views/scripts/map/index.phtml",
-			"settings":
-			{
-				"buffer_size": 5283,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/modules/monitor/functionsMonitor.js",
-			"settings":
-			{
-				"buffer_size": 2698,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/modules/travels/mPrincipal.js",
-			"settings":
-			{
-				"buffer_size": 1630,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "application/modules/travels/views/scripts/main/infotravel.phtml",
-			"settings":
-			{
-				"buffer_size": 11260,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/modules/travelsinfo.js",
-			"settings":
-			{
-				"buffer_size": 10771,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -464,24 +424,46 @@
 	},
 	"file_history":
 	[
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travelsinfo.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/ContactsController.php",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js'",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phmtl",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/vendors/bootstrap-toastr/ui-toastr.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMaps.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/manualpos.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/routes/validateRoutes.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMonitor.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/controllers/MainController.php",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/recoverresq.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateRecoveryPass.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateRecovery.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/users/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/resetpass.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/mPrincipal.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travelsinfo.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/setincidencia.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/map.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMonitor.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/tableSearch.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/searchusers.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/extras/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/newTravel.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/resume.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/paytravel.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/newtravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/extras/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/incidents/getinfo.phtml",
@@ -492,7 +474,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/IncidentsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/incidenciaInfo.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/users/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/users/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/users/validateusers.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/prices/validatePrices.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/register/validateRegister.js",
@@ -501,24 +482,18 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/UnitsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/companies/validateCompanies.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/register/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/manualpos.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/external.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout_blank.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/mPrincipal.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/types/validateTypes.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/prices/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/providers/validateProviders.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/routes/validateRoutes.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/getinfo.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/operators/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/clients/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/getinfo.phtml",
@@ -534,7 +509,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/payTravel.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.css",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/login.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/ReportsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/clients/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/index.phtml",
@@ -543,7 +517,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/carriers/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/carriers/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.min.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/reports/repTravelDetail.js",
@@ -578,20 +551,7 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/users.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/gral_forms.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/productivity.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/reports.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/blank.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/footer.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/js/modules/login.js",
-		"/usr/local/apache-tomcat-7.0.54/webapps/PetLocator/WEB-INF/classes/petlocator/events/LatestPositionDAO.java",
-		"/usr/local/apache-tomcat-7.0.54/webapps/PetLocator/WEB-INF/classes/petlocator/events/LatestPosition.java",
-		"/Users/itecno2/Documents/workspace/petlocator/application/modules/main/views/scripts/shop/shops.phtml",
-		"/Users/itecno2/Documents/workspace/petlocator/application/modules/admin/views/scripts/usuarios/petinformation.phtml",
-		"/Users/itecno2/Documents/workspace/petlocator/application/modules/users/views/scripts/main/petinfo.phtml",
-		"/Users/itecno2/Documents/workspace/petlocator/public/modules/profile/functions_map.js",
-		"/Users/itecno2/Documents/workspace/petlocator/public/modules/shop/shops.js",
-		"/Users/itecno2/Documents/workspace/petlocator/public/css/style.css",
-		"/Users/itecno2/Documents/workspace/productividad.mx/application/views/layouts/header.phtml",
-		"/Users/itecno2/Documents/workspace/productividad.mx/application/views/layouts/layout.phtml"
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/reports.phtml"
 	],
 	"find":
 	{
@@ -612,6 +572,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/prices/",
+			"parent.closeWindowM",
+			"parent.closeWindowM ",
+			"mapGeo",
+			"sendMailAdmins",
 			"cancelTRavel",
 			"margin-left",
 			"offset",
@@ -734,12 +699,7 @@
 			"green",
 			"foot",
 			"custom",
-			"margin-top",
-			"							<",
-			"$this->error",
-			"50px",
-			"btn-link",
-			".navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus"
+			"margin-top"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -747,6 +707,8 @@
 		"regex": true,
 		"replace_history":
 		[
+			"/contacts/",
+			"map",
 			"extras",
 			"users",
 			"companies",
@@ -794,176 +756,8 @@
 	"groups":
 	[
 		{
-			"selected": 5,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "application/modules/travels/views/scripts/main/index.phtml",
-					"settings":
-					{
-						"buffer_size": 10714,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3111,
-								3111
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
-						},
-						"translation.x": 135.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "application/modules/main/views/scripts/map/index.phtml",
-					"settings":
-					{
-						"buffer_size": 5283,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1549.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/js/modules/monitor/functionsMonitor.js",
-					"settings":
-					{
-						"buffer_size": 2698,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2677,
-								2626
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 835.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "public/js/modules/travels/mPrincipal.js",
-					"settings":
-					{
-						"buffer_size": 1630,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1588,
-								1588
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 223.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "application/modules/travels/views/scripts/main/infotravel.phtml",
-					"settings":
-					{
-						"buffer_size": 11260,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								856,
-								856
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "public/js/modules/travelsinfo.js",
-					"settings":
-					{
-						"buffer_size": 10771,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2256,
-								2256
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1034.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

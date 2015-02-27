@@ -75,4 +75,33 @@ class My_Model_Monitor extends My_Db_Table
         }
 		return $result['status'];	      		
     }	
+    
+    public function monitorStatus($idUser){
+		$result= Array();
+		$this->query("SET NAMES utf8",false);		 	
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, E.NOMBRE,
+				IF((TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, MAX(D.CREADO)))/60) >= T.FRECUENCIA_RASTREO,'1', IF(D.ID_VIAJE IS NULL,'1','0') ) AS FLAG_INSERTAR_POS,
+				T.FRECUENCIA_RASTREO,
+				IF(D.ID_VIAJE IS NULL,'0','1')  AS EXIST_INFO,					
+				IF(D.CREADO IS NULL,'Sin Reporte', (TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, MAX(D.CREADO)))/60) ) AS MINUTOS_SIN_REPORTAR,
+				ID_USUARIO_ASIGNADO,
+				IF(D.CREADO IS NULL,'Sin Reporte', MAX(D.CREADO)) AS LAST_FECHA
+				FROM GTP_VIAJES V
+				INNER JOIN TIPO_VIAJES       T ON T.ID_TIPO_VIAJE = V.ID_TIPO_VIAJE
+				INNER JOIN USUARIOS 		 U ON V.ID_USUARIO_ASIGNADO = U.ID_USUARIO
+				 LEFT JOIN GTP_DETALLE_VIAJE D ON D.ID_VIAJE 	  = V.ID_VIAJE 
+				 INNER JOIN SUCURSALES       S ON V.ID_SUCURSAL   = S.ID_SUCURSAL
+				 INNER JOIN EMPRESAS         E ON E.ID_EMPRESA    = S.ID_EMPRESA
+				 WHERE V.ID_USUARIO_ASIGNADO = $idUser
+				   AND V.ID_ESTATUS 		 = 2
+				   AND U.ID_PERFIL NOT IN(2)
+				GROUP BY V.ID_VIAJE   
+				ORDER BY D.CREADO  ASC";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;		    	
+    }
 }

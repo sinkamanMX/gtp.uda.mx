@@ -173,7 +173,8 @@ class main_MapController extends My_Controller_Action
 			$data = $this->_request->getParams();
 			
 			$validateNumbers = new Zend_Validate_Digits();
-			$validateString  = new Zend_Validate_Alnum();		
+			$validateString  = new Zend_Validate_Alnum();	
+			$cFunctions 	 = new My_Controller_Functions();	
 		
 			if($validateNumbers->isValid($data['catId'])  && 
 				$validateString->isValid($data['option'])){
@@ -184,11 +185,17 @@ class main_MapController extends My_Controller_Action
 
 				$classObject = new My_Model_Viajes();
 				$infoData   = $classObject->getData($idUpdated);
-					
+				$cContactos   = new My_Model_Contactos(); 	
 				if($optionUpdate=='start'){
 					$statusChange = ($infoData['ID_ESTATUS']==1) ? 2 : $infoData['ID_ESTATUS'];
+									
+					$aContactos   = $cContactos->getContactsBy('beg',$idUpdated);
+					$cFunctions->sendNotifications(2,$aContactos,$infoData['CLAVE']);
+										
 				}else if($optionUpdate=='stop'){
 					$statusChange = ($infoData['ID_ESTATUS']==2) ? 4 : $infoData['ID_ESTATUS'];
+					$aContactos   = $cContactos->getContactsBy('end',$idUpdated);
+					$cFunctions->sendNotifications(3,$aContactos,$infoData['CLAVE']);
 				}
 				
 				$updated = $classObject->changeStatus($statusChange,$idUpdated);	
@@ -218,7 +225,7 @@ class main_MapController extends My_Controller_Action
 		$validateNumbers = new Zend_Validate_Digits();
 		$validateString  = new Zend_Validate_Alnum();		
 		$travels 		 = new My_Model_Viajes();
-		
+		$cFunctions      = new My_Controller_Functions();
 		if(isset($data['option'])){
 			if($validateNumbers->isValid($data['catId'])  && 
 				$validateString->isValid($data['option'])){
@@ -227,6 +234,17 @@ class main_MapController extends My_Controller_Action
 					$data['userRegister']	= $this->view->dataUser['ID_USUARIO'];
 					$insert  = $travels->setIncidencia($data);
 					if($insert){
+						$cIndicencias = new My_Model_Incidencias();
+						$aDataInc	  = $cIndicencias->getData($data['catId']);
+						if($aDataInc['PRIORIDAD']==1){
+							$classObject = new My_Model_Viajes();
+							$infoData   = $classObject->getData($data['catId']);							
+							
+							$cContactos	  = new My_Model_Contactos();
+							$aContactos   = $cContactos->getContactsBy('inc',$idUpdated);							
+							$cFunctions->sendNotifications(1,$aContactos,$infoData['CLAVE']);							
+						}
+						
 						$result =true;
 					}
 				}

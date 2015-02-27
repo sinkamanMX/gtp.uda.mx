@@ -1,7 +1,7 @@
 <?php
-class admin_RoutesController extends My_Controller_Action
+class admin_ContactsController extends My_Controller_Action
 {		
-	protected $_clase = 'mrutas';	
+	protected $_clase = 'mcontactos';	
 	public $validateNumbers;
 	public $validateAlpha;
 		
@@ -49,52 +49,52 @@ class admin_RoutesController extends My_Controller_Action
 
     public function indexAction(){
     	try{
-	    	$this->view->mOption = 'mrutas';			
-			$cRutas      = new My_Model_Rutas();
+	    	$this->view->mOption = 'mcontactos';			
+			$cClassObject      = new My_Model_Contactos();
 			
-			$this->view->datatTable = $cRutas->getDataTableEmp($this->_dataUser['ID_EMPRESA']); //id de empresa
+			$this->view->datatTable = $cClassObject->getDataTable($this->_dataUser['ID_EMPRESA']);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
         }  
-    }  
-
+    }
+      
     
     public function getinfoAction(){
     	try{
-			$aDataInfo = Array();
-			$sTime	   = 0;
-			$classObject = new My_Model_Rutas();
+			$aDataInfo 	 = Array();
+			$sEstatus    = 1;
+			$classObject = new My_Model_Contactos();
 			$cFunctions  = new My_Controller_Functions();
-
+			
 			$this->_dataIn['inputEmpresa'] = $this->view->idEmpresa;			
 			if($this->_idUpdate >-1){
-				$aDataInfo    = $classObject->getData($this->_idUpdate);
-				$sTime		  = $aDataInfo['ESTATUS'];
+				$aDataInfo  = $classObject->getData($this->_idUpdate);
+				$sEstatus	= $aDataInfo['ESTATUS'];
 			}
 			
-			if($this->_dataOp=='update'){				
-				if($this->_idUpdate>-1){
-					 $updated = $classObject->updateRow($this->_dataIn,$this->_idUpdate); //mandar el ide del transportista
-					 if($updated['status']){
-					 	$aDataInfo    = $classObject->getData($this->_idUpdate);
-					 	$this->_resultOp = 'okRegister';	
-					 	$this->_redirect('/admin/routes/index');
-					 }
-				}else{
-					$this->errors['status'] = 'no-info';
-				}	
-			}else if($this->_dataOp=='new'){
+    		if($this->_dataOp=='new'){
 				$insert = $classObject->insertRow($this->_dataIn);
 				if($insert['status']){
 					$this->_idUpdate = $insert['id'];
 					$this->resultop  = 'okRegister';	
 					$aDataInfo       = $classObject->getData($this->_idUpdate);
-					$this->_redirect('/admin/routes/index');
+					$this->_redirect('/admin/contacts/index');
 				}else{
 					$this->errors['status'] = 'no-insert';
 				}
-			}else if($this->_dataOp=='delete'){
+    		}else if($this->_dataOp=='update'){				
+				if($this->_idUpdate>-1){
+					 $updated = $classObject->updateRow($this->_dataIn,$this->_idUpdate); //mandar el ide del transportista
+					 if($updated['status']){
+					 	$aDataInfo    = $classObject->getData($this->_idUpdate);
+					 	$this->_resultOp = 'okRegister';	
+					 	$this->_redirect('/admin/contacts/index');
+					 }
+				}else{
+					$this->errors['status'] = 'no-info';
+				}	
+    		}else if($this->_dataOp=='delete'){
 				$this->_helper->layout->disableLayout();
 				$this->_helper->viewRenderer->setNoRender();
 				$answer = Array('answer' => 'no-data');
@@ -108,9 +108,8 @@ class admin_RoutesController extends My_Controller_Action
 		        echo Zend_Json::encode($answer);
 		        die();   						
 			}
-			
-			$this->view->aTiempo    = $cFunctions->cbo_number(100,$sTime);
-			$this->view->status     = $cFunctions->cboStatus(@$aDataInfo['ACTIVO']);	
+
+			$this->view->status     = $cFunctions->cboStatus($sEstatus);	
 			$this->view->data 		= $aDataInfo; 
 			$this->view->error 		= $this->_aErrors;	
 	    	$this->view->mOption 	= 'mrutas';
@@ -121,6 +120,5 @@ class admin_RoutesController extends My_Controller_Action
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
         }  
-    }
-	
+    }    
 }

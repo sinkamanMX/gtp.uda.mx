@@ -18,10 +18,14 @@
                     </div>  
                 <?php endif; ?> 
                     <table>
+                        <input type="hidden" id="inputLatOrigen"    name="inputLatOrigen"  value="<?php echo @$this->data['LATITUD_ORIGEN'];  ?>">
+                        <input type="hidden" id="inputLonOrigen"    name="inputLonOrigen"  value="<?php echo @$this->data['LONGITUD_ORIGEN'];  ?>">
+                        <input type="hidden" id="inputLatDestino"   name="inputLatDestino" value="<?php echo @$this->data['LATITUD_DESTINO']; ?>">
+                        <input type="hidden" id="inputLonDestino"   name="inputLonDestino" value="<?php echo @$this->data['LONGITUD_DESTINO']; ?>">                                                                 
                         <tr><td><b>Clave viaje</b></td>
                             <td><?php echo $this->data['CLAVE'];?></td></tr>
                         <tr><td><b>Estatus</b></td>
-                            <td><?php echo $this->data['N_STATUS'];?></td></tr>                            
+                            <td><?php echo $this->data['N_STATUS'];?></td></tr>       
                         <tr><td><b>Fecha Inicio</b></td>
                             <td><?php echo $this->data['INICIO'];?></td></tr>
                         <tr><td><b>Fecha Fin</b></td>
@@ -40,8 +44,8 @@
                             <td><?php echo $this->data['ECONOMICO'];?></td></tr>                           
                         <tr><td><b>Operador</b></td>
                             <td><?php echo $this->data['N_OPERADOR'];?></td></tr>
-                    </table>
-                </div>
+                    </table>                    
+                </div>             
             </div>
         </div>        
     </div>
@@ -66,7 +70,11 @@
                         <li class="active"><a href="#tab1" data-toggle="tab">Mapa</a></li>               
                         <li><a href="#tab2" data-toggle="tab">Recorrido</a></li>
                         <li><a href="#tab3" data-toggle="tab">Incidencias</a></li>      
-                    </ul>
+                        <div class="pull-right no-margin-left">
+                            <img src="/images/assets/origen.png">Lugar Origen
+                            <img src="/images/assets/destino.png">Lugar Destino
+                        </div>                             
+                    </ul>                    
                     <div id="my-tab-content" class="tab-content bg-white">
                         <div class="tab-pane active" id="tab1">
                             <div id="Map" style="width:100%;height:500px;"></div> 
