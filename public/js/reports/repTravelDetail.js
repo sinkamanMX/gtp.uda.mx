@@ -18,7 +18,7 @@ $( document ).ready(function() {
     }
     
     var checkin = $('#inputFechaIn').datetimepicker({
-        format: "yyyy-mm-dd HH:ii",
+        format: "yyyy-mm-dd hh:ii",
         showMeridian: false,
         autoclose: true,
         todayBtn: true,
@@ -33,7 +33,7 @@ $( document ).ready(function() {
     });
 
     var checkout = $('#inputFechaFin').datetimepicker({
-        format: "yyyy-mm-dd HH:ii",
+        format: "yyyy-mm-dd hh:ii",
         showMeridian: false,
         autoclose: true,
         todayBtn: true

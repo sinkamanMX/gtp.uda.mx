@@ -4,7 +4,9 @@
 		<!-- block -->
         <div class="block">
             <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Migrando Unidades</div>
+                <div class="muted pull-left">
+                    <a href="/admin/units/index">
+                        <i class="icon-circle-arrow-left fa-1"></i></a> Migrando Unidades</div>
             </div>
             <div class="block-content collapse in">
                 <div class="span12 text-center">
@@ -27,7 +29,14 @@
                                     <b>¡Atención Error!</b>
                                     <div>El usuario no tiene unidades asignadas.</div>
                                  </div>                                                         
-                            <?php endif;?>
+                            <?php elseif(@$this->errors['no-transportista']==1):?>     
+                                <div class="alert alert-error" style="display:block;">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <b>¡Atención Error!</b>
+                                    <div>No se han registrado Transportistas <br/>
+                                        Para hacerlo puede ingresar dando click <a href="/admin/carriers/index"> AQUI</a>.</div>
+                                 </div>                                                         
+                            <?php endif;?>                            
                     <?php endif; ?>
 
                     <?php if(@$this->resultOp=='okRegister'):?>

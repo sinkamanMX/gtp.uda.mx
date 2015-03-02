@@ -207,28 +207,27 @@ class My_Controller_Functions
 			foreach($aDataMails as $key => $items){
 				$mail->addTo($items['CORREO'],$items['NOMBRE']);	
 			}
-		}
-		
-		switch ($option) {
-		    case 1:
-		        $sSubject = 'Registro de Incidencia en Viaje';
-		        $sBody 	  = '<h3>Atencion</h3>'.
-		        			'Se ha registrado una incidencia durante el trayecto del viaje con clave <b>'.$codeViaje.'</b>';
-		        break;
-		    case 2:
-		        $sSubject = 'Inicio de Viaje';
-		        $sBody 	  = '<h3>Atencion</h3>'.
-		        			'Ha iniciado el viaje con clave <b>'.$codeViaje.'</b>';
-		        break;
-		    case 3:
-		        $sSubject = 'Fin de Viaje';
-		        $sBody 	  = '<h3>Atencion</h3>'.
-		        			'Ha terminado el viaje con clave <b>'.$codeViaje.'</b>';
-		        break;
-		}
-		
-		$mail->setSubject(html_entity_decode($sSubject));
-		$mail->setBodyHtml(html_entity_decode($sBody));
-		$enviado = $mail->send($sTransport);
+			switch ($option) {
+			    case 1:
+			        $sSubject = 'Registro de Incidencia en Viaje';
+			        $sBody 	  = '<h3>Atencion</h3>'.
+			        			'Se ha registrado una incidencia durante el trayecto del viaje con clave <b>'.$codeViaje.'</b><br/>';
+			        break;
+			    case 2:
+			        $sSubject = 'Inicio de Viaje';
+			        $sBody 	  = '<h3>Atencion</h3>'.
+			        			'Ha iniciado el viaje con clave <b>'.$codeViaje.'</b>';
+			        break;
+			    case 3:
+			        $sSubject = 'Fin de Viaje';
+			        $sBody 	  = '<h3>Atencion</h3>'.
+			        			'Ha terminado el viaje con clave <b>'.$codeViaje.'</b>';
+			        break;
+			}
+			
+			$mail->setSubject(html_entity_decode($sSubject));
+			$mail->setBodyHtml(html_entity_decode($sBody));
+			$enviado = $mail->send($sTransport);			
+		}		
 	}	
 }

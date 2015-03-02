@@ -30,7 +30,7 @@
                                 </div>                          
                             </div>                      
                         </div>
-
+                <!--
                         <div class="row">
                             <div class="span4">
                                 <div class="control-group">
@@ -57,7 +57,7 @@
                                     <button type="submit" class="btn btn-default bg-btn-send">Buscar</button>
                                 </div>   
                             </div>
-                        </div>
+                        </div>-->
                         
                         </fieldset>
                     </form>
@@ -79,7 +79,7 @@
                         <div class="button-excel-export">
                             <?php if(count($this->datatTable)>0): ?>
                                 <div class="btn-group">
-                                    <?php $urlExport = '?option=getReport&inputFechaIn='.$this->data['inputFechaIn'].'&inputFechaFin='.$this->data['inputFechaFin'].'&inputOption='.$this->data['inputOption'].'&inputNoTravel='.$this->data['inputNoTravel']; ?>
+                                    <?php $urlExport = '?option=getReport&inputFechaIn='.$this->data['inputFechaIn'].'&inputFechaFin='.$this->data['inputFechaFin']; ?>
                                     <a target="_blank" href="/main/reports/exportsearch<?php echo $urlExport; ?>"><button class="btn btn-success"> Exportar <i class="icon-file icon-white"></i></button></a>
                                 </div>
                             <?php endif;?>

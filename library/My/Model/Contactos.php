@@ -128,7 +128,7 @@ class My_Model_Contactos extends My_Db_Table
 		}elseif($option=='beg'){
 			$sFilter = "AND INICIO_VIAJE = 1";
 		}elseif($option=='end'){
-			$sFilter = "NAD FIN_VIAJE = 1";	
+			$sFilter = "AND FIN_VIAJE = 1";	
 		}
 		
 		$this->query("SET NAMES utf8",false); 		
@@ -139,7 +139,7 @@ class My_Model_Contactos extends My_Db_Table
 					FROM GTP_VIAJES V
 				 	INNER JOIN SUCURSALES S ON V.ID_SUCURSAL   = S.ID_SUCURSAL
 				 	WHERE V.ID_VIAJE = $idTravel
-				) ".$sFilter ;
+				) AND ESTATUS = 1 ".$sFilter ;
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;

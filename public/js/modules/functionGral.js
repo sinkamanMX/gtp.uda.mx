@@ -23,17 +23,6 @@ function getoptionsCbo(idCboTo,classObject,idObject,chosen){
     });  	
 }
 
-
-$( document ).ready(function() {
-    getMonitorTravels();    
-});
-
-function getMonitorTravels(){
-
-}
-
-
-
 $( document ).ready(function() {    
     getStatusExt(); 
 }); 
@@ -79,7 +68,7 @@ function getStatusExt(){
                 $("#spanTravelsPen").show("slow");
             }else{
                 $("#lblTravelsPen").html("");
-                $("#spanTravelsPen").show("hide");
+                $("#spanTravelsPen").hide("slow");
             }
 
             callTimer();

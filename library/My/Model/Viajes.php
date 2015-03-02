@@ -194,7 +194,7 @@ class My_Model_Viajes extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT *
 				FROM GTP_INCIDENCIAS 
-				WHERE ID_EMPRESA = $idObject	
+				/* WHERE ID_EMPRESA = $idObject	*/
 				ORDER BY DESCRIPCION DESC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -341,22 +341,31 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;    	
     }    
 
-    public function getReportViajes($dateInicio,$dateFin){
+    public function getReportViajes($aDataFilter){
 		$result= Array();
-		$this->query("SET NAMES utf8",false); 
+		$this->query("SET NAMES utf8",false);
+		
+		$sFilter = '';
+		if($aDataFilter['idPerfil'] == 2){
+			$sFilter = ' S.ID_EMPRESA ='.$aDataFilter['idEmpresa'].' AND ';			
+		}elseif($aDataFilter['idPerfil'] == 3){
+			$sFilter = ' V.ID_USUARIO_ASIGNADO  ='.$aDataFilter['idUsuario'].' AND ';		
+		}
+		 
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
     			O.NOMBRE, T.DESCRIPCION AS TRANSPORTISTA
 				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
 				FROM GTP_VIAJES V
 				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
-				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
-				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
-				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
-				INNER JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
-				INNER JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
-				WHERE V.INICIO BETWEEN '".$dateInicio."' AND '".$dateFin."'
-				  OR  V.FIN    BETWEEN '".$dateInicio."' AND '".$dateFin."'
-				  GROUP BY V.ID_VIAJE";	
+				LEFT JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				LEFT JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				LEFT JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
+				LEFT JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
+				WHERE ".$sFilter." 
+						 (V.INICIO BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."'
+				  		OR  V.FIN    BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."')
+				  GROUP BY V.ID_VIAJE";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;			
@@ -423,9 +432,7 @@ class My_Model_Viajes extends My_Db_Table
     public function insertTravel($data,$statusPago=1,$status=0){
         $result     = Array();
         $result['status']  = false;
-        
-        $fechaFin 	= (isset($data['inputFechaFin'])) ? $data['inputFechaFin']: '';        
-        
+            
         $sql="INSERT INTO GTP_VIAJES SET
 				ID_ESTATUS_PAGO =  ".$statusPago.",
         		ID_RUTA			=  ".$data['inputRuta'].",
@@ -439,7 +446,7 @@ class My_Model_Viajes extends My_Db_Table
 				CLAVE			= '".$data['inputNoTravel']."',
 				DESCRIPCION		= '".$data['inputDescripcion']."',
 				INICIO			= '".$data['inputFechaIn']."',
-				FIN				= '".$fechaFin."',
+				FIN				= '".$data['inputFechaFin']."',
 				CREADO			= CURRENT_TIMESTAMP";
         try{            
     		$query   = $this->query($sql,false);
@@ -537,6 +544,23 @@ class My_Model_Viajes extends My_Db_Table
         }
 		return $result;	      	
     }  
+    
+    public function validateUnitTravel($idUnit,$dateIn,$dateFin){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT *
+				FROM GTP_VIAJES
+				WHERE ID_UNIDAD = $idUnit
+  					AND ('".$dateIn."' BETWEEN INICIO AND FIN 
+  							OR ('".$dateFin."' BETWEEN INICIO AND FIN) )";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}	
+        
+		return $result;    		
+    }
+    
 /*
     public function getDataComplete($idObject){
 		$result= Array();

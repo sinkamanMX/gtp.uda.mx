@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"ua",
+				"uname"
+			],
+			[
 				"app",
 				"appendTo"
 			],
@@ -399,6 +403,33 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "application/modules/admin/views/scripts/routes/index.phtml",
+			"settings":
+			{
+				"buffer_size": 4003,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "application/modules/admin/views/scripts/routes/getinfo.phtml",
+			"settings":
+			{
+				"buffer_size": 10077,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "var map  = null;\nvar infoWindow;\nvar geocoder;\nvar infoLocation;\nvar markerOrigen,markerDestino;\nvar markers = [];\nvar bounds;\nvar directionsDisplay;\nvar directionsService = new google.maps.DirectionsService();\n\n$().ready(function() {\n    $('.noEnterSubmit').keypress(function(e){\n        if ( e.which == 13 ) return false;\n        //or...\n        if ( e.which == 13 ) e.preventDefault();\n    });    \n    \n    $(\"#FormData\").validate({\n        rules: {\n            inputDescripcion    : \"required\",\n            inputDirOrigen      : \"required\",\n            inputDirDestino     : \"required\",\n            inputTiempo         : \"required\",\n            inputStatus         : \"required\",\n            inputLatOrigen      : {\n                required: true,\n                number: true\n            },\n            inputLonOrigen      : {\n                required: true,\n                number: true\n            },\n            inputLatDestino     : {\n                required: true,\n                number: true\n            },\n            inputLonDestino     : {\n                required: true,\n                number: true\n            }\n        },\n        // Se especifica el texto del mensaje a mostrar\n        messages: {\n            inputDescripcion    : \"Campo Requerido\",\n            inputDirOrigen      : \"Campo Requerido\",\n            inputDirDestino     : \"Campo Requerido\",\n            inputTiempo         : \"Campo Requerido\",\n            inputStatus         : \"Campo Requerido\",\n            inputLatOrigen      : {\n                required : \"Campo Requerido\",\n                number: \"Este campo acepta solo números\"\n            },\n            inputLonOrigen      : {\n                required : \"Campo Requerido\",\n                number: \"Este campo acepta solo números\"\n            },\n            inputLatDestino     : {\n                required : \"Campo Requerido\",\n                number: \"Este campo acepta solo números\"\n            },\n            inputLonDestino     : {\n                required : \"Campo Requerido\",\n                number: \"Este campo acepta solo números\"\n            }            \n        },\n        \n        submitHandler: function(form) {\n            form.submit();    \n        }\n    }); \n\n    $('.upperClass').keyup(function()\n    {\n        $(this).val($(this).val().toUpperCase());\n    }); \n\n    initMapToDraw();\n});\n\nfunction initMapToDraw(){\n    infoWindow = new google.maps.InfoWindow;\n    directionsDisplay = new google.maps.DirectionsRenderer();\n    geocoder = new google.maps.Geocoder();\n\n    var mapOptions = {\n        zoom: 5,\n        center: new google.maps.LatLng(19.435113686545755,-99.13316173010253)\n    };\n\n    map = new google.maps.Map(document.getElementById('mapOrigen'),mapOptions);    \n\n    var valInputOrigen      = (document.getElementById('inputSearch'));\n    var valInputDestino     = (document.getElementById('inputSearch2'));  \n\n    var autCompleteOrigen    = new google.maps.places.Autocomplete(valInputOrigen);\n    var autCompleteDestino   = new google.maps.places.Autocomplete(valInputDestino);    \n\n    google.maps.event.addListener(autCompleteOrigen, 'place_changed', function() {      \n        var place = autCompleteOrigen.getPlace();\n        if (!place.geometry) {\n          return;\n        }\n\n        $(\"#inputLatOrigen\").val(place.geometry.location.lat());\n        $(\"#inputLonOrigen\").val(place.geometry.location.lng());\n        if( $(\"#inputLatOrigen\").val()!=\"\" && $(\"#inputLatOrigen\").val()!=\"0\" &&\n            $(\"#inputLonOrigen\").val()!=\"\" && $(\"#inputLonOrigen\").val()!=\"0\"\n            ){\n            setMarker(0);   \n        }\n    });  \n\n    google.maps.event.addListener(autCompleteDestino, 'place_changed', function() {      \n        var place = autCompleteDestino.getPlace();\n        if (!place.geometry) {\n          return;\n        }\n\n        $(\"#inputLatDestino\").val(place.geometry.location.lat());\n        $(\"#inputLonDestino\").val(place.geometry.location.lng());\n        if( $(\"#inputLatDestino\").val()!=\"\" && $(\"#inputLatDestino\").val()!=\"0\" &&\n            $(\"#inputLonDestino\").val()!=\"\" && $(\"#inputLonDestino\").val()!=\"0\"\n            ){\n            setMarker(1);   \n        }\n    });        \n\n    bounds = new google.maps.LatLngBounds();      \n    directionsDisplay.setMap(map);\n    if($(\"#optReg\").val()=='update'){\n        setMarker(0);\n        setMarker(1);\n    }\n}\n\nfunction setMarker(optionMarker){\n    var latMarker = 0;\n    var lonMarker = 0;\n    var position  = null;\n    removeMap(optionMarker);\n    if(optionMarker==0){            \n        latMarker   = $(\"#inputLatOrigen\").val();\n        lonMarker   = $(\"#inputLonOrigen\").val();\n        position    = new google.maps.LatLng(latMarker, lonMarker);\n\n        markerOrigen = new google.maps.Marker({\n            map: map,\n            position: position,\n            draggable:true,\n            animation: google.maps.Animation.DROP,\n            title:  \"Origen\",\n            icon:   '/images/assets/origen.png'\n        }); \n\n        google.maps.event.addListener(markerOrigen, 'click', toggleBounce); \n\n        google.maps.event.addListener(markerOrigen, \"dragend\", function(event) {\n            $(\"#inputLatOrigen\").val(event.latLng.lat());\n            $(\"#inputLonOrigen\").val(event.latLng.lng());\n            if( $(\"#inputLatOrigen\").val()!=\"\" && $(\"#inputLatDestino\").val()!=\"0\" &&\n                $(\"#inputLonOrigen\").val()!=\"\" && $(\"#inputLonOrigen\").val()!=\"0\"\n                ){\n                setMarker(0);                        \n            }\n        });   \n        $(\"#btnClean\").show('slow');\n    }else{\n        latMarker   = $(\"#inputLatDestino\").val();\n        lonMarker   = $(\"#inputLonDestino\").val();\n        position = new google.maps.LatLng(latMarker, lonMarker);\n\n        markerDestino = new google.maps.Marker({\n            map: map,\n            position: position,\n            draggable:true,\n            animation: google.maps.Animation.DROP,\n            title:  \"Origen\",\n            icon:   '/images/assets/destino.png'\n        }); \n\n        google.maps.event.addListener(markerDestino, 'click', toggleBounce);    \n\n        google.maps.event.addListener(markerDestino, \"dragend\", function(event) {\n            $(\"#inputLatDestino\").val(event.latLng.lat());\n            $(\"#inputLonDestino\").val(event.latLng.lng());\n            if( $(\"#inputLatDestino\").val()!=\"\" && $(\"#inputLatDestino\").val()!=\"0\" &&\n                $(\"#inputLonDestino\").val()!=\"\" && $(\"#inputLonDestino\").val()!=\"0\"\n                ){\n                setMarker(1);\n            }\n        }); \n        $(\"#btnClean2\").show('slow');\n    }\n\n    calcRoute(); \n    map.setZoom(18);\n    map.panTo(position);     \n}\n\n\nfunction calcRoute() {\n    if( $(\"#inputLatOrigen\").val()!=\"\"  && $(\"#inputLatOrigen\").val()!=\"0.000000\"  º&& \n        $(\"#inputLonOrigen\").val()!=\"\"  && $(\"#inputLonOrigen\").val()!=\"0.000000\"  && \n        $(\"#inputLatDestino\").val()!=\"\" && $(\"#inputLatDestino\").val()!=\"0.000000\" && \n        $(\"#inputLonDestino\").val()!=\"\" && $(\"#inputLonDestino\").val()!=\"0.000000\" ){\n        var latsOrigen  = new google.maps.LatLng($(\"#inputLatOrigen\").val(), $(\"#inputLonOrigen\").val());\n        var lastDestino = new google.maps.LatLng($(\"#inputLatDestino\").val(), $(\"#inputLonDestino\").val());\n        var request = {\n          origin: latsOrigen,\n          destination: lastDestino,\n          travelMode: google.maps.TravelMode.DRIVING\n        };\n        directionsService.route(request, function(response, status) {\n        if (status == google.maps.DirectionsStatus.OK) {\n          directionsDisplay.setDirections(response);\n          directionsDisplay.setMap(map);\n        }\n        });\n    }\n}\n\nfunction cleanMap(option){\n    directionsDisplay.setMap(null);\n    if(option==1){\n        $(\"#inputLatOrigen\").val(\"\");\n        $(\"#inputLonOrigen\").val(\"\");\n        markerOrigen.setMap(null);\n        $(\"#btnClean\").hide('slow');\n    }else{\n        $(\"#inputLatDestino\").val(\"\");\n        $(\"#inputLonDestino\").val(\"\");\n        markerDestino.setMap(null);\n        $(\"#btnClean2\").hide('slow');\n    }\n}\n\nfunction removeMap(optionMarker){\n    if(optionMarker==0 && markerOrigen!=null){      \n        markerOrigen.setMap(null);\n    }else if(optionMarker==1 && markerDestino!=null){       \n        markerDestino.setMap(null);\n    }\n}\n\nfunction toggleBounce() {\n  if (marker.getAnimation() != null) {\n    marker.setAnimation(null);\n  } else {\n    marker.setAnimation(google.maps.Animation.BOUNCE);\n  }\n}\n\nfunction backToMain(){\n	var mainPage = $(\"#hRefLinkMain\").val();\n	location.href= mainPage;\n}\n\nfunction deleteRow(){	\n	var idItem = $(\"#inputDelete\").val();\n    $.ajax({\n        url: \"/admin/routes/getinfo\",\n        type: \"GET\",\n        dataType : 'json',\n        data: { catId : idItem, \n        		optReg: 'delete'},\n        success: function(data) {\n            var result = data.answer; \n\n            if(result == 'deleted'){\n            	$(\"#modalConfirmDelete\").modal('hide'); \n            }else if(result == 'problem'){\n                alert(\"hubo problema\");          \n            }else{\n                alert(\"no hay data\");          \n            }\n        }\n    });    \n}\n",
+			"file": "public/js/modules/routes/validateRoutes.js",
+			"file_size": 9127,
+			"file_write_time": 1425328431000000,
+			"settings":
+			{
+				"buffer_size": 9124,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -424,24 +455,41 @@
 	},
 	"file_history":
 	[
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/ContactsController.php",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/getinfo.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/newtravel.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/branches/validateBranches.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/reports/repTravelDetail.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/login.phtml",
+		"/Users/itecno2/Downloads/gtp_reg/index.html",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/MainController.php",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/login.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/branding/css/style.css",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/setincidencia.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/setincidencia.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/ContactsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js'",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phmtl",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/vendors/bootstrap-toastr/ui-toastr.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMaps.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/manualpos.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/routes/validateRoutes.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMonitor.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/controllers/MainController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/recoverresq.phtml",
@@ -449,22 +497,17 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateRecovery.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/users/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/resetpass.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/mPrincipal.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travelsinfo.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/setincidencia.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/map.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/tableSearch.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/searchusers.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/extras/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/newTravel.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/resume.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/paytravel.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/newtravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/extras/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/incidents/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/incidents/index.phtml",
@@ -485,7 +528,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/register/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/manualpos.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/external.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout_blank.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/index.phtml",
@@ -508,7 +550,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/cancelpayment.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/payTravel.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/login.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/ReportsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/clients/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/index.phtml",
@@ -518,11 +559,8 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/carriers/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.min.css",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/infotravel.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/reports/repTravelDetail.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/clients/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/bootstrap-datetimepicker.min.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/setincidencia.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/vendors/bootstrap-datepicker.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/css/datepicker.css",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/bootstrap-datepicker.js",
@@ -544,14 +582,7 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/MapController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/DT_bootstrap.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/gralTables.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/getinfounit.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/getrowinfo.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/clients.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/profiles.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/users.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/gral_forms.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/productivity.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/reports.phtml"
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/getinfounit.phtml"
 	],
 	"find":
 	{
@@ -572,6 +603,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"bControlDraw",
+			"margin-",
+			"margin-bottom",
+			"companies",
+			"contacts",
 			"/prices/",
 			"parent.closeWindowM",
 			"parent.closeWindowM ",
@@ -694,12 +730,7 @@
 			"display",
 			"hidde",
 			"class=\"col-sm-2 ",
-			"col-sm-10",
-			"<div class=\"col-xs-6 col-md-1\"> </div>",
-			"green",
-			"foot",
-			"custom",
-			"margin-top"
+			"col-sm-10"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -707,6 +738,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"branches",
 			"/contacts/",
 			"map",
 			"extras",
@@ -756,8 +788,93 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "application/modules/admin/views/scripts/routes/index.phtml",
+					"settings":
+					{
+						"buffer_size": 4003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1245,
+								1245
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/modules/admin/views/scripts/routes/getinfo.phtml",
+					"settings":
+					{
+						"buffer_size": 10077,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2587,
+								2587
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
+						},
+						"translation.x": 222.0,
+						"translation.y": 700.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/js/modules/routes/validateRoutes.js",
+					"settings":
+					{
+						"buffer_size": 9124,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6652,
+								6652
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3325.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

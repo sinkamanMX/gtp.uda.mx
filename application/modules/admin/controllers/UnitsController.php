@@ -133,57 +133,64 @@ class admin_UnitsController extends My_Controller_Action
     		$cUnidades 	 = new My_Model_Unidades();
     		$cTransports = new My_Model_Transportistas();
     		if($this->view->dataUser['CLIENTE_UDA']==1){
-    			$idTrans = $cTransports->getFirst($this->view->dataUser['ID_EMPRESA']);
-    			$userUda = $this->view->dataUser['USUARIO_UDA'];
-    			$passUda = $this->view->dataUser['PASSWORD_UDA'];
-
-    		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
-				$aParams 	  = array('sLogin'     => $userUda,
-			                  		  'sPassword'  => $passUda);
+    			$idTrans = $cTransports->getFirst($this->view->dataUser['ID_EMPRESA']);    			
+    			if(count($idTrans)>0 && isset($idTrans['ID_TRANSPORTISTA'])){
+	    			$userUda = $this->view->dataUser['USUARIO_UDA'];
+	    			$passUda = $this->view->dataUser['PASSWORD_UDA'];
+	    			
+					//http://201.131.96.40
+					//http://192.168.6.41
+	    		  	//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+	    		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+					$aParams 	  = array('sLogin'     => $userUda,
+				                  		  'sPassword'  => $passUda);
+					
+					$result=$soap_client->HistoyDataLastLocationByUser($aParams);
+					if (is_object($result)){
+				       	$x = get_object_vars($result);
+						$y = get_object_vars($x['HistoyDataLastLocationByUserResult']);
 				
-				$result=$soap_client->HistoyDataLastLocationByUser($aParams);
-				if (is_object($result)){
-			       	$x = get_object_vars($result);
-					$y = get_object_vars($x['HistoyDataLastLocationByUserResult']);
-			
-					$xml = $y['any'];		
-					if($xml2 = simplexml_load_string($xml)){
-						$c = 0;
-						for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
-			          		$sImei    	= (string) $xml2->Response->Plate[$i]['id'];
-			          		$sEconomico = (string) $xml2->Response->Plate[$i]->hst->Alias;
-			          		$sIp 		= (string) $xml2->Response->Plate[$i]->hst->IP;
-			          		
-			          		$validateUnit = $cUnidades->validateUnitByPlaque($sEconomico);
-			          		if(!$validateUnit){
-			          			$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
-			          			$aDataInsertUnit['inputProveedor']     = 1;
-			          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
-			          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
-			          			$aDataInsertUnit['inputIden']  		   = $sImei;
-			          			$aDataInsertUnit['inputStatus']  	   = 1;
-			          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
-			          			
-			          			$insertunit = $cUnidades->insertRow($aDataInsertUnit);
-			          			if(!$insertunit){
-			          				$errors[$c] = $sImei;
-			          			}
-			          		}
-			
-			          		$c = $c+1;
-			        	}
-			        	
-			        	if($c >0){
-			        		$this->resultop = 'okRegister';
-			        	}elseif($c=0){
-			        		$this->errors['no-units'] = 1;
-			        	}
+						$xml = $y['any'];		
+						if($xml2 = simplexml_load_string($xml)){
+							$c = 0;
+							for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
+				          		$sImei    	= (string) $xml2->Response->Plate[$i]['id'];
+				          		$sEconomico = (string) $xml2->Response->Plate[$i]->hst->Alias;
+				          		$sIp 		= (string) $xml2->Response->Plate[$i]->hst->IP;
+				          		
+				          		$validateUnit = $cUnidades->validateUnitByPlaque($sEconomico);
+				          		if(!$validateUnit){
+				          			$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
+				          			$aDataInsertUnit['inputProveedor']     = 1;
+				          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
+				          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
+				          			$aDataInsertUnit['inputIden']  		   = $sImei;
+				          			$aDataInsertUnit['inputStatus']  	   = 1;
+				          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
+				          			
+				          			$insertunit = $cUnidades->insertRow($aDataInsertUnit);
+				          			if(!$insertunit){
+				          				$errors[$c] = $sImei;
+				          			}
+				          		}
+				
+				          		$c = $c+1;
+				        	}
+				        	
+				        	if($c >0){
+				        		$this->resultop = 'okRegister';
+				        	}elseif($c=0){
+				        		$this->errors['no-units'] = 1;
+				        	}
+						}else{
+							$this->errors['no-info'] = 1;
+						}
 					}else{
-						$this->errors['no-info'] = 1;
-					}
-				}else{
-					$this->errors['no-service'] = 1;
-				}    			
+						$this->errors['no-service'] = 1;
+					}      				
+    			}else{
+    				$this->errors['no-transportista'] = 1;
+    			}  			
     		}else{
     			$this->_redirect('/admin/units/index');	
     		}

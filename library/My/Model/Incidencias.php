@@ -16,7 +16,6 @@ class My_Model_Incidencias extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT * 
 				FROM $this->_name
-				WHERE ID_EMPRESA = $idObject
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  

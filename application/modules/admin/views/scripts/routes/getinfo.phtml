@@ -27,12 +27,7 @@
 					<?php endif;?>	
 		                <input type="hidden" id="optReg" name="optReg" value="<?php echo ($this->idToUpdate>0) ? 'update': 'new';?>" />
 		                <input type="hidden" name="catId" value="<?php echo $this->catId; ?>" />
-
-		                    <input type="hidden" id="inputLatOrigen"    name="inputLatOrigen"  value="<?php echo @$this->data['LATITUD_ORIGEN'];  ?>">
-		                    <input type="hidden" id="inputLonOrigen"    name="inputLonOrigen"  value="<?php echo @$this->data['LONGITUD_ORIGEN'];  ?>">
-		                    <input type="hidden" id="inputLatDestino"   name="inputLatDestino" value="<?php echo @$this->data['LATITUD_DESTINO']; ?>">
-		                    <input type="hidden" id="inputLonDestino"   name="inputLonDestino" value="<?php echo @$this->data['LONGITUD_DESTINO']; ?>">                    		                
-		                
+                		                		                
 		                <?php if($this->resultOp=='okRegister'): ?>
 		                    <div class="alert alert-success">
 		                        <button class="close" data-dismiss="alert"></button>
@@ -49,27 +44,8 @@
 											</div>
 										</div>	
 		                			</div>								
-		                		</div>		                		
-		                		<div class="span12 no-margin-left">
-		                			<div class="span6">
-										<div class="control-group">
-											<label class="control-label">Descripción Origen<span class="required">*</span></label>
-											<div class="controls">
-												<input name="inputDirOrigen" type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['DESCRIPCION_ORIGEN']; ?>" <?php echo $disabled;?> >
-											</div>
-										</div>		                				
-		                			</div>
-		                			<div class="span6">
-										<div class="control-group">
-											<label class="control-label">Descripción Destino<span class="required">*</span></label>
-											<div class="controls">
-												<input name="inputDirDestino" type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['DESCRIPCION_ORIGEN']; ?>" <?php echo $disabled;?> >
-											</div>
-										</div>		                				
-		                			</div>	                			
-		                		</div>		                	
-		                	
-		                		<div class="span12 no-margin-left">
+		                		</div>	
+		                		<div class="span12 no-margin-left no-margin-b">
 		                			<div class="span6">
 										<div class="control-group">
 											<label class="control-label">Tiempo Estimado<span class="required">*</span></label>
@@ -91,41 +67,113 @@
 										</div>	                				
 		                			</div>			                			
 		                		</div>
-
-
-								<div class="span12 no-margin-left">
-		                			<div class="span12">
-										<div class="control-group">
-											<label class="control-label">Buscar<span class="required">*</span></label>
+ 
+		                		<div class="span12 no-margin-left no-margin-b">
+		                			<div class="span6">
+										<div class="control-group no-margin-b">
+											<label class="control-label"></label>
 											<div class="controls">
-												<input type="text" class="form-control noEnterSubmit span10" name="inputSearch" id="inputSearch" placeholder="Calle, Colonia, Delefación o Municipio">
-												<a id="btnClean" style="display:none;" class="btn btn-danger noEnterSubmit" href="javascript:cleanMap()"><i class=" icon-ban-circle icon-white"></i> Limpiar Mapa </a>
-											</div>											
+												<span><img src="/images/assets/origen.png"> <b>Datos del Origen de la Ruta</b></span>
+											</div>
 										</div>		                				
 		                			</div>
-		                		</div>		
-		                		<div class="span12 no-margin-left">
-									<div id="divpErrorLogin" class="alert alert-error" style="display:none;">
-									  <button type="button" class="close" data-dismiss="alert">×</button>
-									  <h4>Error</h4>
-									  <div>Favor de ubicar en el mapa el origen y destino de la Ruta.</div>
-									</div>
+		                			<div class="span6">
+										<div class="control-group no-margin-b">
+											<label class="control-label"></label>
+											<div class="controls">
+												<span><img src="/images/assets/destino.png"> <b>Datos del Destino de la Ruta</b></span>
+											</div>
+										</div>	               				
+		                			</div>			                			
 		                		</div>
+
+		                		<div class="span12 no-margin-left">
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Nombre<span class="required">*</span></label>
+											<div class="controls">
+												<input name="inputDirOrigen" type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['DESCRIPCION_ORIGEN']; ?>" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Nombre<span class="required">*</span></label>
+											<div class="controls">
+												<input name="inputDirDestino" type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['DESCRIPCION_DESTINO']; ?>" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>	                			
+		                		</div>		  
+
+		                		<div class="span12 no-margin-left">
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Latitud<span class="required">*</span></label>
+											<div class="controls">
+												<input id="inputLatOrigen"    name="inputLatOrigen"  type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['LATITUD_ORIGEN'];  ?>" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Latitud<span class="required">*</span></label>
+											<div class="controls">
+												<input  id="inputLatDestino"   name="inputLatDestino" type="text" class="m-wrap span12 upperClass" value="<?php echo @$this->data['LATITUD_DESTINO']; ?>" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>	                			
+		                		</div>		
+
+		                		<div class="span12 no-margin-left">
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Longitud<span class="required">*</span></label>
+											<div class="controls">
+												<input id="inputLonOrigen"    name="inputLonOrigen"  value="<?php echo @$this->data['LONGITUD_ORIGEN'];  ?>"  type="text" class="m-wrap span12 upperClass" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Longitud<span class="required">*</span></label>
+											<div class="controls">
+												<input  id="inputLonDestino"   name="inputLonDestino" value="<?php echo @$this->data['LONGITUD_DESTINO']; ?>" class="m-wrap span12 upperClass" <?php echo $disabled;?> >
+											</div>
+										</div>		                				
+		                			</div>	                			
+		                		</div>	
+		                		<div class="span12 no-margin-left">
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Buscar en Mapa<span class="required">*</span></label>
+											<div class="controls">
+												<input type="text" class="form-control noEnterSubmit span12" name="inputSearch" id="inputSearch" placeholder="Calle, Colonia, Delefación o Municipio">
+												<div class="span12 no-margin-left m-top-3">
+													<a class="btn btn-info noEnterSubmit span4" href="javascript:setMarker(0)"><i class=" icon-map-marker icon-white"></i> Pintar</a>
+													<a id="btnClean" style="display:none;" class="btn btn-danger noEnterSubmit span4" href="javascript:cleanMap(1)"><i class=" icon-ban-circle icon-white"></i> Eliminar</a>
+												</div>												
+											</div>
+										</div>		                				
+		                			</div>
+		                			<div class="span6">
+										<div class="control-group">
+											<label class="control-label">Buscar en Mapa<span class="required">*</span></label>
+											<div class="controls">
+												<input type="text" class="form-control noEnterSubmit span12" name="inputSearch2" id="inputSearch2" placeholder="Calle, Colonia, Delefación o Municipio">
+												<div class="span12 no-margin-left m-top-3">
+													<a class="btn btn-info noEnterSubmit span4" href="javascript:setMarker(1)"><i class=" icon-map-marker icon-white"></i> Pintar</a>
+													<a id="btnClean2" style="display:none;" class="btn btn-danger noEnterSubmit span4" href="javascript:cleanMap(2)"><i class=" icon-ban-circle icon-white"></i> Eliminar</a>
+												</div>												
+											</div>
+										</div>		                				
+		                			</div>	                			
+		                		</div>	
 		                		<div class="span12 no-margin-left">
 		                			<div id="mapOrigen"  style="width:100%;height:350px;"></div>	
 		                		</div>
-		                		<div class="pull-right no-margin-left">
-		                			<img src="/images/assets/origen.png">Lugar Origen
-		                			<img src="/images/assets/destino.png">Lugar Destino
-		                		</div>				                			                		
-
 								<div class="control-group">
-									<!--<label class="control-label">Estatus<span class="required">*</span></label>
-									<div class="controls">
-										<select class="span6 m-wrap" name="inputStatus" <?php echo $disabled;?> >
-											<?php echo $this->status; ?>
-										</select>
-									</div>-->
+
 								</div>
 								<?php if($disabled!='disabled'):?>
 								<div class="form-actions">

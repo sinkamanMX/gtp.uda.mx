@@ -7,15 +7,13 @@ var markers = [];
 var bounds;
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
-var bControlDraw=1;
 
 $().ready(function() {
-
-$('.noEnterSubmit').keypress(function(e){
-    if ( e.which == 13 ) return false;
-    //or...
-    if ( e.which == 13 ) e.preventDefault();
-});    
+    $('.noEnterSubmit').keypress(function(e){
+        if ( e.which == 13 ) return false;
+        //or...
+        if ( e.which == 13 ) e.preventDefault();
+    });    
     
     $("#FormData").validate({
         rules: {
@@ -23,7 +21,23 @@ $('.noEnterSubmit').keypress(function(e){
             inputDirOrigen      : "required",
             inputDirDestino     : "required",
             inputTiempo         : "required",
-            inputStatus         : "required"
+            inputStatus         : "required",
+            inputLatOrigen      : {
+                required: true,
+                number: true
+            },
+            inputLonOrigen      : {
+                required: true,
+                number: true
+            },
+            inputLatDestino     : {
+                required: true,
+                number: true
+            },
+            inputLonDestino     : {
+                required: true,
+                number: true
+            }
         },
         // Se especifica el texto del mensaje a mostrar
         messages: {
@@ -31,17 +45,27 @@ $('.noEnterSubmit').keypress(function(e){
             inputDirOrigen      : "Campo Requerido",
             inputDirDestino     : "Campo Requerido",
             inputTiempo         : "Campo Requerido",
-            inputStatus         : "Campo Requerido"
+            inputStatus         : "Campo Requerido",
+            inputLatOrigen      : {
+                required : "Campo Requerido",
+                number: "Este campo acepta solo números"
+            },
+            inputLonOrigen      : {
+                required : "Campo Requerido",
+                number: "Este campo acepta solo números"
+            },
+            inputLatDestino     : {
+                required : "Campo Requerido",
+                number: "Este campo acepta solo números"
+            },
+            inputLonDestino     : {
+                required : "Campo Requerido",
+                number: "Este campo acepta solo números"
+            }            
         },
         
         submitHandler: function(form) {
-            $("#divpErrorLogin").hide('slow');
-            if($("#inputLatOrigen").val()!="" && $("#inputLonOrigen").val()!="" && 
-                $("#inputLatDestino").val()!="" && $("#inputLonDestino").val()!=""){
-                form.submit();    
-            }else{
-                $("#divpErrorLogin").show('slow');
-            }
+            form.submit();    
         }
     }); 
 
@@ -66,7 +90,10 @@ function initMapToDraw(){
     map = new google.maps.Map(document.getElementById('mapOrigen'),mapOptions);    
 
     var valInputOrigen      = (document.getElementById('inputSearch'));
-    var autCompleteOrigen   = new google.maps.places.Autocomplete(valInputOrigen);
+    var valInputDestino     = (document.getElementById('inputSearch2'));  
+
+    var autCompleteOrigen    = new google.maps.places.Autocomplete(valInputOrigen);
+    var autCompleteDestino   = new google.maps.places.Autocomplete(valInputDestino);    
 
     google.maps.event.addListener(autCompleteOrigen, 'place_changed', function() {      
         var place = autCompleteOrigen.getPlace();
@@ -74,44 +101,30 @@ function initMapToDraw(){
           return;
         }
 
-        if(bControlDraw==1){
-            $("#inputLatOrigen").val(place.geometry.location.lat());
-            $("#inputLonOrigen").val(place.geometry.location.lng());
-            if( $("#inputLatOrigen").val()!="" && $("#inputLatOrigen").val()!="0" &&
-                $("#inputLonOrigen").val()!="" && $("#inputLonOrigen").val()!="0"
-                ){
-                setMarker(0);   
-            }            
-        }else{
-            $("#inputLatDestino").val(place.geometry.location.lat());
-            $("#inputLonDestino").val(place.geometry.location.lng());
-            if( $("#inputLatDestino").val()!="" && $("#inputLatDestino").val()!="0" &&
-                $("#inputLonDestino").val()!="" && $("#inputLonDestino").val()!="0"
-                ){
-                setMarker(1);   
-            }
+        $("#inputLatOrigen").val(place.geometry.location.lat());
+        $("#inputLonOrigen").val(place.geometry.location.lng());
+        if( $("#inputLatOrigen").val()!="" && $("#inputLatOrigen").val()!="0" &&
+            $("#inputLonOrigen").val()!="" && $("#inputLonOrigen").val()!="0"
+            ){
+            setMarker(0);   
         }
-    });   
+    });  
 
-      google.maps.event.addListener(map, 'click', function(event) {
-        if(bControlDraw==1){
-            $("#inputLatOrigen").val(event.latLng.lat());
-            $("#inputLonOrigen").val(event.latLng.lng());
-            if( $("#inputLatOrigen").val()!="" && $("#inputLatOrigen").val()!="0" &&
-                $("#inputLonOrigen").val()!="" && $("#inputLonOrigen").val()!="0"
-                ){
-                setMarker(0);                   
-            }            
-        }else{
-            $("#inputLatDestino").val(event.latLng.lat());
-            $("#inputLonDestino").val(event.latLng.lng());
-            if( $("#inputLatDestino").val()!="" && $("#inputLatDestino").val()!="0" &&
-                $("#inputLonDestino").val()!="" && $("#inputLonDestino").val()!="0"
-                ){
-                setMarker(1);   
-            }
+    google.maps.event.addListener(autCompleteDestino, 'place_changed', function() {      
+        var place = autCompleteDestino.getPlace();
+        if (!place.geometry) {
+          return;
         }
-      });  
+
+        $("#inputLatDestino").val(place.geometry.location.lat());
+        $("#inputLonDestino").val(place.geometry.location.lng());
+        if( $("#inputLatDestino").val()!="" && $("#inputLatDestino").val()!="0" &&
+            $("#inputLonDestino").val()!="" && $("#inputLonDestino").val()!="0"
+            ){
+            setMarker(1);   
+        }
+    });        
+
     bounds = new google.maps.LatLngBounds();      
     directionsDisplay.setMap(map);
     if($("#optReg").val()=='update'){
@@ -150,7 +163,6 @@ function setMarker(optionMarker){
                 setMarker(0);                        
             }
         });   
-        bControlDraw=2;
         $("#btnClean").show('slow');
     }else{
         latMarker   = $("#inputLatDestino").val();
@@ -177,8 +189,7 @@ function setMarker(optionMarker){
                 setMarker(1);
             }
         }); 
-        bControlDraw=3;
-        $("#btnClean").show('slow');
+        $("#btnClean2").show('slow');
     }
 
     calcRoute(); 
@@ -188,8 +199,10 @@ function setMarker(optionMarker){
 
 
 function calcRoute() {
-    if($("#inputLatOrigen").val()!="" && $("#inputLonOrigen").val()!="" && 
-        $("#inputLatDestino").val()!="" && $("#inputLonDestino").val()!=""){
+    if( $("#inputLatOrigen").val()!=""  && $("#inputLatOrigen").val()!="0.000000"  && 
+        $("#inputLonOrigen").val()!=""  && $("#inputLonOrigen").val()!="0.000000"  && 
+        $("#inputLatDestino").val()!="" && $("#inputLatDestino").val()!="0.000000" && 
+        $("#inputLonDestino").val()!="" && $("#inputLonDestino").val()!="0.000000" ){
         var latsOrigen  = new google.maps.LatLng($("#inputLatOrigen").val(), $("#inputLonOrigen").val());
         var lastDestino = new google.maps.LatLng($("#inputLatDestino").val(), $("#inputLonDestino").val());
         var request = {
@@ -206,14 +219,19 @@ function calcRoute() {
     }
 }
 
-function cleanMap(){
-    bControlDraw=1;
-    position   = new google.maps.LatLng(19.435113686545755,-99.13316173010253);
+function cleanMap(option){
     directionsDisplay.setMap(null);
-    markerOrigen.setMap(null);
-    markerDestino.setMap(null);
-    $("#btnClean").hide('slow');
-    $("#inputSearch").val("");
+    if(option==1){
+        $("#inputLatOrigen").val("");
+        $("#inputLonOrigen").val("");
+        markerOrigen.setMap(null);
+        $("#btnClean").hide('slow');
+    }else{
+        $("#inputLatDestino").val("");
+        $("#inputLonDestino").val("");
+        markerDestino.setMap(null);
+        $("#btnClean2").hide('slow');
+    }
 }
 
 function removeMap(optionMarker){
@@ -231,7 +249,6 @@ function toggleBounce() {
     marker.setAnimation(google.maps.Animation.BOUNCE);
   }
 }
-
 
 function backToMain(){
 	var mainPage = $("#hRefLinkMain").val();

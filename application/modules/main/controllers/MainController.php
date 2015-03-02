@@ -19,7 +19,8 @@ class main_MainController extends My_Controller_Action
 	        if($sessions->validateSession()){
 	            $this->_redirect('/main/main/inicio');		
 			}
-			
+			$this->view->layout()->setLayout('login');
+
         } catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                

@@ -186,6 +186,7 @@ class main_MapController extends My_Controller_Action
 				$classObject = new My_Model_Viajes();
 				$infoData   = $classObject->getData($idUpdated);
 				$cContactos   = new My_Model_Contactos(); 	
+				$aContactos	  = Array();
 				if($optionUpdate=='start'){
 					$statusChange = ($infoData['ID_ESTATUS']==1) ? 2 : $infoData['ID_ESTATUS'];
 									
@@ -245,7 +246,7 @@ class main_MapController extends My_Controller_Action
 							$cFunctions->sendNotifications(1,$aContactos,$infoData['CLAVE']);							
 						}
 						
-						$result =true;
+						$result =false;
 					}
 				}
 			}			

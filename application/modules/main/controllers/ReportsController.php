@@ -33,37 +33,22 @@ class main_reportsController extends My_Controller_Action
     }
     
     public function indexAction(){
-    	$aDataTable = Array();
-    	
-		if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){	
-			$viajes 	 = new My_Model_Viajes();
-			$transportista= new My_Model_Transportistas();
-			$sucursales	 = new My_Model_Sucursales();				
-			$functions   = new My_Controller_Functions();
-			
-			$fechaInicio = $this->dataIn['inputFechaIn'];
-			$fechaFin	 = $this->dataIn['inputFechaFin'];
-			$option		 = $this->dataIn['inputOption'];
-			$optionValue = $this->dataIn['inputNoTravel']; 
-			if($option=='0'){
-				$aDataTable  = $viajes->getReportViajes($fechaInicio,$fechaFin);	
-			}elseif($option=='1'){
-				$aDataTable = $viajes->getDataReport($optionValue);
-			}elseif($option=='2'){
-				$aClientes  = $sucursales->getFilterSucursales($optionValue,$this->view->dataUser['ID_EMPRESA']);
-				$stringData = $functions->arrayToStringDb($aClientes);	
-				if($stringData!=""){
-					$aDataTable = $viajes->getDataFromCliente($stringData);	
-				}
-			}elseif($option=='3'){
-				$operadores = new My_Model_Operadores();
-				$aOperadores= $operadores->getFilterOperadores($optionValue,$this->view->dataUser['ID_EMPRESA']);
-				$stringData = $functions->arrayToStringDb($aOperadores);	
-				if($stringData!=""){
-					$aDataTable = $viajes->getDataFromSucursal($stringData);	
-				}
-			}
+    	$aDataTable  = Array();
+    	$aDataSearch = Array();
+		$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
+		$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
+		$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+		$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
+		$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    	
+		$viajes 	 = new My_Model_Viajes();
+		
+		if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){				
+			$aDataSearch['fecIncio'] 	= $this->dataIn['inputFechaIn'];
+			$aDataSearch['fecFin'] 		= $this->dataIn['inputFechaFin'];	
 		}
+		
+		$aDataTable  = $viajes->getReportViajes($aDataSearch);
+		
 		$this->view->datatTable = $aDataTable;
 		$this->view->data		= $this->dataIn;
     }
@@ -242,45 +227,31 @@ class main_reportsController extends My_Controller_Action
     	try{
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
-			    		
-			if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){	
-				$viajes 	 = new My_Model_Viajes();
-				$transportista= new My_Model_Transportistas();
-				$sucursales	 = new My_Model_Sucursales();				
-				$functions   = new My_Controller_Functions();
-				
-				$fechaInicio = $this->dataIn['inputFechaIn'];
-				$fechaFin	 = $this->dataIn['inputFechaFin'];
-				$option		 = $this->dataIn['inputOption'];
-				$optionValue = $this->dataIn['inputNoTravel']; 
-				if($option=='0'){
-					$aDataTable  = $viajes->getReportViajes($fechaInicio,$fechaFin);	
-				}elseif($option=='1'){
-					$aDataTable = $viajes->getDataReport($optionValue);
-				}elseif($option=='2'){
-					$aClientes  = $sucursales->getFilterSucursales($optionValue,$this->view->dataUser['ID_EMPRESA']);
-					$stringData = $functions->arrayToStringDb($aClientes);	
-					if($stringData!=""){
-						$aDataTable = $viajes->getDataFromCliente($stringData);	
-					}
-				}elseif($option=='3'){
-					$operadores = new My_Model_Operadores();
-					$aOperadores= $operadores->getFilterOperadores($optionValue,$this->view->dataUser['ID_EMPRESA']);
-					$stringData = $functions->arrayToStringDb($aOperadores);	
-					if($stringData!=""){
-						$aDataTable = $viajes->getDataFromSucursal($stringData);	
-					}
-				}
+			
+	    	$aDataTable  = Array();
+	    	$aDataSearch = Array();
+			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
+			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
+			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    	
+			$viajes 	 = new My_Model_Viajes();
+			
+			if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){				
+				$aDataSearch['fecIncio'] 	= $this->dataIn['inputFechaIn'];
+				$aDataSearch['fecFin'] 		= $this->dataIn['inputFechaFin'];	
+			}
+			
+			$aDataTable  = $viajes->getReportViajes($aDataSearch);
 
-	
-				$nameClient = $this->view->dataUser['N_EMPRESA']; 
+			if(count($aDataTable)>0){
 				$dateCreate = date("d-m-Y H:i");
 				$createdBy	= $this->view->dataUser['USUARIO']; 
 
-				/** PHPExcel */
+				//** PHPExcel *
 				include 'PHPExcel.php';
 				
-				/** PHPExcel_Writer_Excel2007 */
+				//** PHPExcel_Writer_Excel2007 *
 				include 'PHPExcel/Writer/Excel2007.php';			
 				$objPHPExcel = new PHPExcel();
 				$objPHPExcel->getProperties()->setCreator("UDA")
@@ -315,7 +286,7 @@ class main_reportsController extends My_Controller_Action
 				/**
 				 * Header del Reporte
 				 **/
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', $nameClient);
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'Viajes Grupo UDA');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', 'Reporte de Viaje');
 				$objPHPExcel->getActiveSheet()->getStyle("A2")->getFont()->setSize(20);
 				$objPHPExcel->getActiveSheet()->getStyle("A2")->getFont()->setBold(true);
@@ -382,11 +353,10 @@ class main_reportsController extends My_Controller_Action
 				header('Content-Disposition: attachment;filename="'.$filename.'"');
 				header('Cache-Control: max-age=0');							
 				$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-				$objWriter->save('php://output');
-				
-			} 		
-    		
-    	
+				$objWriter->save('php://output');				
+			}else{
+				echo "No hay informaci—n para exportar";
+			}
     	} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                

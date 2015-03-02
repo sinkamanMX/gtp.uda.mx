@@ -179,34 +179,38 @@ class travels_MainController extends My_Controller_Action
 					unset($aNamespace->dataGral);					
 				}
 				$aNamespace->dataGral = $this->_dataIn;
-				
-				if($this->_dataUser['COBRAR_VIAJES']==1){					
-					$this->_redirect("/travels/main/paytravel");						
-				}else{
-					$aTravelInfo = $aNamespace->dataGral;					
-					$aMoreInfo	 = $cRutas->getData($aTravelInfo['inputRuta']);
-					$aTipoViaje	 = $cTipoViajes->getData($aTravelInfo['inputTviaje']);					
-					$aTravelInfo['userRegister'] = $this->_dataUser['ID_USUARIO'];
-					
-					$insertViaje = $cViajes->insertTravel($aTravelInfo,2,1);
-					if($insertViaje['status']){
-						$idViaje = $insertViaje['id'];
-												
-						$sBodymail   = '<h3>Atencion</h3>'.
-										'Se ha registrado un viaje para monitorear.<br/>'.
-										'Para revisarlo, debes de ingresar al siguiente link:'.
-										'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
-										'o bien copia y pega en tu navegador el siguiente enlace<br>'.
-										'<b> http://viajes.grupouda.com.mx</b>';
-						$sSubject  	=	'Nuevo Viaje GTP Grupo UDA';
-						$enviar 	= $functions->sendMailAdmins($sSubject,$sBodymail);						
-												
-						unset($aNamespace->dataGral);												
-						$this->_redirect("/travels/main/index");
+								
+				$validateTravelUnit = $cViajes->validateUnitTravel($this->_dataIn['inputUnidades'],$this->_dataIn['inputFechaIn'],$this->_dataIn['inputFechaFin']);								
+				if(count($validateTravelUnit)==0 && !isset($validateTravelUnit['ID_VIAJE'])){					
+					if($this->_dataUser['COBRAR_VIAJES']==1){					
+						$this->_redirect("/travels/main/paytravel");						
 					}else{
-						$this->_aErrors['no-insert'] = 1;
-					}	
-
+						$aTravelInfo = $aNamespace->dataGral;					
+						$aMoreInfo	 = $cRutas->getData($aTravelInfo['inputRuta']);
+						$aTipoViaje	 = $cTipoViajes->getData($aTravelInfo['inputTviaje']);					
+						$aTravelInfo['userRegister'] = $this->_dataUser['ID_USUARIO'];
+						
+						$insertViaje = $cViajes->insertTravel($aTravelInfo,2,1);
+						if($insertViaje['status']){
+							$idViaje = $insertViaje['id'];
+												
+							$sBodymail   = '<h3>Atencion</h3>'.
+											'Se ha registrado un viaje para monitorear.<br/>'.
+											'Para revisarlo, debes de ingresar al siguiente link:'.
+											'<a href="http://viajes.grupouda.com.mx">Da Click Aqui</a><br/>'.
+											'o bien copia y pega en tu navegador el siguiente enlace<br>'.
+											'<b> http://viajes.grupouda.com.mx</b>';
+							$sSubject  	=	'Nuevo Viaje GTP Grupo UDA';
+							$enviar 	= $functions->sendMailAdmins($sSubject,$sBodymail);						
+													
+							unset($aNamespace->dataGral);												
+							$this->_redirect("/travels/main/index");
+						}else{
+							$this->_aErrors['no-insert'] = 1;
+						}	
+					}
+				}else{
+					$this->_aErrors['unit-use'] = 1;
 				}
 			}
 						
@@ -225,7 +229,24 @@ class travels_MainController extends My_Controller_Action
 				$aOperadores	 = $cOperadores->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->_dataUser['ID_EMPRESA']);
 				$sTipoViaje		 = $this->_dataIn['inputTviaje'];
 				$sRuta			 = $this->_dataIn['inputRuta'];					
-			}				
+			}
+			
+			if(count($this->_aErrors)>0){
+				$this->_dataIn = $aNamespace->dataGral;
+				
+				$aClients     	 = new My_Model_Clientes();
+				$cboValues       = $aClients->getCbo($this->_dataIn['inputSucursal'],$this->_dataUser['ID_EMPRESA']);
+				$aClientes       = $functions->selectDb($cboValues,$this->_dataIn['inputCliente']);
+	
+				$cOperadores  	 = new My_Model_Operadores();
+				$IdTransportistas= $cOperadores->getData($this->_dataIn['inputOperadores']);	
+				
+				$cUnidades		 = new My_Model_Unidades();
+				$aUnidades		 = $cUnidades->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->_dataUser['ID_EMPRESA']);			
+				$aOperadores	 = $cOperadores->getCbo($IdTransportistas['ID_TRANSPORTISTA'],$this->_dataUser['ID_EMPRESA']);
+				$sTipoViaje		 = $this->_dataIn['inputTviaje'];
+				$sRuta			 = $this->_dataIn['inputRuta'];						
+			}
 			
 			$this->view->clientes 	= $aClientes; 
 			$this->view->idTransportista = $IdTransportistas['ID_TRANSPORTISTA'];

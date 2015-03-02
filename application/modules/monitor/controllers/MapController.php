@@ -86,6 +86,8 @@ class monitor_MapController extends My_Controller_Action
 		$validateString  = new Zend_Validate_Alnum();		
 		$travels 		 = new My_Model_Viajes();
 		$cFunctions      = new My_Controller_Functions();
+		$aContactos	  	 = Array();
+		$aDataInc		 = Array();
 		if(isset($data['option'])){
 			if($validateNumbers->isValid($data['catId'])  && 
 				$validateString->isValid($data['option'])){
@@ -94,14 +96,14 @@ class monitor_MapController extends My_Controller_Action
 					$data['userRegister']	= $this->view->dataUser['ID_USUARIO'];
 					$insert  = $travels->setIncidencia($data);
 					if($insert){
+						
 						$cIndicencias = new My_Model_Incidencias();
-						$aDataInc	  = $cIndicencias->getData($data['catId']);
+						$aDataInc	  = $cIndicencias->getData($data['inputIncidencia']);
 						if($aDataInc['PRIORIDAD']==1){
-							$classObject = new My_Model_Viajes();
-							$infoData   = $classObject->getData($data['catId']);							
+							$infoData   = $travels->getData($data['catId']);							
 							
 							$cContactos	  = new My_Model_Contactos();
-							$aContactos   = $cContactos->getContactsBy('inc',$idUpdated);							
+							$aContactos   = $cContactos->getContactsBy('inc',$data['catId']);							
 							$cFunctions->sendNotifications(1,$aContactos,$infoData['CLAVE']);							
 						}
 						
