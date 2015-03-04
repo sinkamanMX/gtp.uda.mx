@@ -342,6 +342,7 @@ class My_Model_Viajes extends My_Db_Table
     }    
 
     public function getReportViajes($aDataFilter){
+    	
 		$result= Array();
 		$this->query("SET NAMES utf8",false);
 		
@@ -351,14 +352,30 @@ class My_Model_Viajes extends My_Db_Table
 		}elseif($aDataFilter['idPerfil'] == 3){
 			$sFilter = ' V.ID_USUARIO_ASIGNADO  ='.$aDataFilter['idUsuario'].' AND ';		
 		}
-		 
+		
+		if($aDataFilter['inputUserAssign']!=""){			
+			$sFilter .= ' V.ID_USUARIO_ASIGNADO  ='.$aDataFilter['inputUserAssign'].' AND';
+		}			
+		
+    	if($aDataFilter['inputCliente']!=""){
+			$sFilter .=  ' U.ID_EMPRESA  ='.$aDataFilter['inputCliente'].' AND';	
+		}
+
+    	if($aDataFilter['inputStatus']!=""){
+			$sFilter .= ' V.ID_ESTATUS  ='.$aDataFilter['inputStatus'].' AND';	
+		}
+			 
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
     			O.NOMBRE, T.DESCRIPCION AS TRANSPORTISTA
 				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
+				, CONCAT(A.NOMBRE,' ' , A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA
 				FROM GTP_VIAJES V
 				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
-				LEFT JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
-				LEFT JOIN GTP_UNIDADES U ON V.ID_UNIDAD = U.ID_UNIDAD
+				INNER JOIN USUARIOS   A ON V.ID_USUARIO_ASIGNADO = A.ID_USUARIO
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD  = U.ID_UNIDAD
+				INNER JOIN EMPRESAS     E ON U.ID_EMPRESA = E.ID_EMPRESA
+				INNER JOIN RUTAS        R ON V.ID_RUTA    = R.ID_RUTA
 				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
 				LEFT JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
 				LEFT JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
@@ -560,6 +577,20 @@ class My_Model_Viajes extends My_Db_Table
         
 		return $result;    		
     }
+    
+	public function getCboStatus(){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT ID_ESTATUS AS ID, DESCRIPCION AS NAME
+				FROM GTP_ESTATUS_VIAJE
+				ORDER BY DESCRIPCION ASC";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}
+        
+		return $result;			
+	}       
     
 /*
     public function getDataComplete($idObject){

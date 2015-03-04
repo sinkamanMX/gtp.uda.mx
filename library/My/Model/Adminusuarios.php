@@ -151,10 +151,22 @@ class My_Model_Adminusuarios extends My_Db_Table
 			$result = $query;
 		}
         
-		return $result;		    	
-    	
-
-
-
+		return $result;		    	    
     }
+    
+	public function getCboUsers(){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT U.ID_USUARIO AS ID, CONCAT(U.NOMBRE,' ',U.APELLIDOS) AS NAME
+				FROM $this->_name U 
+				INNER JOIN PERFILES P ON U.ID_PERFIL = P.ID_PERFIL  
+				WHERE P.ID_PERFIL != 2
+				GROUP BY $this->_primary";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;
+		}
+        
+		return $result;			
+	}      
 }

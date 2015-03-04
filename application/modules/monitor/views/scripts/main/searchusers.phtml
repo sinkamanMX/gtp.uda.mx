@@ -17,8 +17,12 @@
                             <td><?php echo $items['NOMBRE']; ?></td>
                             <td><?php echo $items['NAME_PERFIL']; ?></td>
                             <td><?php echo $items['TOTAL']; ?></td>
-                            <td class="text-center">                                
-                                <a href="javascript:parent.assignValue(<?php echo $items['ID'];?>)">
+                            <td class="text-center"> 
+                                <?php if($this->aModeAssign=='assign'):?>
+                                    <a href="javascript:parent.assignValue(<?php echo $items['ID'];?>)">
+                                <?php else:?>
+                                    <a href="javascript:parent.re_assignValue(<?php echo $items['ID'];?>)">
+                                <?php endif;?>
                                     <button class="btn-primary"> <i class=" icon-circle-arrow-down icon-white"></i></button>
                                     </button>
                                 </a>

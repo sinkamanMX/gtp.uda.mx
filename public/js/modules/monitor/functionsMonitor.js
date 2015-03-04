@@ -31,7 +31,12 @@ $( document ).ready(function() {
     $('#iFrameSearch').on('load', function () {        
         $('#loader1').hide();
         $('#iFrameSearch').show();
-    }); 	
+    }); 
+
+    $('#iFrameReasign').on('load', function () {        
+        $('#loadeReasign').hide();
+        $('#iFrameReasign').show();
+    });         	
 });	
 
 function editTravel(dataTavel){
@@ -45,8 +50,38 @@ function openSearch(idTravelAssign){
 	$("#idTravel").val(idTravelAssign);
     $('#loader1').show();
     $('#iFrameSearch').hide();    
-    $('#iFrameSearch').attr('src','/monitor/main/searchusers');
+    $('#iFrameSearch').attr('src','/monitor/main/searchusers?mode=assign');
     $("#MyModalSearch").modal("show");
+}
+
+function openSearchReasign(idTravelAssign){
+    $("#idTravelReassign").val(idTravelAssign);
+    $('#loadeReasign').show();
+    $('#iFrameReasign').hide().attr('src','/monitor/main/searchusers?mode=reasign');
+    $("#MyModalReassign").modal("show");
+}
+
+function re_assignValue(idValue){
+    $("#MyModalReassign").modal("hide");
+    var catId = $("#idTravelReassign").val();
+    $.ajax({
+        url: "/monitor/main/assigntravel",
+        type: "GET",
+        dataType : 'json',
+        data: { catId : catId ,
+                userId: idValue,
+                optReg: 'reassignMonitor'},
+        success: function(data) {
+            var result = data.answer; 
+            if(result=='ok'){
+                $("#tittleMessage").html('Viaje Asignado');
+                $("#divMessage").html('El viaje #'+catId+" ha sido Re-asignado para monitorearlo.");                                
+                location.reload();
+            }else{
+              alert("Ocurrio un error al asignar el viaje.");
+            }
+        }
+    });
 }
 
 function assignValue(idValue){
@@ -62,6 +97,8 @@ function assignValue(idValue){
         success: function(data) {
             var result = data.answer; 
             if(result=='ok'){
+                $("#tittleMessage").html('Viaje Asignado');
+                $("#divMessage").html('El viaje #'+catId+" ha sido asignado para monitorearlo.");                
             	location.reload();
             }else{
               alert("Ocurrio un error al asignar el viaje.");

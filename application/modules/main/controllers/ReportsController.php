@@ -33,24 +33,54 @@ class main_reportsController extends My_Controller_Action
     }
     
     public function indexAction(){
-    	$aDataTable  = Array();
-    	$aDataSearch = Array();
-		$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
-		$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
-		$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
-		$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
-		$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    	
-		$viajes 	 = new My_Model_Viajes();
-		
-		if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){				
-			$aDataSearch['fecIncio'] 	= $this->dataIn['inputFechaIn'];
-			$aDataSearch['fecFin'] 		= $this->dataIn['inputFechaFin'];	
-		}
-		
-		$aDataTable  = $viajes->getReportViajes($aDataSearch);
-		
-		$this->view->datatTable = $aDataTable;
-		$this->view->data		= $this->dataIn;
+		try{   	
+	    	$aDataTable  = Array();
+	    	$aDataSearch['fecFin'] = Array();
+			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
+			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
+			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    
+			$aDataSearch['inputUserAssign'] = '';
+			$aDataSearch['inputCliente'] 	= '';	
+			$aDataSearch['inputStatus'] 	= '';
+			
+			$viajes 	 = new My_Model_Viajes();
+			$cFunctions  = new My_Controller_Functions();
+			$cUsuarios	 = new My_Model_Adminusuarios();
+			$cEmpresas   = new My_Model_Empresas();
+			
+			$aUsuarios	 = $cUsuarios->getCboUsers();
+			$aStatus     = $viajes->getCboStatus();	
+			$aEmpresas   = $cEmpresas->getCbo();
+			$sStatus     = '';
+			$sUsuario    = '';
+			$sCliente	 = '';
+			$sEmpresa	 = '';
+			
+			if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){	
+				$aDataSearch['inputUserAssign'] = $this->dataIn['inputUserAssign'];
+				$aDataSearch['inputCliente'] 	= $this->dataIn['inputCliente'];
+				$aDataSearch['fecIncio'] 		= $this->dataIn['inputFechaIn'];
+				$aDataSearch['fecFin'] 			= $this->dataIn['inputFechaFin'];
+				$aDataSearch['inputStatus'] 	= $this->dataIn['inputStatus'];	
+				
+				$sStatus 	= $this->dataIn['inputStatus'];
+				$sUsuario   = $this->dataIn['inputUserAssign'];
+				$sEmpresa	= $this->dataIn['inputCliente'];
+			}
+			
+			$aDataTable  = $viajes->getReportViajes($aDataSearch);
+			
+			$this->view->datatTable = $aDataTable;
+			$this->view->data		= $this->dataIn;
+			$this->view->aStatus 	= $cFunctions->selectDb($aStatus,$sStatus);
+			$this->view->aUsuarios 	= $cFunctions->selectDb($aUsuarios,$sUsuario);
+			$this->view->aEmpresas 	= $cFunctions->selectDb($aEmpresas,$sEmpresa);
+    	} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        } 			
     }
     
     public function exportdatatravelAction(){
