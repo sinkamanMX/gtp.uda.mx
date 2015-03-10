@@ -45,7 +45,7 @@ class My_Controller_Functions
             'port'     => '465','auth' => 'login',
 			'urlSmtp'  => 'smtp.gmail.com',
 			'username' => 'tienda.ricom@gmail.com',			
-		    'password' => '7ienD4r1c0M.mX');    
+		    'password' => 'ectskozgoxilqvin');    
 	    
     public function dateToText($fecha_db){
     	$fecha=explode("-",$fecha_db);

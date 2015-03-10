@@ -256,8 +256,8 @@ class My_Model_Viajes extends My_Db_Table
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
-    			O.NOMBRE, T.DESCRIPCION AS TRANSPORTISTA
-				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS, V.DESCRIPCION AS NDESC, E.DESCRIPCION AS DESC_E
+    			CONCAT(O.NOMBRE,' ',O.APELLIDOS) AS CONDUCTOR, T.DESCRIPCION AS TRANSPORTISTA
+				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS, V.DESCRIPCION AS NDESC, E.DESCRIPCION AS DESC_E, R.DESCRIPCION AS N_RUTA
 				FROM GTP_VIAJES V
 				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
 				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
@@ -265,7 +265,8 @@ class My_Model_Viajes extends My_Db_Table
 				INNER JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
 				INNER JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
 				INNER JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
-				INNER JOIN GTP_ESTATUS_VIAJE E ON V.ID_ESTATUS = E.ID_ESTATUS				
+				INNER JOIN GTP_ESTATUS_VIAJE E ON V.ID_ESTATUS = E.ID_ESTATUS
+				INNER JOIN RUTAS	 R ON V.ID_RUTA = R.ID_RUTA		
 				WHERE V.ID_VIAJE = $idObject LIMIT 1";
 		$query   = $this->query($sql);
 		if(count($query)>0){
@@ -347,28 +348,28 @@ class My_Model_Viajes extends My_Db_Table
 		$this->query("SET NAMES utf8",false);
 		
 		$sFilter = '';
-		if($aDataFilter['idPerfil'] == 2){
+		if(isset($aDataFilter['idPerfil']) && $aDataFilter['idPerfil'] == 2){
 			$sFilter = ' S.ID_EMPRESA ='.$aDataFilter['idEmpresa'].' AND ';			
 		}elseif($aDataFilter['idPerfil'] == 3){
 			$sFilter = ' V.ID_USUARIO_ASIGNADO  ='.$aDataFilter['idUsuario'].' AND ';		
 		}
 		
-		if($aDataFilter['inputUserAssign']!=""){			
+		if(isset($aDataFilter['inputUserAssign']) && $aDataFilter['inputUserAssign']!=""){			
 			$sFilter .= ' V.ID_USUARIO_ASIGNADO  ='.$aDataFilter['inputUserAssign'].' AND';
 		}			
 		
-    	if($aDataFilter['inputCliente']!=""){
+    	if(isset($aDataFilter['inputCliente']) && $aDataFilter['inputCliente']!=""){
 			$sFilter .=  ' U.ID_EMPRESA  ='.$aDataFilter['inputCliente'].' AND';	
 		}
 
-    	if($aDataFilter['inputStatus']!=""){
+    	if(isset($aDataFilter['inputStatus']) &&  $aDataFilter['inputStatus']!=""){
 			$sFilter .= ' V.ID_ESTATUS  ='.$aDataFilter['inputStatus'].' AND';	
 		}
 			 
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
-    			O.NOMBRE, T.DESCRIPCION AS TRANSPORTISTA
+    			CONCAT(O.NOMBRE,'',A.APELLIDOS) AS N_OPERADOR , T.DESCRIPCION AS TRANSPORTISTA
 				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
-				, CONCAT(A.NOMBRE,' ' , A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA
+				, CONCAT(A.NOMBRE,' ',A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA
 				FROM GTP_VIAJES V
 				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
 				INNER JOIN USUARIOS   A ON V.ID_USUARIO_ASIGNADO = A.ID_USUARIO
@@ -578,11 +579,13 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;    		
     }
     
-	public function getCboStatus(){
+	public function getCboStatus($iStatus=-1){
 		$result= Array();
+		$filter = ($iStatus==-1) ? '' : ' WHERE ID_ESTATUS NOT IN ('.$iStatus.') ';
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT ID_ESTATUS AS ID, DESCRIPCION AS NAME
 				FROM GTP_ESTATUS_VIAJE
+				$filter
 				ORDER BY DESCRIPCION ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  

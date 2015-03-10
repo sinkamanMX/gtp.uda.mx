@@ -39,8 +39,8 @@ class main_reportsController extends My_Controller_Action
 			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
 			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
-			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
-			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    
+			$aDataSearch['fecIncio'] 	= date("Y-m-d ")."00:00:00";
+			$aDataSearch['fecFin'] 		= date("Y-m-d ")."23:59:59";    
 			$aDataSearch['inputUserAssign'] = '';
 			$aDataSearch['inputCliente'] 	= '';	
 			$aDataSearch['inputStatus'] 	= '';
@@ -51,7 +51,13 @@ class main_reportsController extends My_Controller_Action
 			$cEmpresas   = new My_Model_Empresas();
 			
 			$aUsuarios	 = $cUsuarios->getCboUsers();
-			$aStatus     = $viajes->getCboStatus();	
+			
+			if($this->view->dataUser['ID_PERFIL']==2){
+				$aStatus     = $viajes->getCboStatus('1,3,5');
+			}else{
+				$aStatus     = $viajes->getCboStatus();	
+			}
+				
 			$aEmpresas   = $cEmpresas->getCbo();
 			$sStatus     = '';
 			$sUsuario    = '';
@@ -69,6 +75,9 @@ class main_reportsController extends My_Controller_Action
 				$sUsuario   = $this->dataIn['inputUserAssign'];
 				$sEmpresa	= $this->dataIn['inputCliente'];
 			}
+			
+			$this->dataIn['inputFechaIn'] = $aDataSearch['fecIncio'];
+			$this->dataIn['inputFechaFin'] = $aDataSearch['fecFin'];
 			
 			$aDataTable  = $viajes->getReportViajes($aDataSearch);
 			
@@ -163,68 +172,74 @@ class main_reportsController extends My_Controller_Action
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', 'Unidad');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', $dataInfo['ECONOMICO']);
-								
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', 'Descripcion');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', $dataInfo['NDESC']); 
-					$objPHPExcel->getActiveSheet()->mergeCells('B6:D6');	
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A6', 'Ruta');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B6', $dataInfo['N_RUTA']);
 					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', 'Fecha Inicio');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B7', $dataInfo['INICIO']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C6', 'Eco');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D6', $dataInfo['ECONOMICO']);	
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A7', html_entity_decode('Descripci&oacute;n'));
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B7', $dataInfo['NDESC']); 
+					$objPHPExcel->getActiveSheet()->mergeCells('B7:D7');	
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Fecha Inicio');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['INICIO']);
 					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C7', 'Fecha Fin');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D7', $dataInfo['FIN']);			
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', 'Fecha Fin');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['FIN']);						
 					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Sucursal');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['SUCURSAL']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', 'Sucursal');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', $dataInfo['SUCURSAL']);
 					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', 'Cliente');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['CLIENTE']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C9', 'Cliente');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D9', $dataInfo['CLIENTE']);
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A10', 'Transportista');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B10', $dataInfo['TRANSPORTISTA']);
+					
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C10', 'Operador');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D10', $dataInfo['CONDUCTOR']);						
+							
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A11', 'Estatus');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B11', $dataInfo['DESC_E']);
 		
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A8', 'Transportista');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B8', $dataInfo['TRANSPORTISTA']);
-					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C8', 'Operador');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D8', $dataInfo['NOMBRE']);	
-		
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A9', 'Estatus');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', $dataInfo['DESC_E']);
-		
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C9', 'Total incidencias');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D9', $dataInfo['INCIDENCIAS']);	
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C11', 'Total incidencias');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D11', $dataInfo['INCIDENCIAS']);	
 		
 					/**
 					 * Detalle del Viaje
 					 * */
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A11', 'Fecha GPS');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B11', 'Latitud');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C11', 'Longitud');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D11', 'Velocidad');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E11', 'Angulo');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F11', 'Tipo');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G11', 'Ubicaci—n');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H11', 'Incidencia');
-					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A11:H11');
-					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A11:H11")->getFont()->setSize(12);
-					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A11:H11")->getFont()->setBold(true);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A13', 'Fecha GPS');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('B13', 'Latitud');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C13', 'Longitud');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D13', 'Velocidad');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E13', 'Angulo');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F13', 'Tipo');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G13', 'Incidencia');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H13', html_entity_decode('Ubicaci&oacute;n'));					
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A13:H13');
+					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:H13")->getFont()->setSize(12);
+					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:H13")->getFont()->setBold(true);
 					
-					$rowControlHist=12;
+					$rowControlHist=14;
 					$zebraControl=0;				
 					foreach($aRecorrido as $reporte){
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0,  ($rowControlHist), $reporte['FECHA']);
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1,  ($rowControlHist), $reporte['LATITUD']);
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2,  ($rowControlHist), $reporte['LONGITUD']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3,  ($rowControlHist), $reporte['VELOCIDAD']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3,  ($rowControlHist), round($reporte['VELOCIDAD'],2)." km/h.");
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4,  ($rowControlHist), $reporte['ANGULO']);
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5,  ($rowControlHist), $reporte['MODO']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['UBICACION']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['INCIDENCIA']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['INCIDENCIA']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['UBICACION']);						;
 
 						if($zebraControl++%2==1){
 							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':H'.$rowControlHist);			
 						}				
 						$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':C'.$rowControlHist)
 								->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);				
-						$objPHPExcel->getActiveSheet()->getStyle('H'.$rowControlHist)
+						$objPHPExcel->getActiveSheet()->getStyle('G'.$rowControlHist)
 								->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);									
 						$rowControlHist++;
 					}	
@@ -239,7 +254,7 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
 		
 					$objPHPExcel->setActiveSheetIndex(0);
-					$filename  = "Viaje_".$dataInfo['ID_VIAJE']."_".date("His_Ymd").".xlsx";
+					$filename  = "Viaje_".$dataInfo['ID_VIAJE']."_".date("Y_m_d").".xlsx";
 					header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 					header('Content-Disposition: attachment;filename="'.$filename.'"');
 					header('Cache-Control: max-age=0');			
@@ -342,10 +357,19 @@ class main_reportsController extends My_Controller_Action
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', 'Operador');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', 'Fecha Inicio');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', 'Fecha Fin');
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Incidencias');
-				$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:H5');
-				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:H5")->getFont()->setSize(12);
-				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:H5")->getFont()->setBold(true);
+				if($this->view->dataUser['ID_PERFIL']==2){
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Estatus');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', 'Incidencias');
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:I5');
+				}else{
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Monitorista');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', 'Estatus');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', 'Incidencias');
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:J5');	
+				}				
+				
+				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:J5")->getFont()->setSize(12);
+				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:J5")->getFont()->setBold(true);
 
 				$rowControlHist=6;
 				$zebraControl=0;				
@@ -354,13 +378,26 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1,  ($rowControlHist), $reporte['CLIENTE']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(2,  ($rowControlHist), $reporte['TRANSPORTISTA']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3,  ($rowControlHist), $reporte['ECONOMICO']);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4,  ($rowControlHist), $reporte['NOMBRE']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4,  ($rowControlHist), $reporte['N_OPERADOR']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5,  ($rowControlHist), $reporte['INICIO']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['FIN']);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['INCIDENCIAS']);
+					
+					if($this->view->dataUser['ID_PERFIL']==2){						
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['DES_STATUS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8,  ($rowControlHist), $reporte['INCIDENCIAS']);
+					}else{
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['MONITOR']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8,  ($rowControlHist), $reporte['DES_STATUS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9,  ($rowControlHist), $reporte['INCIDENCIAS']);
+					}
 	
 					if($zebraControl++%2==1){
-						$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':H'.$rowControlHist);			
+						if($this->view->dataUser['ID_PERFIL']==2){	
+							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':I'.$rowControlHist);	
+						}else{
+							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':J'.$rowControlHist);
+						}
+									
 					}				
 					$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':C'.$rowControlHist)
 							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);				
@@ -377,8 +414,10 @@ class main_reportsController extends My_Controller_Action
 				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
 				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
 				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
 								
-				$filename  = "Viajes_".date("HisYmd").".xlsx";
+				$filename  = "Viajes_".date("Y_m_d").".xlsx";
 				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 				header('Content-Disposition: attachment;filename="'.$filename.'"');
 				header('Cache-Control: max-age=0');							
