@@ -52,7 +52,8 @@ $( document ).ready(function() {
           inputUnidades     : "required",
           inputOperadores   : "required",
           inputRuta         : "required",
-          inputTviaje       : "required"
+          inputTviaje       : "required",
+          inputMedioContacto: "required"
         },
         messages: {
             inputNoTravel   : "Campo Requerido",
@@ -65,7 +66,8 @@ $( document ).ready(function() {
             inputFechaIn    : "Campo Requerido",
             inputFechaFin   : "Campo Requerido",
             inputRuta       : "Campo Requerido",
-            inputTviaje     : "Campo Requerido"    
+            inputTviaje     : "Campo Requerido",
+          inputMedioContacto: "Campo Requerido" 
         },
         
         submitHandler: function(form) {            

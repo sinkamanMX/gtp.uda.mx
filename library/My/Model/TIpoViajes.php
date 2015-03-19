@@ -91,7 +91,7 @@ class My_Model_TipoViajes extends My_Db_Table
         			DESCRIPCION 	= '".$aData['inputDescripcion']."',
         			PRIORIDAD		=  ".$aData['inputPrioridad'].",
         			ESTATUS			=  ".$aData['inputStatus'].",
-        			FRECUENCIA_RASTREO=  ".$aData['inputFrecuencia'].", 
+        			FRECUENCIA_RASTREO=  ".$aData['inputFrecuencia']."
 				WHERE $this->_primary   = ".$idObject;
         try{            
     		$query   = $this->query($sql,false);

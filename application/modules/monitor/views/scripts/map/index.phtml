@@ -41,9 +41,13 @@
                         <tr><td><b>Transportista</b></td>
                             <td><?php echo $this->data['N_TRANS'];?></td></tr>
                         <tr><td><b>Unidad</b></td>
-                            <td><?php echo $this->data['ECONOMICO'];?></td></tr>                           
+                            <td><?php echo $this->data['PLACAS'];?></td></tr>
+                        <tr><td><b>Eco</b></td>
+                            <td><?php echo $this->data['ECONOMICO'];?></td></tr>                                                       
                         <tr><td><b>Operador</b></td>
                             <td><?php echo $this->data['N_OPERADOR'];?></td></tr>
+                        <tr><td><b>Medio de Contacto</b></td>
+                            <td><?php echo $this->data['MEDIO_CONTACTO'];?></td></tr>
                     </table>                    
                 </div>             
             </div>
@@ -58,7 +62,7 @@
                     <?php if($this->data['ID_ESTATUS']==2) :?>
                         <button class="btn btn-danger"  onClick="cancelTravel(<?php echo $this->data['ID_VIAJE'];?>)"><i class="icon-stop icon-white"></i>  Terminar Viaje </button>
                         <button class="btn btn-primary" onClick="setPositionManual(<?php echo $this->data['ID_VIAJE'];?>)"><i class="icon-globe icon-white"></i>  Agregar Pocisión</button>
-                        <button class="btn btn-warning" onClick="setIncidencia(<?php echo $this->data['ID_VIAJE'];?>)"><i class="icon-warning-sign icon-white"></i>   Agregar Incidencia</button>
+                        <!--<button class="btn btn-warning" onClick="setIncidencia(<?php echo $this->data['ID_VIAJE'];?>)"><i class="icon-warning-sign icon-white"></i>   Agregar Incidencia</button>-->
                     <?php elseif($this->data['ID_ESTATUS']==1) :?>
                         <button class="btn btn-success"  onClick="startStopTravel(<?php echo $this->data['ID_VIAJE'];?>,'start')"><i class="icon-play icon-white"></i>  Iniciar Viaje </button>
                     <?php endif;?>                    

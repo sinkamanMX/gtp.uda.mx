@@ -116,22 +116,20 @@
 						</div>						
 					</div>					
 
-
-					<div class="span12">
-						<div class="control-group">
-							<label class="control-label">Transportistas<span class="required">*</span></label>
-							<div class="controls">
-								<select class="span4 m-wrap" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
-									<option value="">Seleccionar una opción</option>
-			                        <?php foreach ($this->transportistas as $key => $item): ?>
-			                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->idTransportista) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
-			                        <?php endforeach; ?>
-								</select>
-							</div>
-						</div>	
-					</div>
-
 					<div class="">
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label">Transportistas<span class="required">*</span></label>
+								<div class="controls">
+									<select class="span4 m-wrap" name="inputTransportista"  id="inputTransportista"  onChange="getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >
+										<option value="">Seleccionar una opción</option>
+				                        <?php foreach ($this->transportistas as $key => $item): ?>
+				                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->idTransportista) ? 'selected':'';?> value="<?php echo $item['ID_TRANSPORTISTA']?>"><?php echo $item['DESCRIPCION']?></option>
+				                        <?php endforeach; ?>
+									</select>
+								</div>
+							</div>	
+						</div>	
 						<div class="span6">
 							<div class="control-group">
 								<label class="control-label">Unidad<span class="required">*</span></label>
@@ -146,24 +144,35 @@
 									</div>
 								</div>
 							</div>						
-						</div>			
+						</div>							
+					</div>
+
+					<div class="">		
 						<div class="span6">
 							<div class="control-group">
-							<label class="control-label">Operador<span class="required">*</span></label>
-							<div class="controls">
-								<div id="divOperadores">
-									<select class="span4 m-wrap"  name="inputOperadores" id="inputOperadores"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?>  >
-										<option value="">Seleccionar una opción</option>
-				                        <?php foreach ($this->operadores as $key => $item): ?>
-				                            <option <?php echo ($item['ID'] == @$this->data['ID_OPERADOR']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
-				                        <?php endforeach; ?>
-									</select>
+								<label class="control-label">Operador<span class="required">*</span></label>
+								<div class="controls">
+									<div id="divOperadores">
+										<select class="span4 m-wrap"  name="inputOperadores" id="inputOperadores"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?>  >
+											<option value="">Seleccionar una opción</option>
+					                        <?php foreach ($this->operadores as $key => $item): ?>
+					                            <option <?php echo ($item['ID'] == @$this->data['ID_OPERADOR']) ? 'selected':'';?> value="<?php echo $item['ID']?>"><?php echo $item['NAME']?></option>
+					                        <?php endforeach; ?>
+										</select>
+									</div>
 								</div>
-							</div>
 							</div>			
-						</div>			
+						</div>	
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label">Medio Contacto<span class="required">*</span></label>
+								<div class="controls">
+									<input type="text" name="inputMedioContacto" data-required="1" class=" m-wrap" value="<?php echo (@$this->data['MEDIO_CONTACTO']); ?>" placeholder="Ej: tel:123456789">
+								</div>
+							</div>						
+						</div>									
 					</div>
-					<div class="span12">
+					<div class="">
 				    	<div class="col-xs-4 col-md-5">
 							<div class="pull-right">			
 								<button type="submit" class="btn btn-primary bg-btn-send">Guardar Cambios</button>

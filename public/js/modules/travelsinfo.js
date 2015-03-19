@@ -8,13 +8,12 @@ var map = null;
 
 $( document ).ready(function() {
   /*$(".chosen-select").chosen({disable_search_threshold: 10});*/
-  $('#tabs').tab();
-  $('#TabsRecorrido').tab();
-
+    $('#tabs').tab();
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         var currentTab = $(e.target).text(); // get current tab
-        var LastTab = $(e.relatedTarget).text(); // get last tab        
+        var LastTab = $(e.relatedTarget).text(); // get last tab 
+        console.log(currentTab);
         if(currentTab=='Mapa'){
           initMapa()
           google.maps.event.trigger(map, 'resize');
@@ -98,7 +97,8 @@ $( document ).ready(function() {
           inputCliente:     "required",
           inputTransportista: "required",
           inputUnidades:    "required",
-          inputOperadores:  "required"
+          inputOperadores:  "required",
+          inputMedioContacto: "required"
         },
         messages: {
             inputNoTravel:    "Campo Requerido",
@@ -110,6 +110,7 @@ $( document ).ready(function() {
             inputOperadores:  "Debe de seleccionar una opción",  
             inputFechaIn: "Campo Requerido",
             inputFechaFin: "Campo Requerido",
+            inputMedioContacto: "Campo Requerido" 
         },
         
         submitHandler: function(form) {
