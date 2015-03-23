@@ -105,7 +105,7 @@ class main_reportsController extends My_Controller_Action
 						
 			if($validateNumbers->isValid(@$this->dataIn['travelID'])){
 				$dataInfo    = $classObject->getDataExport($this->dataIn['travelID']);						
-				$aRecorrido  = $classObject->getRecorrido($this->dataIn['travelID']);				
+				$aRecorrido  = $classObject->getRecorrido($this->dataIn['travelID'],true);				
 
 				$nameClient = $this->view->dataUser['N_EMPRESA']; 
 				$dateCreate = date("d-m-Y H:i");

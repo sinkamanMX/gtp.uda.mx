@@ -236,15 +236,16 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	    	
     }
     
-    public function getRecorrido($idObject){
+    public function getRecorrido($idObject,$orderAsc=true){
 		$result= Array();
+		$sFilter = ($orderAsc) ? 'ASC': 'DESC';
 		$this->query("SET NAMES utf8",false); 
     	$sql ="SELECT DT.`LATITUD`,DT.`LONGITUD`,DT.`FECHA`,DT.`UBICACION`,DT.`VELOCIDAD`,DT.`ANGULO`,DT.`MODO`, DT.CREADO, IF(C.DESCRIPCION IS NULL, '--',C.DESCRIPCION) AS INCIDENCIA
 				  FROM GTP_DETALLE_VIAJE DT
 				  LEFT JOIN GTP_INCIDENCIAS_VIAJE I ON DT.`ID_DETALLE` = I.`ID_HISTORICO`
 				  LEFT JOIN GTP_INCIDENCIAS      C ON I.`ID_INCIDENCIA` = C.`ID_INCIDENCIA`
 				  WHERE DT.ID_VIAJE = $idObject
-				  ORDER BY DT.ID_DETALLE  DESC";	
+				  ORDER BY DT.ID_DETALLE $sFilter";	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;			

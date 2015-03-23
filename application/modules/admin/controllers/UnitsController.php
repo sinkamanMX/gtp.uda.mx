@@ -137,9 +137,7 @@ class admin_UnitsController extends My_Controller_Action
     			if(count($idTrans)>0 && isset($idTrans['ID_TRANSPORTISTA'])){
 	    			$userUda = $this->view->dataUser['USUARIO_UDA'];
 	    			$passUda = $this->view->dataUser['PASSWORD_UDA'];
-	    			
-					//http://201.131.96.40
-					//http://192.168.6.41
+
 	    		  	//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
 	    		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
 					$aParams 	  = array('sLogin'     => $userUda,
@@ -152,35 +150,45 @@ class admin_UnitsController extends My_Controller_Action
 				
 						$xml = $y['any'];		
 						if($xml2 = simplexml_load_string($xml)){
-							$c = 0;
-							for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
-				          		$sImei    	= (string) $xml2->Response->Plate[$i]['id'];
-				          		$sEconomico = (string) $xml2->Response->Plate[$i]->hst->Alias;
-				          		$sIp 		= (string) $xml2->Response->Plate[$i]->hst->IP;
-				          		
-				          		$validateUnit = $cUnidades->validateUnitByPlaque($sEconomico);
-				          		if(!$validateUnit){
-				          			$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
-				          			$aDataInsertUnit['inputProveedor']     = 1;
-				          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
-				          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
-				          			$aDataInsertUnit['inputIden']  		   = $sImei;
-				          			$aDataInsertUnit['inputStatus']  	   = 1;
-				          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
-				          			
-				          			$insertunit = $cUnidades->insertRow($aDataInsertUnit);
-				          			if(!$insertunit){
-				          				$errors[$c] = $sImei;
-				          			}
-				          		}
-				
-				          		$c = $c+1;
-				        	}
+							$bContinue = true;						
+							if($xml2->Response->Status->code=='101'){
+								$answer = Array('answer' => 'login');
+								$bContinue = false;								
+							}	
+							
+							$c = 0;		
+							if($bContinue){								
+								for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
+					          		$sImei    	= (string) $xml2->Response->Plate[$i]['id'];
+					          		$sEconomico = (string) $xml2->Response->Plate[$i]->hst->Alias;
+					          		$sIp 		= (string) $xml2->Response->Plate[$i]->hst->IP;
+					          		
+					          		$validateUnit = $cUnidades->validateUnitByPlaque($sEconomico);
+					          		if(!$validateUnit){
+					          			$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
+					          			$aDataInsertUnit['inputProveedor']     = 1;
+					          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
+					          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
+					          			$aDataInsertUnit['inputIden']  		   = $sImei;
+					          			$aDataInsertUnit['inputStatus']  	   = 1;
+					          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
+					          			
+					          			$insertunit = $cUnidades->insertRow($aDataInsertUnit);
+					          			if(!$insertunit){
+					          				$errors[$c] = $sImei;
+					          			}
+					          		}
+					
+					          		$c = $c+1;
+					        	}								
+							}
 				        	
 				        	if($c >0){
 				        		$this->resultop = 'okRegister';
-				        	}elseif($c=0){
+				        	}elseif($c=0 && $bContinue){
 				        		$this->errors['no-units'] = 1;
+				        	}else if(!$bContinue){
+				        		$this->errors['login'] = 1;
 				        	}
 						}else{
 							$this->errors['no-info'] = 1;

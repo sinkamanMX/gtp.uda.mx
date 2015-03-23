@@ -103,7 +103,10 @@ $( document ).ready(function() {
               $("#inputVelocidad").val(oPosition.iVelocidad);
               $("#inputDir").val(oPosition.sLocation);
               $("#inputObservaciones").html('Posicion obtenida de grupo UDA');
-              enabledAll()     ;
+              enabledAll();
+            }else if(result=='login'){
+              alert("Existe un problema con el usuario y/o contraseña para conectarse al sistema de Ovision Favor de verificarlo con el supervisor.");
+              enabledAll();
             }else{
               alert("La unidad no tiene pocisión válida");
             }

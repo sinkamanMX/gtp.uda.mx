@@ -352,29 +352,37 @@ class main_MapController extends My_Controller_Action
 				$result=$soap_client->HistoyDataLastLocationByPlate($aParams);
 				
 				if (is_object($result)){
-			       	$x = get_object_vars($result);
+			       	$x = get_object_vars($result); 	
 					$y = get_object_vars($x['HistoyDataLastLocationByPlateResult']);
 					$xml = $y['any'];		
-					if($xml2 = simplexml_load_string($xml)){
-						$c = 0;
-						for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
-							$aDataPosition  = Array();
-							$sFechaServer 	= (string) $xml2->Response->Plate[$i]->hst->DateTimeServer;
-							$sFechaServer 	= str_replace("/", "-", $sFechaServer);
-							$sLocation      =  (string)$xml2->Response->Plate[$i]->hst->Location;							
-							$vowels = array("&", "%", "'", '"' );
-							$sLocation  = str_replace($vowels, " ", $sLocation);
-							
-							$aDataPosition['sFechaServer'] 	= $sFechaServer; 
-							$aDataPosition['fLatitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Latitude;
-							$aDataPosition['fLongitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Longitude;
-							$aDataPosition['iVelocidad']  	= (string)$xml2->Response->Plate[$i]->hst->Speed;
-							$aDataPosition['iAngle']		= (string)$xml2->Response->Plate[$i]->hst->Angle;
-							$aDataPosition['sLocation']		= $sLocation;
-							
-							$answer = Array('answer' => 'ok',
-										   'dataPos' => $aDataPosition);
-			        	}			        	
+					if($xml2 = simplexml_load_string($xml)){						
+						$bContinue = true;						
+						if($xml2->Response->Status->code=='101'){
+							$answer = Array('answer' => 'login');
+							$bContinue = false;								
+						}
+						
+						if($bContinue){
+							$c = 0;
+							for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
+								$aDataPosition  = Array();
+								$sFechaServer 	= (string) $xml2->Response->Plate[$i]->hst->DateTimeServer;
+								$sFechaServer 	= str_replace("/", "-", $sFechaServer);
+								$sLocation      =  (string)$xml2->Response->Plate[$i]->hst->Location;							
+								$vowels = array("&", "%", "'", '"' );
+								$sLocation  = str_replace($vowels, " ", $sLocation);
+								
+								$aDataPosition['sFechaServer'] 	= $sFechaServer; 
+								$aDataPosition['fLatitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Latitude;
+								$aDataPosition['fLongitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Longitude;
+								$aDataPosition['iVelocidad']  	= (string)$xml2->Response->Plate[$i]->hst->Speed;
+								$aDataPosition['iAngle']		= (string)$xml2->Response->Plate[$i]->hst->Angle;
+								$aDataPosition['sLocation']		= $sLocation;
+								
+								$answer = Array('answer' => 'ok',
+											   'dataPos' => $aDataPosition);
+				        	}							
+						}			        	
 					}else{
 						$answer = Array('answer' => 'problem');
 					}
