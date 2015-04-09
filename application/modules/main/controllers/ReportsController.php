@@ -217,10 +217,17 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E13', 'Angulo');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F13', 'Tipo');
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G13', 'Incidencia');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H13', html_entity_decode('Ubicaci&oacute;n'));					
-					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A13:H13');
-					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:H13")->getFont()->setSize(12);
-					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:H13")->getFont()->setBold(true);
+					
+					$slastColumn = 'H';
+					if($this->view->dataUser['ID_PERFIL']==1){
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($slastColumn.'13', 'Comentario Incidencia');
+						$slastColumn= 'I';
+					}
+
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($slastColumn.'13', html_entity_decode('Ubicaci&oacute;n'));					
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A13:'.$slastColumn.'13');
+					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:".$slastColumn."13")->getFont()->setSize(12);
+					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:".$slastColumn."13")->getFont()->setBold(true);						
 					
 					$rowControlHist=14;
 					$zebraControl=0;				
@@ -231,12 +238,21 @@ class main_reportsController extends My_Controller_Action
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3,  ($rowControlHist), round($reporte['VELOCIDAD'],2)." km/h.");
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4,  ($rowControlHist), $reporte['ANGULO']);
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5,  ($rowControlHist), $reporte['MODO']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['INCIDENCIA']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['UBICACION']);						;
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['INCIDENCIA']);						
 
+						$ilastColumn = 7;
+						if($this->view->dataUser['ID_PERFIL']==1){
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($ilastColumn,  ($rowControlHist), $reporte['INC_COMENTARIOS']);
+							$ilastColumn= 8;
+						}					
+						
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($ilastColumn,  ($rowControlHist), $reporte['UBICACION']);
+
+						
 						if($zebraControl++%2==1){
 							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':H'.$rowControlHist);			
-						}				
+						}		
+								
 						$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':C'.$rowControlHist)
 								->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);				
 						$objPHPExcel->getActiveSheet()->getStyle('G'.$rowControlHist)
@@ -252,6 +268,9 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+					if($this->view->dataUser['ID_PERFIL']==1){
+						$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);		
+					}	
 		
 					$objPHPExcel->setActiveSheetIndex(0);
 					$filename  = "Viaje_".$dataInfo['ID_VIAJE']."_".date("Y_m_d").".xlsx";

@@ -403,6 +403,32 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "Searching 4425 files for \"loading.gif\" (regex)\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml:\n   57                  </div>\n   58                  <!--<div class=\"span12 no-margin-left\">\n   59:                     <img class=\"offset5\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n   60                  </div>-->\n   61              </div>\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/index.phtml:\n   59        </div>\n   60        <div class=\"modal-form i-body\">             \n   61:         <img id=\"loader1\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n   62          <iframe class=\"hmodal550\" id=\"iFrameModaltravel\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n   63        </div>\n   ..\n  103        </div>\n  104        <div class=\"modal-body i-body\">\n  105:         <img id=\"loader2\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>             \n  106          <iframe class=\"hmodal280\" id=\"iFrameModalinc\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  107        </div>\n  ...\n  118        </div>\n  119        <div class=\"modal-form i-body\">             \n  120:         <img id=\"loader3\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  121          <iframe class=\"hmodal500\" id=\"iFrameModaManual\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  122        </div>\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml:\n  208        <div class=\"modal-form i-body\">             \n  209          <input type=\"hidden\" id=\"idTravel\" value=\"-1\" />\n  210:         <img id=\"loader1\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  211          <iframe class=\"hmodal500\" id=\"iFrameSearch\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  212        </div>\n  ...\n  224        <div class=\"modal-form i-body\">             \n  225          <input type=\"hidden\" id=\"idTravelReassign\" value=\"-1\" />\n  226:         <img id=\"loadeReasign\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  227          <iframe class=\"hmodal500\" id=\"iFrameReasign\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  228        </div>\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml:\n  177        </div>\n  178        <div class=\"modal-body i-body\">\n  179:         <img id=\"loader2\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  180          <iframe class=\"hmodal280\" id=\"iFrameModalinc\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  181        </div>\n  ...\n  192        </div>\n  193        <div class=\"modal-form i-body\">             \n  194:         <img id=\"loader3\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  195          <iframe class=\"hmodal500\" id=\"iFrameModaManual\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  196        </div>\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml:\n  168            </div>\n  169            <div class=\"modal-form i-body\">             \n  170:             <img id=\"loader1\" class=\"offset4\" src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>\n  171              <iframe class=\"hmodal550\" id=\"iFrameModaltravel\" src=\"\" style=\"zoom:0\" frameborder=\"0\"></iframe>\n  172            </div>\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js:\n    1  function getoptionsCbo(idCboTo,classObject,idObject,chosen){	\n    2: 	$(\"#div\"+idCboTo).html('<img src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>');\n    3      var classChosen = (chosen) ? 'chosen-select': '';\n    4  \n    .\n   29  \n   30  function getStatusExt(){ \n   31:     $(\"#dTravelMonitor\").html('<img src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>');\n   32      $.ajax({\n   33          url: \"/main/main/validatemonitor\",\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/newTravel.js:\n   78  \n   79  function getoptionsCbo(idCboTo,classObject,idObject,chosen){    \n   80:     $(\"#div\"+idCboTo).html('<img src=\"/images/assets/loading.gif\" alt=\"loading gif\"/>');\n   81      var classChosen = (chosen) ? 'chosen-select': '';\n   82  \n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/public/vendors/jquery-validation/demo/ajaxSubmit-integration-demo.html:\n   31  \n   32  		// show a simple loading indicator\n   33: 		var loader = jQuery('<div id=\"loader\"><img src=\"images/loading.gif\" alt=\"loading...\" /></div>')\n   34  			.css({position: \"relative\", top: \"1em\", left: \"25em\", display: \"inline\"})\n   35  			.appendTo(\"body\")\n\n25 matches across 8 files\n",
+			"settings":
+			{
+				"buffer_size": 4718,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "application/modules/main/views/scripts/map/index.phtml",
+			"settings":
+			{
+				"buffer_size": 5284,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/modules/map.js",
+			"settings":
+			{
+				"buffer_size": 11922,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -428,6 +454,12 @@
 	},
 	"file_history":
 	[
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/clients/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travelsinfo.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
@@ -447,15 +479,12 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/routes/validateRoutes.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/migrate.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/branches/validateBranches.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/getinfo.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/reports/repTravelDetail.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/contacts/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/login.phtml",
 		"/Users/itecno2/Downloads/gtp_reg/index.html",
@@ -471,7 +500,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/vendors/bootstrap-toastr/ui-toastr.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/manualpos.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/recover/recoverresq.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateRecoveryPass.js",
@@ -527,8 +555,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/cancelpayment.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/payTravel.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/bootstrap/css/bootstrap.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/clients/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateCarriers.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/carriers/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/carriers/index.phtml",
@@ -563,7 +589,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -576,6 +602,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"loading.gif",
 			"map",
 			"TabsRecorrido",
 			"bControlDraw",
@@ -702,8 +729,7 @@
 			"modal",
 			"display: none",
 			"none",
-			"display",
-			"hidde"
+			"display"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -761,8 +787,202 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"settings":
+					{
+						"buffer_size": 4718,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										316,
+										327
+									],
+									[
+										334,
+										345
+									],
+									[
+										658,
+										669
+									],
+									[
+										676,
+										687
+									],
+									[
+										963,
+										974
+									],
+									[
+										981,
+										992
+									],
+									[
+										1291,
+										1302
+									],
+									[
+										1309,
+										1320
+									],
+									[
+										1753,
+										1764
+									],
+									[
+										1771,
+										1782
+									],
+									[
+										2123,
+										2134
+									],
+									[
+										2141,
+										2152
+									],
+									[
+										2524,
+										2535
+									],
+									[
+										2542,
+										2553
+									],
+									[
+										2839,
+										2850
+									],
+									[
+										2857,
+										2868
+									],
+									[
+										3269,
+										3280
+									],
+									[
+										3287,
+										3298
+									],
+									[
+										3650,
+										3661
+									],
+									[
+										3668,
+										3679
+									],
+									[
+										3865,
+										3876
+									],
+									[
+										3883,
+										3894
+									],
+									[
+										4198,
+										4209
+									],
+									[
+										4216,
+										4227
+									],
+									[
+										4538,
+										4549
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								498,
+								498
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/modules/main/views/scripts/map/index.phtml",
+					"settings":
+					{
+						"buffer_size": 5284,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4437,
+								4343
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/js/modules/map.js",
+					"settings":
+					{
+						"buffer_size": 11922,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								996,
+								858
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 511.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
