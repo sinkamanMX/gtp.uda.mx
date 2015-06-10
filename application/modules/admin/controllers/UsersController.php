@@ -66,7 +66,7 @@ class admin_UsersController extends My_Controller_Action
 			$classObject = new My_Model_Adminusuarios();
 			$cFunctions  = new My_Controller_Functions();
 			$cPerfiles	 = new My_Model_Perfiles();
-			$aPerfiles   = $cPerfiles->getCbo();
+			$aPerfiles   = $cPerfiles->getCbo(true);
 
     		$this->_dataIn['inputEmpresa'] = $this->view->idEmpresa;			
 			if($this->_idUpdate >-1){

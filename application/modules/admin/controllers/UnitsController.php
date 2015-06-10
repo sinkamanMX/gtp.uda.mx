@@ -162,19 +162,27 @@ class admin_UnitsController extends My_Controller_Action
 					          		$sImei    	= (string) $xml2->Response->Plate[$i]['id'];
 					          		$sEconomico = (string) $xml2->Response->Plate[$i]->hst->Alias;
 					          		$sIp 		= (string) $xml2->Response->Plate[$i]->hst->IP;
-					          		
-					          		$validateUnit = $cUnidades->validateUnitByPlaque($sEconomico);
+					          		$sIdent2 	= (string) $xml2->Response->Plate[$i]->hst->Imei;
+					          							          		
+					          		$validateUnit = $cUnidades->validateUnitByImei($sIdent2);
+									$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
+				          			$aDataInsertUnit['inputProveedor']     = 1;
+				          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
+				          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
+				          			$aDataInsertUnit['inputIden']  		   = $sImei;
+				          			$aDataInsertUnit['inputIden2']  	   = $sIdent2;
+				          			$aDataInsertUnit['inputStatus']  	   = 1;
+				          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
+					          								          		
 					          		if(!$validateUnit){
-					          			$aDataInsertUnit['inputTransportista'] = $idTrans['ID_TRANSPORTISTA'];
-					          			$aDataInsertUnit['inputProveedor']     = 1;
-					          			$aDataInsertUnit['inputEco'] 		   = $sEconomico;
-					          			$aDataInsertUnit['inputPlacas']   	   = $sEconomico;
-					          			$aDataInsertUnit['inputIden']  		   = $sImei;
-					          			$aDataInsertUnit['inputStatus']  	   = 1;
-					          			$aDataInsertUnit['idEmpresa'] 		   = $this->view->dataUser['ID_EMPRESA'];
-					          			
 					          			$insertunit = $cUnidades->insertRow($aDataInsertUnit);
 					          			if(!$insertunit){
+					          				$errors[$c] = $sImei;
+					          			}
+					          		}else{
+					          			$dataUnits  = $cUnidades->getDataByPlaque($sEconomico); 
+					          			$updateUnit = $cUnidades->updateRowAuto($aDataInsertUnit,$dataUnits['ID_UNIDAD']);
+					          			if(!$updateUnit){
 					          				$errors[$c] = $sImei;
 					          			}
 					          		}

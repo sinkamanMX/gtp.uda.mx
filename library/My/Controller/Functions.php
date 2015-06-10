@@ -238,7 +238,7 @@ class My_Controller_Functions
 				
 				$mail->setSubject(html_entity_decode($sSubject));
 				$mail->setBodyHtml(html_entity_decode($sBody));
-				$enviado = $mail->send($sTransport);					
+				$enviado = $mail->send($sTransport);							
 			}	
 		}catch(Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";

@@ -50,6 +50,7 @@ class My_Model_Unidades extends My_Db_Table
 					 ECONOMICO 			= '".$data['inputEco']."',
 					 PLACAS				= '".$data['inputPlacas']."',
 					 IDENTIFICADOR		= '".$data['inputIden']."',
+					 IDENTIFICADOR_2	= '".$data['inputIden2']."',
 					 ACTIVO				=  ".$data['inputStatus'].",
 					 ID_EMPRESA			=  ".$data['idEmpresa'].",				 
 					 REGISTRO 			= CURRENT_TIMESTAMP";
@@ -142,17 +143,56 @@ class My_Model_Unidades extends My_Db_Table
 		return $result;			
 	}   	
     
-    public function validateUnitByPlaque($sPlaque){
-		$result= false;
+    public function validateUnitByImei($sImei){
+		$result= Array();
 		$this->query("SET NAMES utf8",false); 
     	$sql ="SELECT  *
                 FROM $this->_name
-                WHERE PLACAS = '$sPlaque' LIMIT 1";	
+                WHERE IDENTIFICADOR_2 = '$sImei' LIMIT 1";	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
-			$result = true;			
+			$result = true;
 		}
         
 		return $result;	    	
     }	
+    
+    public function updateRowAuto($data,$idObject){
+        $result     = Array();
+        $result['status']  = false;
+        
+        $sql="UPDATE $this->_name
+				SET  ECONOMICO 			= '".$data['inputEco']."',
+					 PLACAS				= '".$data['inputPlacas']."',
+					 IDENTIFICADOR		= '".$data['inputIden']."',
+					 IDENTIFICADOR_2	= '".$data['inputIden2']."'			 
+				WHERE ID_UNIDAD = $idObject";
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']	   = $query_id[0]['ID_LAST'];
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    } 
+
+	public function getDataByPlaque($sPlaque){
+		$result= Array();
+		$this->query("SET NAMES utf8",false); 		
+    	$sql ="SELECT *
+				FROM $this->_name 						
+                WHERE PLACAS = '$sPlaque' LIMIT 1";	
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query[0];			
+		}	
+        
+		return $result;			
+	}       
 }

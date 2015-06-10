@@ -100,11 +100,10 @@ class monitor_MapController extends My_Controller_Action
 						$cIndicencias = new My_Model_Incidencias();
 						$aDataInc	  = $cIndicencias->getData($data['inputIncidencia']);
 						if($aDataInc['PRIORIDAD']==1){
-							$infoData   = $travels->getData($data['catId']);							
-							
+							$infoData   = $travels->getData($data['catId']);														
 							$cContactos	  = new My_Model_Contactos();
 							$aContactos   = $cContactos->getContactsBy('inc',$data['catId']);							
-							$cFunctions->sendNotifications(1,$aContactos,$infoData['CLAVE']);							
+							$cFunctions->sendNotifications(1,$aContactos,$infoData['CLAVE']);						
 						}
 						
 						$result =true;
@@ -127,6 +126,7 @@ class monitor_MapController extends My_Controller_Action
 			$validateNumbers = new Zend_Validate_Digits();
 			$validateString  = new Zend_Validate_Alnum();		
 			$travels 		 = new My_Model_Viajes();
+			$cFunctions      = new My_Controller_Functions();
 			
 			if(isset($this->_idUpdate)){
 				$aDataViaje = $travels->getDataComplete($this->_idUpdate);
@@ -144,6 +144,16 @@ class monitor_MapController extends My_Controller_Action
 								$idHistorico 	   = $insert['id'];
 								$insertIncidencia  = $travels->setIncidencia($this->_dataIn,$idHistorico);
 								if($insertIncidencia){
+									
+									$cIndicencias = new My_Model_Incidencias();
+									$aDataInc	  = $cIndicencias->getData($this->_dataIn['inputIncidencia']);
+									
+									if($aDataInc['PRIORIDAD']==1){
+										$cContactos	  = new My_Model_Contactos();
+										$aContactos   = $cContactos->getContactsBy('inc',$this->_dataIn['catId']);							
+										$cFunctions->sendNotifications(1,$aContactos,$aDataViaje['CLAVE']);
+									}									
+									
 									$result =true;
 								}	
 							}else{
