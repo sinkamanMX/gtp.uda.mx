@@ -72,7 +72,8 @@ class My_Model_Usuarios extends My_Db_Table
         $result['status']  = false;
 
         $sql="UPDATE  $this->_name
-				SET  PASSWORD 	=  SHA1('".$datauser['NPASSWORD']."')					 
+				SET  PASSWORD 		=  SHA1('".$datauser['NPASSWORD']."'),
+					 PASSWORD_TEXT	=       '".$datauser['NPASSWORD']."'	 
 					 WHERE $this->_primary =".$datauser['ID_USUARIO']." LIMIT 1";
         try{            
     		$query   = $this->query($sql,false);

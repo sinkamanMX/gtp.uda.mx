@@ -91,7 +91,7 @@
                         <div class="button-excel-export">
                             <?php if(count($this->datatTable)>0): ?>
                                 <div class="btn-group">
-                                    <?php $urlExport = '?option=getReport&inputFechaIn='.@$this->data['inputFechaIn'].'&inputFechaFin='.@$this->data['inputFechaFin']; ?>
+                                    <?php $urlExport = '?option=getReport&inputFechaIn='.@$this->data['inputFechaIn'].'&inputFechaFin='.@$this->data['inputFechaFin'].'&inputStatus='.@$this->data['inputStatus'].'&inputUserAssign='.@$this->data['inputUserAssign'].'&inputCliente='.@$this->data['inputCliente']; ?>
                                     <a target="_blank" href="/main/reports/exportsearch<?php echo $urlExport; ?>"><button class="btn btn-success"> Exportar <i class="icon-file icon-white"></i></button></a>
                                 </div>
                             <?php endif;?>

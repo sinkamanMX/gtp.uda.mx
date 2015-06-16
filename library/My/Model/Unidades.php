@@ -79,6 +79,7 @@ class My_Model_Unidades extends My_Db_Table
 					 ECONOMICO 			= '".$data['inputEco']."',
 					 PLACAS				= '".$data['inputPlacas']."',
 					 IDENTIFICADOR		= '".$data['inputIden']."',
+					 IDENTIFICADOR_2	= '".$data['inputIden2']."',
 					 ACTIVO				=  ".$data['inputStatus']."
 					 WHERE $this->_primary =".$data['catId']." LIMIT 1";
         try{            

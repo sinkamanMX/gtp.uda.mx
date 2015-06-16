@@ -221,10 +221,11 @@ class main_reportsController extends My_Controller_Action
 					$slastColumn = 'H';
 					if($this->view->dataUser['ID_PERFIL']==1){
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($slastColumn.'13', 'Comentario Incidencia');
-						$slastColumn= 'I';
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I13', 'Usuario Comento');
+						$slastColumn= 'J';
 					}
 
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($slastColumn.'13', html_entity_decode('Ubicaci&oacute;n'));					
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($slastColumn.'13', html_entity_decode('Ubicacion'));					
 					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A13:'.$slastColumn.'13');
 					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:".$slastColumn."13")->getFont()->setSize(12);
 					$objPHPExcel->setActiveSheetIndex(0)->getStyle("A13:".$slastColumn."13")->getFont()->setBold(true);						
@@ -243,7 +244,9 @@ class main_reportsController extends My_Controller_Action
 						$ilastColumn = 7;
 						if($this->view->dataUser['ID_PERFIL']==1){
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($ilastColumn,  ($rowControlHist), $reporte['INC_COMENTARIOS']);
-							$ilastColumn= 8;
+							$ilastColumn++;
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($ilastColumn,  ($rowControlHist), $reporte['INC_USER']);
+							$ilastColumn++;
 						}					
 						
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($ilastColumn,  ($rowControlHist), $reporte['UBICACION']);
@@ -268,6 +271,8 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
 					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+					$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
 					if($this->view->dataUser['ID_PERFIL']==1){
 						$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);		
 					}	
@@ -298,12 +303,19 @@ class main_reportsController extends My_Controller_Action
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
 			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
 			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
-			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    	
+			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    
+			$aDataSearch['inputUserAssign'] = '';
+			$aDataSearch['inputCliente'] 	= '';	
+			$aDataSearch['inputStatus'] 	= '';
+			
 			$viajes 	 = new My_Model_Viajes();
 			
 			if(@$this->dataIn['option']=='getReport' && isset($this->dataIn['option'])){				
 				$aDataSearch['fecIncio'] 	= $this->dataIn['inputFechaIn'];
 				$aDataSearch['fecFin'] 		= $this->dataIn['inputFechaFin'];	
+				$aDataSearch['inputUserAssign'] = $this->dataIn['inputUserAssign'];
+				$aDataSearch['inputCliente'] 	= $this->dataIn['inputCliente'];				
+				$aDataSearch['inputStatus'] 	= $this->dataIn['inputStatus'];	
 			}
 			
 			$aDataTable  = $viajes->getReportViajes($aDataSearch);

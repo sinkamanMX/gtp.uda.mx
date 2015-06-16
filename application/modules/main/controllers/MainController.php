@@ -94,17 +94,17 @@ class main_MainController extends My_Controller_Action
 				
 				$validateAlpha	= new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
 				
-				if(!$validateAlpha->isValid($data['inputPassword'])){
+				if(!isset($data['inputPassword']) || $data['inputPassword']==""){
 					$errors['passwordPresent'] = 1;
 				}
 				
-				if(!$validateAlpha->isValid($data['inputNewPass'])){
+				if(!isset($data['inputNewPass']) || $data['inputNewPass']==""){
 					$errors['passwordNew'] = 1;
 				}
-
-				if(!$validateAlpha->isValid($data['inputRepPass'])){
-					$errors['passwordRepeat'] = 1;
-				}			
+				
+				if(!isset($data['inputRepPass']) || $data['inputRepPass']==""){
+					$errors['inputRepPass'] = 1;
+				}
 				
 				if($data['inputNewPass'] != $data['inputRepPass']){
 					$errors['passwordRepeat'] = 1;
@@ -126,7 +126,6 @@ class main_MainController extends My_Controller_Action
 						$errors['noPerm'] = 1;
 					}
 				}
-				
 				$this->view->errors = $errors;				
 				$this->view->data	= $data;
 			}
