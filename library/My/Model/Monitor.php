@@ -64,8 +64,7 @@ class My_Model_Monitor extends My_Db_Table
         
         $sql="UPDATE GTP_VIAJES 
 				SET ID_USUARIO_ASIGNADO = $idUser
-				WHERE ID_VIAJE 		    = $idTravel
-				LIMIT 1";
+				WHERE ID_VIAJE 		    IN ( $idTravel )";
         try{            
     		$query   = $this->query($sql,false);
 			if($query){

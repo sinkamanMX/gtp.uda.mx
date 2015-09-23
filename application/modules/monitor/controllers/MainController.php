@@ -20,7 +20,7 @@ class monitor_mainController extends My_Controller_Action
 			$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
 			$this->view->idEmpresa  = $this->_dataUser['ID_EMPRESA'];		
 			$this->_dataIn			= $this->_request->getParams();
-			$this->validateNumbers = new Zend_Validate_Digits();		
+			$this->validateNumbers = new Zend_Validate_NotEmpty();	
 					
 			if(isset($this->_dataIn['optReg'])){
 				$this->_dataOp	 = $this->_dataIn['optReg'];
@@ -111,7 +111,7 @@ class monitor_mainController extends My_Controller_Action
 							'subjectTo' => ('GTP - Grupo UDA'),
 							'bodyTo' 	=> $bodymail,
 						);
-						$enviar = $cFunctions->sendMailSmtp($aMailer);	        			
+						//$enviar = $cFunctions->sendMailSmtp($aMailer);	        			
 	        			
 	        			$answer = Array('answer' => 'ok');
 	        		}else{

@@ -46,16 +46,16 @@ function editTravel(dataTavel){
     $('#myModalTravel').modal('show');   
 }
 
-function openSearch(idTravelAssign){
-	$("#idTravel").val(idTravelAssign);
+function openSearch(){
+	//$("#idTravel").val(idTravelAssign);
     $('#loader1').show();
     $('#iFrameSearch').hide();    
     $('#iFrameSearch').attr('src','/monitor/main/searchusers?mode=assign');
     $("#MyModalSearch").modal("show");
 }
 
-function openSearchReasign(idTravelAssign){
-    $("#idTravelReassign").val(idTravelAssign);
+function openSearchReasign(){
+    //$("#idTravelReassign").val(idTravelAssign);
     $('#loadeReasign').show();
     $('#iFrameReasign').hide().attr('src','/monitor/main/searchusers?mode=reasign');
     $("#MyModalReassign").modal("show");
@@ -128,4 +128,58 @@ function startStopTravel(idObject,optionValue){
 
 function goToTrackSystem(idTravel){    
     window.open("/main/map/external?catId="+idTravel ,'_blank');
+}
+
+function optionAll(inputCheck){
+    if(inputCheck){
+        $('.chkOn').prop('checked', true);         
+    }else{
+        $('.chkOn').prop('checked', false);
+    }
+}
+
+function validateListCheks(){
+    $("#idTravel").val(-1);
+    var selected = '';    
+    $('#formNews input[type=checkbox]').each(function(){
+        if (this.checked) {
+            selected += (selected=='') ? '': ',';
+            selected += $(this).val();
+        }
+    }); 
+
+    if (selected != ''){
+        $("#idTravel").val(selected);
+        openSearch();
+    }else{
+        alert("Se debe de seleccionar al menos un viaje");
+    }   
+    return false;    
+}
+
+function optionAllRe(inputCheck){
+    if(inputCheck){
+        $('.chkOnre').prop('checked', true);         
+    }else{
+        $('.chkOnre').prop('checked', false);
+    }
+}
+
+function validateListCheksRe(){
+    $("#idTravelReassign").val(-1);
+    var selected = '';    
+    $('#formReas input[type=checkbox]').each(function(){
+        if (this.checked) {
+            selected += (selected=='') ? '': ',';
+            selected += $(this).val();
+        }
+    }); 
+
+    if (selected != ''){
+        $("#idTravelReassign").val(selected);
+        openSearchReasign();
+    }else{
+        alert("Se debe de seleccionar al menos un viaje");
+    }   
+    return false;    
 }

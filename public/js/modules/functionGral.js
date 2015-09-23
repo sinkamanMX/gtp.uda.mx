@@ -41,7 +41,7 @@ function getStatusExt(){
             var iTotalTravels =  0;
             var aTravels     = data.travels;
             if(data.answer=='pendings'){
-                var table = $('<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"></table>');
+                var table = $('<table id="tableult" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"></table>');
                 table.append('<thead><tr><td>Clave Viaje</td><td>Empresa</td><td>Ult. Registro</td><td>Retardo</td><td></td></tr></thead>' );
                 table.append('<tbody></tbody>');
 
@@ -66,6 +66,34 @@ function getStatusExt(){
             if(iTotalTravels>0){
                 $("#lblTravelsPen").html(iTotalTravels);
                 $("#spanTravelsPen").show("slow");
+                $('#tableult').dataTable( {
+                    "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+                    "sPaginationType": "bootstrap",
+                    "bDestroy": true,
+                    "bLengthChange": false,
+                    "bPaginate": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bJQueryUI": true,
+                    "iDisplayLength": 10,      
+                    "bProcessing": true,
+                    "bAutoWidth": true,
+                    "bSortClasses": false,
+                      "oLanguage": {
+                          "sInfo": "Mostrando _TOTAL_ registros (_START_ a _END_)",
+                          "sEmptyTable": "Sin registros.",
+                          "sInfoEmpty" : "Sin registros.",
+                          "sInfoFiltered": " - Filtrado de un total de  _MAX_ registros",
+                          "sLoadingRecords": "Leyendo información",
+                          "sProcessing": "Procesando",
+                          "sSearch": "Buscar:",
+                          "sZeroRecords": "Sin registros",
+                          "oPaginate": {
+                            "sPrevious": "Anterior",
+                            "sNext": "Siguiente"
+                          }          
+                      }
+                } );                  
             }else{
                 $("#lblTravelsPen").html("");
                 $("#spanTravelsPen").hide("slow");
@@ -82,6 +110,7 @@ function callTimer(){
     },30000);
 }
 
-function showTravelPen(){
-    $("#mTravelMonitor").modal('show');
+
+function showTravelPen(){    
+    $("#mTravelMonitor").modal('show');  
 }

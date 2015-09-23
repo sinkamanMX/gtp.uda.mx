@@ -1,7 +1,7 @@
 <?php $this->headScript()->appendFile('/js/modules/monitor/functionsMonitor.js') ?>   
     <div class="row panel-data">
         <input id="hRefLinkEdit" type="hidden" value="/admin/extras/getinfo?idRow=" />
-		<div class="span12">
+		<div class="span12 margin-l15px">
 			<!-- block -->
             <div class="block row-min-h600">
                 <div class="navbar navbar-inner block-header">
@@ -19,43 +19,58 @@
                         </ul>
                         <div id="my-tab-content" class="tab-content bg-white">
                             <div class="tab-pane <?php echo (@$this->dataUser['ID_PERFIL']==1) ? 'active': 'hide'; ?>" id="tab1">
-                                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Cliente</th>    
-                                            <th>Clave Viaje</th>
-                                            <th>Ruta</th>
-                                            <th>Unidad (ECO)</th>
-                                            <th>Fecha Prog. Inicio</th>
-                                            <th>Fecha Prog. Fin</th>
-                                            <th>Estatus</th>
-                                            <th> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>                                
-                                        <?php foreach($this->aNoAssign as $key => $items): ?>  
-                                        <tr class="odd gradeX">
-                                            <td><?php echo $items['CLIENTE']; ?></td>
-                                            <td><?php echo $items['CLAVE']; ?></td>
-                                            <td><?php echo $items['DES_RUTA']; ?></td>
-                                            <td><?php echo $items['IDENTIFICADOR']; ?></td>
-                                            <td><?php echo $items['INICIO']; ?></td>
-                                            <td><?php echo $items['FIN']; ?></td>
-                                            <td><?php echo $items['STATUS_VIAJE'];?></td>
-                                            <td class="text-center">
-                                                <a onClick="openSearch(<?php echo $items['ID_VIAJE']; ?>);">
-                                                    <button class="btn-success"> <i class="icon-arrow-right icon-white"></i><i class=" icon-user icon-white"></i></button>
-                                                </a>
-                                            </td>
-                                        </tr>    
-                                        <?php endforeach;?>
-                                    </tbody>
-                                </table>
+                                <div class="col-md-12 col-xs-12">                                    
+                                    <a onClick="validateListCheks();">
+                                        <button class="btn-success"> <i class="icon-arrow-right icon-white"></i><i class=" icon-user icon-white"></i> Asignar a</button>
+                                    </a>
+                                </div>
+                                <form id="formNews">
+                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th><input value="" name="checkAllItems" onClick="optionAll(this.checked);" type="checkbox"></th>
+                                                <th>Cliente</th>    
+                                                <th>Clave Viaje</th>
+                                                <th>Ruta</th>
+                                                <th>Unidad (ECO)</th>
+                                                <th>Fecha Prog. Inicio</th>
+                                                <th>Fecha Prog. Fin</th>
+                                                <th>Estatus</th>                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($this->aNoAssign as $key => $items): ?>  
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                    <input class="chkOn" name="formsValues[]" value="<?php echo $items['ID_VIAJE'];?>" type="checkbox" >
+                                                </td>
+                                                <td><?php echo $items['CLIENTE']; ?></td>
+                                                <td><?php echo $items['CLAVE']; ?></td>
+                                                <td><?php echo $items['DES_RUTA']; ?></td>
+                                                <td><?php echo $items['IDENTIFICADOR']; ?></td>
+                                                <td><?php echo $items['INICIO']; ?></td>
+                                                <td><?php echo $items['FIN']; ?></td>
+                                                <td><?php echo $items['STATUS_VIAJE'];?></td>
+                                                <!--<td class="text-center">
+                                                    <a onClick="openSearch(<?php echo $items['ID_VIAJE']; ?>);">
+                                                        <button class="btn-success"> <i class="icon-arrow-right icon-white"></i><i class=" icon-user icon-white"></i></button>
+                                                    </a>
+                                                </td>-->
+                                            </tr>    
+                                            <?php endforeach;?>
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
                             <div class="tab-pane <?php echo (@$this->dataUser['ID_PERFIL']==1) ? '': 'hide'; ?>" id="tabreasig">
+                                <a onClick="validateListCheksRe();">
+                                    <button class="btn-warning"> <i class="icon-arrow-right icon-white"></i><i class=" icon-user icon-white"></i> Reasignar a</button>
+                                </a> 
+                                <form id="formReas">                               
                                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
                                     <thead>
                                         <tr>
+                                            <th><input value="" name="checkAllItems" onClick="optionAllRe(this.checked);" type="checkbox"></th>
                                             <th>Cliente</th>    
                                             <th>Clave Viaje</th>
                                             <th>Ruta</th>
@@ -63,13 +78,15 @@
                                             <th>Fecha Prog. Inicio</th>
                                             <th>Fecha Prog. Fin</th>
                                             <th>Atendido por </th>
-                                            <th>Estatus</th>
-                                            <th> </th>
+                                            <th>Estatus</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>                                
                                         <?php foreach($this->aReassign as $key => $items): ?>  
                                         <tr class="odd gradeX">
+                                            <td>
+                                                <input class="chkOnre" name="formsValues[]" value="<?php echo $items['ID_VIAJE'];?>" type="checkbox" >
+                                            </td>
                                             <td><?php echo $items['CLIENTE']; ?></td>
                                             <td><?php echo $items['CLAVE']; ?></td>
                                             <td><?php echo $items['DES_RUTA']; ?></td>                                            
@@ -78,15 +95,17 @@
                                             <td><?php echo $items['FIN']; ?></td>
                                             <td><?php echo $items['MONITOR']; ?></td>
                                             <td><?php echo $items['STATUS_VIAJE'];?></td>
+                                            <!--
                                             <td class="text-center">
                                                 <a onClick="openSearchReasign(<?php echo $items['ID_VIAJE']; ?>);">
                                                     <button class="btn-warning"> <i class="icon-arrow-right icon-white"></i><i class=" icon-user icon-white"></i></button>
                                                 </a>
-                                            </td>
+                                            </td>-->
                                         </tr>    
                                         <?php endforeach;?>
                                     </tbody>
                                 </table>
+                                </form>
                             </div>                            
                             <div class="tab-pane  <?php echo (@$this->dataUser['ID_PERFIL']!=1) ? 'active': ''; ?>" id="tab2">
                                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
