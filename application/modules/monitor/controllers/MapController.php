@@ -155,7 +155,7 @@ class monitor_MapController extends My_Controller_Action
 									}		
 
 									if($insertIncidencia['status']){
-										if($this->_dataIn['inputIncidencia']== 34 || $this->_dataIn['inputIncidencia'] == 29){
+										if($this->_dataIn['inputIncidencia']== 34){
 											$idViaje 	  = $this->_dataIn['catId']; 
 											$travels->upIncidencia($idViaje);	
 										}

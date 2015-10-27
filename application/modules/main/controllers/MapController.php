@@ -285,7 +285,7 @@ class main_MapController extends My_Controller_Action
 							$idHistorico 	   = $insert['id'];
 							$insertIncidencia  = $travels->setIncidencia($data,$idHistorico);
 							if($insertIncidencia['status']){
-								if($data['inputIncidencia']== 34 || $data['inputIncidencia'] == 29){
+								if($data['inputIncidencia']== 34){
 									$idViaje 	  = $data['catId']; 
 									$travels->upIncidencia($idViaje);	
 								}
