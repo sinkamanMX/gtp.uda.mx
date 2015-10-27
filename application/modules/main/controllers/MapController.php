@@ -187,19 +187,22 @@ class main_MapController extends My_Controller_Action
 				$infoData   = $classObject->getData($idUpdated);
 				$cContactos   = new My_Model_Contactos(); 	
 				$aContactos	  = Array();
+				$iOption      = 1;
 				if($optionUpdate=='start'){
+					$iOption = 1;
 					$statusChange = ($infoData['ID_ESTATUS']==1) ? 2 : $infoData['ID_ESTATUS'];
 									
 					$aContactos   = $cContactos->getContactsBy('beg',$idUpdated);
 					$cFunctions->sendNotifications(2,$aContactos,$infoData['CLAVE']);
 										
 				}else if($optionUpdate=='stop'){
+					$iOption = 2;
 					$statusChange = ($infoData['ID_ESTATUS']==2) ? 4 : $infoData['ID_ESTATUS'];
 					$aContactos   = $cContactos->getContactsBy('end',$idUpdated);
 					$cFunctions->sendNotifications(3,$aContactos,$infoData['CLAVE']);
 				}
 				
-				$updated = $classObject->changeStatus($statusChange,$idUpdated);	
+				$updated = $classObject->changeStatus($statusChange,$idUpdated,$iOption);	
 				if($updated){
 					$infoData   = $classObject->getData($idUpdated);
 					if($infoData['ID_ESTATUS']==2){
@@ -281,7 +284,12 @@ class main_MapController extends My_Controller_Action
 						if(isset($data['inputIncidencia']) && $data['inputIncidencia']!=""){
 							$idHistorico 	   = $insert['id'];
 							$insertIncidencia  = $travels->setIncidencia($data,$idHistorico);
-							if($insertIncidencia){
+							if($insertIncidencia['status']){
+								if($data['inputIncidencia']== 34 || $data['inputIncidencia'] == 29){
+									$idViaje 	  = $data['catId']; 
+									$travels->upIncidencia($idViaje);	
+								}
+								
 								$result =true;
 							}	
 						}else{
@@ -344,6 +352,7 @@ class main_MapController extends My_Controller_Action
 				$userUda 	= $aDataViaje['USUARIO_UDA'];
     			$passUda 	= $aDataViaje['PASSWORD_UDA'];				
 				
+				//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
     		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
 				$aParams 	  = array('sLogin'     => $userUda,
 			                  		  'sPassword'  => $passUda,

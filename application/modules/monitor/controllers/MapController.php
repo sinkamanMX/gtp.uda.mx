@@ -152,7 +152,16 @@ class monitor_MapController extends My_Controller_Action
 										$cContactos	  = new My_Model_Contactos();
 										$aContactos   = $cContactos->getContactsBy('inc',$this->_dataIn['catId']);							
 										$cFunctions->sendNotifications(1,$aContactos,$aDataViaje['CLAVE']);
-									}									
+									}		
+
+									if($insertIncidencia['status']){
+										if($this->_dataIn['inputIncidencia']== 34 || $this->_dataIn['inputIncidencia'] == 29){
+											$idViaje 	  = $this->_dataIn['catId']; 
+											$travels->upIncidencia($idViaje);	
+										}
+										
+										$result =true;
+									}										
 									
 									$result =true;
 								}	

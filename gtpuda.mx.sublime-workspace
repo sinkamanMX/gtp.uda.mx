@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"se",
+				"selected"
+			],
+			[
 				"ua",
 				"uname"
 			],
@@ -403,6 +407,30 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "application/modules/monitor/views/scripts/main/index.phtml",
+			"settings":
+			{
+				"buffer_size": 18149,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/modules/monitor/functionsMonitor.js",
+			"settings":
+			{
+				"buffer_size": 5450,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/assets/styles.css",
+			"settings":
+			{
+				"buffer_size": 7655,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -576,6 +604,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"margin-",
+			"margin",
 			"validatemonitor",
 			"validateUnitByPlaque",
 			"loading.gif",
@@ -701,9 +731,7 @@
 			">'+ ",
 			"col-xs-2",
 			"form",
-			"caption",
-			"modal",
-			"display: none"
+			"caption"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -761,8 +789,94 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "application/modules/monitor/views/scripts/main/index.phtml",
+					"settings":
+					{
+						"buffer_size": 18149,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7929,
+								7946
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
+						},
+						"translation.x": 293.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/js/modules/monitor/functionsMonitor.js",
+					"settings":
+					{
+						"buffer_size": 5450,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2099,
+								2111
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 1.0,
+						"translation.y": 839.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/assets/styles.css",
+					"settings":
+					{
+						"buffer_size": 7655,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5778,
+								5766
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3777.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

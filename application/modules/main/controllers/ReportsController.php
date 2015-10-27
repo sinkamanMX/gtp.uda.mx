@@ -386,22 +386,28 @@ class main_reportsController extends My_Controller_Action
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C5', 'Transportista');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('D5', 'Unidad');
 				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('E5', 'Operador');
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', 'Fecha Inicio');
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', 'Fecha Fin');
-				if($this->view->dataUser['ID_PERFIL']==2){
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Estatus');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', 'Incidencias');
-					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:I5');
-				}else{
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Monitorista');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', 'Estatus');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', 'Incidencias');
-					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:J5');	
-				}				
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('F5', 'Fecha Inicio (Programada)');
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('G5', 'Fecha Inicio (Real)');
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('H5', 'Diferencia Inicio Viaje');
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('I5', 'Estadia en Destino');
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('J5', 'Fecha Fin de Viaje');
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValue('K5', 'Tiempo Estadia en Destino');
 				
-				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:J5")->getFont()->setSize(12);
-				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:J5")->getFont()->setBold(true);
+				if($this->view->dataUser['ID_PERFIL']==2){
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', 'Estatus');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', 'Incidencias');
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:M5');
+				}else{
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('L5', 'Monitorista');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('M5', 'Estatus');
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue('N5', 'Incidencias');
+					$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($styleHeader, 'A5:N5');	
+				}
 
+				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:N5")->getFont()->setSize(12);
+				$objPHPExcel->setActiveSheetIndex(0)->getStyle("A5:N5")->getFont()->setBold(true);
+
+				
 				$rowControlHist=6;
 				$zebraControl=0;				
 				foreach($aDataTable as $reporte){
@@ -411,31 +417,40 @@ class main_reportsController extends My_Controller_Action
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3,  ($rowControlHist), $reporte['ECONOMICO']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(4,  ($rowControlHist), $reporte['N_OPERADOR']);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(5,  ($rowControlHist), $reporte['INICIO']);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['FIN']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(6,  ($rowControlHist), $reporte['INICIO_REAL']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['DIF_INICIO']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8,  ($rowControlHist), $reporte['ESTADIA_DESTINO']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9,  ($rowControlHist), $reporte['FIN_REAL']);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(10, ($rowControlHist), $reporte['DIF_FIN']);
+					
 					
 					if($this->view->dataUser['ID_PERFIL']==2){						
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['DES_STATUS']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8,  ($rowControlHist), $reporte['INCIDENCIAS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11,  ($rowControlHist), $reporte['DES_STATUS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12,  ($rowControlHist), $reporte['INCIDENCIAS']);
 					}else{
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(7,  ($rowControlHist), $reporte['MONITOR']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(8,  ($rowControlHist), $reporte['DES_STATUS']);
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(9,  ($rowControlHist), $reporte['INCIDENCIAS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(11,  ($rowControlHist), $reporte['MONITOR']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(12,  ($rowControlHist), $reporte['DES_STATUS']);
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(13,  ($rowControlHist), $reporte['INCIDENCIAS']);
 					}
-	
+					
 					if($zebraControl++%2==1){
 						if($this->view->dataUser['ID_PERFIL']==2){	
-							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':I'.$rowControlHist);	
+							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':M'.$rowControlHist);	
 						}else{
-							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':J'.$rowControlHist);
+							$objPHPExcel->setActiveSheetIndex(0)->setSharedStyle($stylezebraTable, 'A'.$rowControlHist.':N'.$rowControlHist);
 						}
 									
-					}				
-					$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':C'.$rowControlHist)
+					}
+							
+					$objPHPExcel->getActiveSheet()->getStyle('A'.$rowControlHist.':D'.$rowControlHist)
 							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);				
 					$objPHPExcel->getActiveSheet()->getStyle('H'.$rowControlHist)
-							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);									
-					$rowControlHist++;
+							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					$objPHPExcel->getActiveSheet()->getStyle('F'.$rowControlHist.':K'.$rowControlHist)
+							->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);																
+					$rowControlHist++;					
 				}	
+				
 
 				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
 				$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);

@@ -147,10 +147,10 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	      	
     } 
 	
-    public function changeStatus($Status,$idItem){
+    public function changeStatus($Status,$idItem,$iOption){
         $result     = false;
 		$this->query("SET NAMES utf8",false);
-		$options = ($Status==1) ? ' INICIO = CURRENT_TIMESTAMP ': ' FIN = CURRENT_TIMESTAMP '; 
+		$options = ($iOption==1) ? ' INICIO_REAL = CURRENT_TIMESTAMP ': ' FIN_REAL = CURRENT_TIMESTAMP '; 
         $sql="UPDATE $this->_name SET
                 ID_ESTATUS  = $Status,
                 $options
@@ -375,7 +375,9 @@ class My_Model_Viajes extends My_Db_Table
     			CONCAT(O.NOMBRE,'',A.APELLIDOS) AS N_OPERADOR , T.DESCRIPCION AS TRANSPORTISTA
 				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
 				, CONCAT(A.NOMBRE,' ',A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA,
-				U.IDENTIFICADOR
+				U.IDENTIFICADOR,
+				V.INICIO_REAL,V.FIN_REAL, V.ESTADIA_DESTINO, SEC_TO_TIME(TIMESTAMPDIFF(SECOND , V.INICIO, V.INICIO_REAL )) AS DIF_INICIO,
+				SEC_TO_TIME(TIMESTAMPDIFF(SECOND , V.ESTADIA_DESTINO, V.FIN_REAL )) AS DIF_FIN
 				FROM GTP_VIAJES V
 				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
 				INNER JOIN USUARIOS   A ON V.ID_USUARIO_ASIGNADO = A.ID_USUARIO
@@ -602,7 +604,25 @@ class My_Model_Viajes extends My_Db_Table
 		}
         
 		return $result;			
-	}       
+	}    
+
+    public function upIncidencia($idTravel){
+        $result     = false;
+		$this->query("SET NAMES utf8",false); 
+        $sql="UPDATE GTP_VIAJES
+			  SET ESTADIA_DESTINO =  CURRENT_TIMESTAMP
+				WHERE ID_VIAJE = $idTravel LIMIT 1";  
+              
+        try{
+    		$query   = $this->query($sql,false);
+    		$result  = true;	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	    	
+    }
+    
     
 /*
     public function getDataComplete($idObject){
