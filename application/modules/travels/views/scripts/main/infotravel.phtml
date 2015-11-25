@@ -47,7 +47,7 @@
 							<div class="control-group">
 								<label class="control-label">Ruta<span class="required">*</span></label>
 								<div class="controls">
-									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" <?php echo ($this->data['ID_ESTATUS']==4) ? 'disabled': '' ;?> >
+									<select class="span4 m-wrap" id="inputCliente" name="inputCliente" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >
 										<option value="">Seleccionar una opción</option>
 										<?php echo @$this->aRutas;?>
 									</select>

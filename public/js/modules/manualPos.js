@@ -107,6 +107,9 @@ $( document ).ready(function() {
             }else if(result=='login'){
               alert("Existe un problema con el usuario y/o contraseña para conectarse al sistema de Ovision Favor de verificarlo con el supervisor.");
               enabledAll();
+            }else if(result=='userproblem'){
+              alert("La placa no pertenece a este usuario (Mensaje del sistema de Ovision), Favor de verificarlo con el supervisor.");
+              enabledAll();              
             }else{
               alert("La unidad no tiene pocisión válida");
             }

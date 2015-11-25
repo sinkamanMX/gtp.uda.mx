@@ -369,6 +369,9 @@ class main_MapController extends My_Controller_Action
 						if($xml2->Response->Status->code=='101'){
 							$answer = Array('answer' => 'login');
 							$bContinue = false;								
+						}else if($xml2->Response->Status->code=='102'){
+							$answer = Array('answer' => 'userproblem');
+							$bContinue = false;
 						}
 						
 						if($bContinue){
