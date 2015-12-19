@@ -139,7 +139,8 @@ class admin_UnitsController extends My_Controller_Action
 	    			$passUda = $this->view->dataUser['PASSWORD_UDA'];
 
 	    		  	//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
-	    		  	$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+	    		  	//$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+	    		  	$soap_client  = new SoapClient("http://ws.grupouda.com.mx/wsUDAHistoryGetByPlate.asmx?WSDL");
 					$aParams 	  = array('sLogin'     => $userUda,
 				                  		  'sPassword'  => $passUda);
 					
