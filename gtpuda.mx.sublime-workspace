@@ -432,6 +432,14 @@
 				"buffer_size": 8308,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "application/modules/monitor/views/scripts/map/index.phtml",
+			"settings":
+			{
+				"buffer_size": 12185,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "",
@@ -593,7 +601,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -791,7 +799,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -853,8 +861,8 @@
 						"selection":
 						[
 							[
-								12294,
-								12294
+								12819,
+								12819
 							]
 						],
 						"settings":
@@ -863,7 +871,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1748.0,
+						"translation.y": 5870.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -880,16 +888,45 @@
 						"selection":
 						[
 							[
-								4975,
-								4975
+								4977,
+								4977
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
+						"translation.x": 82.0,
+						"translation.y": 2162.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "application/modules/monitor/views/scripts/map/index.phtml",
+					"settings":
+					{
+						"buffer_size": 12185,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1024,
+								1024
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
+						},
 						"translation.x": 0.0,
-						"translation.y": 2196.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

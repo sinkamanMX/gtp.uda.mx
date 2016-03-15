@@ -236,9 +236,10 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	    	
     }
     
-    public function getRecorrido($idObject,$orderAsc=true){
+    public function getRecorrido($idObject,$orderAsc=true,$limit=0){
 		$result= Array();
 		$sFilter = ($orderAsc) ? 'ASC': 'DESC';
+		$sLimit  = ($limit==0) ? ''   :'LIMIT 30';
 		$this->query("SET NAMES utf8",false); 
     	$sql ="SELECT DT.`LATITUD`,DT.`LONGITUD`,DT.`FECHA`,DT.`UBICACION`,DT.`VELOCIDAD`,DT.`ANGULO`,DT.`MODO`, DT.CREADO, IF(C.DESCRIPCION IS NULL, '--',C.DESCRIPCION) AS INCIDENCIA,
     	 		 IF(I.COMENTARIO IS NULL, '--',I.COMENTARIO) AS INC_COMENTARIOS,
@@ -248,7 +249,7 @@ class My_Model_Viajes extends My_Db_Table
 				  LEFT JOIN USUARIOS			  U ON I.ID_USUARIO    = U.ID_USUARIO
 				  LEFT JOIN GTP_INCIDENCIAS      C ON I.`ID_INCIDENCIA` = C.`ID_INCIDENCIA`
 				  WHERE DT.ID_VIAJE = $idObject
-				  ORDER BY DT.ID_DETALLE $sFilter";	
+				  ORDER BY DT.ID_DETALLE $sFilter  $sLimit";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;			
@@ -372,7 +373,7 @@ class My_Model_Viajes extends My_Db_Table
 		}
 			 
     	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
-    			CONCAT(O.NOMBRE,'',O.APELLIDOS) AS N_OPERADOR , T.DESCRIPCION AS TRANSPORTISTA
+    			CONCAT(O.NOMBRE,' ',O.APELLIDOS) AS N_OPERADOR , T.DESCRIPCION AS TRANSPORTISTA
 				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
 				, CONCAT(A.NOMBRE,' ',A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA,
 				U.IDENTIFICADOR,
@@ -645,4 +646,48 @@ class My_Model_Viajes extends My_Db_Table
         
 		return $result;    	
     }*/
+    
+    public function getReportAtencion($aDataFilter){
+    	
+		$result= Array();
+		$this->query("SET NAMES utf8",false);
+		
+		$sFilter = '';
+					
+    	if(isset($aDataFilter['inputCliente']) && $aDataFilter['inputCliente']!=""){
+			$sFilter .=  ' U.ID_EMPRESA  ='.$aDataFilter['inputCliente'].' AND';	
+		}
+
+    	if(isset($aDataFilter['inputStatus']) &&  $aDataFilter['inputStatus']!=""){
+			$sFilter .= ' V.ID_ESTATUS  ='.$aDataFilter['inputStatus'].' AND';	
+		}
+			 
+    	$sql ="SELECT V.ID_VIAJE, V.CLAVE, V.INICIO, V.FIN, S.DESCRIPCION AS SUCURSAL, U.ECONOMICO,C.NOMBRE AS CLIENTE,  
+    			CONCAT(O.NOMBRE,' ',O.APELLIDOS) AS N_OPERADOR , T.DESCRIPCION AS TRANSPORTISTA
+				, (SELECT COUNT(ID_VIAJE) FROM GTP_INCIDENCIAS_VIAJE WHERE ID_VIAJE = V.ID_VIAJE) AS INCIDENCIAS
+				, CONCAT(A.NOMBRE,' ',A.APELLIDOS ) AS MONITOR, ST.DESCRIPCION AS DES_STATUS, E.NOMBRE AS DESC_EMPRESA, R.DESCRIPCION AS N_RUTA,
+				U.IDENTIFICADOR,
+				V.INICIO_REAL,V.FIN_REAL, V.ESTADIA_DESTINO, SEC_TO_TIME(TIMESTAMPDIFF(SECOND , V.INICIO, V.INICIO_REAL )) AS DIF_INICIO,
+				SEC_TO_TIME(TIMESTAMPDIFF(SECOND , V.ESTADIA_DESTINO, V.FIN_REAL )) AS DIF_FIN, V.INICIO_REAL, V.INICIO , V.CREADO
+				FROM GTP_VIAJES V
+				INNER JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
+				INNER JOIN USUARIOS   A ON V.ID_USUARIO_ASIGNADO = A.ID_USUARIO
+				INNER JOIN GTP_ESTATUS_VIAJE ST ON V.ID_ESTATUS = ST.ID_ESTATUS
+				INNER JOIN GTP_UNIDADES U ON V.ID_UNIDAD  = U.ID_UNIDAD
+				INNER JOIN EMPRESAS     E ON U.ID_EMPRESA = E.ID_EMPRESA
+				INNER JOIN RUTAS        R ON V.ID_RUTA    = R.ID_RUTA
+				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
+				LEFT JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
+				LEFT JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
+				WHERE ".$sFilter." 
+						 (V.INICIO BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."'
+				  		OR  V.FIN    BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."')
+				  GROUP BY V.ID_VIAJE";
+		$query   = $this->query($sql);
+		if(count($query)>0){		  
+			$result = $query;			
+		}	
+        
+		return $result;	     	
+    }     
 }	

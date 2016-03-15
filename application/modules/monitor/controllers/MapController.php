@@ -61,7 +61,9 @@ class monitor_MapController extends My_Controller_Action
 			if($this->_idUpdate >-1){
 				$dataInfo        = $classObject->getDataComplete($this->_idUpdate);
 				$aIncidencias	 = $classObject->getIncidencias($this->_idUpdate);				
-				$aRecorrido      = $classObject->getRecorrido($this->_idUpdate);
+				$iLimit 		 = ($dataInfo['ID_ESTATUS']!=4) ? 1:0;
+				Zend_Debug::dump($iLimit); 				
+				$aRecorrido      = $classObject->getRecorrido($this->_idUpdate,false,$iLimit);
 			}
 			
 			$this->view->data 		= $dataInfo; 
