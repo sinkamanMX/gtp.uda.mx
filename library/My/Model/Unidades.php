@@ -188,7 +188,7 @@ class My_Model_Unidades extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT *
 				FROM $this->_name 						
-                WHERE PLACAS = '$sPlaque' LIMIT 1";	
+                WHERE PLACAS = '$sPlaque' LIMIT 1";    	
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query[0];			
