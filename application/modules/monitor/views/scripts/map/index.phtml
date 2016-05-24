@@ -24,6 +24,8 @@
                         <input type="hidden" id="inputLonDestino"   name="inputLonDestino" value="<?php echo @$this->data['LONGITUD_DESTINO']; ?>">                                                                 
                         <tr><td><b>Clave viaje</b></td>
                             <td><?php echo $this->data['CLAVE'];?></td></tr>
+                        <tr><td><b>Descripción</b></td>
+                            <td><?php echo $this->data['NDESC'];?></td></tr>                            
                         <tr><td><b>Estatus</b></td>
                             <td><?php echo $this->data['N_STATUS'];?></td></tr>       
                         <tr><td><b>Fecha Inicio</b></td>
@@ -48,6 +50,8 @@
                             <td><?php echo $this->data['N_OPERADOR'];?></td></tr>
                         <tr><td><b>Medio de Contacto</b></td>
                             <td><?php echo $this->data['MEDIO_CONTACTO'];?></td></tr>
+                        <tr><td><b>Información adicional</b></td>
+                            <td><?php echo $this->data['INFORMACION_EXTRA'];?></td></tr>                            
                     </table>                    
                 </div>             
             </div>

@@ -130,7 +130,6 @@ class My_Model_Viajes extends My_Db_Table
 					  ID_OPERADOR		=  ".$data['inputOperadores'].",
 					  USUARIO_REGISTRO	=  ".$data['userRegister'].",
 					  MEDIO_CONTACTO	= '".$data['inputMedioContacto']."',
-					  INFORMACION_EXTRA = '".$data['txtInfoAdd']."',
 					  $sNoTravel
 					  $sDesc
 					  INICIO			= '".$data['inputFechaIn']."',
@@ -474,7 +473,6 @@ class My_Model_Viajes extends My_Db_Table
 				USUARIO_REGISTRO=  ".$data['userRegister'].",
 				CLAVE			= '".$data['inputNoTravel']."',
 				DESCRIPCION		= '".$data['inputDescripcion']."',
-				INFORMACION_EXTRA='".$data['txtInfoAdd']."',
 				INICIO			= '".$data['inputFechaIn']."',
 				FIN				= '".$data['inputFechaFin']."',
 				MEDIO_CONTACTO	= '".$data['inputMedioContacto']."',
@@ -523,7 +521,7 @@ class My_Model_Viajes extends My_Db_Table
 				ST.ID_ESTATUS, P.DESCRIPCION AS E_PAGO, E.CLIENTE_UDA, E.USUARIO_UDA, E.PASSWORD_UDA,V.ID_UNIDAD, T.DESCRIPCION AS N_TRANS
 				, CONCAT(O.`NOMBRE`,' ',O.`APELLIDOS`) AS N_OPERADOR, A.DESCRIPCION AS TIPO, R.DESCRIPCION AS N_RUTA, ST.DESCRIPCION AS N_STATUS,
 				R.DESCRIPCION_ORIGEN,R.LATITUD_ORIGEN,R.LONGITUD_ORIGEN,R.DESCRIPCION_DESTINO,R.LATITUD_DESTINO,R.LONGITUD_DESTINO,
-				V.MEDIO_CONTACTO, V.DESCRIPCION AS NDESC, V.INFORMACION_EXTRA
+				V.MEDIO_CONTACTO
 				FROM GTP_VIAJES V
 				INNER JOIN TIPO_VIAJES A ON V.ID_TIPO_VIAJE = A.ID_TIPO_VIAJE
 				LEFT JOIN SUCURSALES S ON V.ID_SUCURSAL = S.ID_SUCURSAL
