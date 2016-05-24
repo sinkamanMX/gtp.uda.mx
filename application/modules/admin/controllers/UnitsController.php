@@ -220,4 +220,32 @@ class admin_UnitsController extends My_Controller_Action
         	echo "Message: " . $e->getMessage() . "\n";                
         } 	
     }
+    
+    public function cancelAction(){
+    	try{
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+			$answer = Array('answer' => 'no-data');    	
+				
+	    	if($this->operation=='cancel'){
+	    		$idSolicitud = $this->dataIn['catId'];
+	    		$sComentario = $this->dataIn['sComent'];
+				
+	    		
+	    		
+				/*$delete = $classObject->deleteRow($this->dataIn);
+				
+				if($delete['status']){
+					$answer = Array('answer' => 'deleted'); 
+				}*/
+			}
+			
+			echo Zend_Json::encode($answer);
+		    die();			
+		} catch (Zend_Exception $e) {
+            echo "Caught exception: " . get_class($e) . "\n";
+        	echo "Message: " . $e->getMessage() . "\n";                
+        } 	    	
+    } 
+    
 }

@@ -408,36 +408,10 @@
 	"buffers":
 	[
 		{
-			"contents": "Searching 4425 files for \"192.168.6.41\" (regex)\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/UnitsController.php:\n  140  \n  141  	    		  	//$soap_client  = new SoapClient(\"http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL\");\n  142: 	    		  	//$soap_client  = new SoapClient(\"http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL\");\n  143  	    		  	$soap_client  = new SoapClient(\"http://ws.grupouda.com.mx/wsUDAHistoryGetByPlate.asmx?WSDL\");\n  144  					$aParams 	  = array('sLogin'     => $userUda,\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/MapController.php:\n  354  				\n  355  				//$soap_client  = new SoapClient(\"http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL\");\n  356:     		  	//$soap_client  = new SoapClient(\"http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL\");\n  357      		  	$soap_client  = new SoapClient(\"http://ws.grupouda.com.mx/wsUDAHistoryGetByPlate.asmx?WSDL\");    		  	\n  358  				$aParams 	  = array('sLogin'     => $userUda,\n\n2 matches across 2 files\n",
+			"file": "application/modules/reports/views/scripts/atencion/index.phtml",
 			"settings":
 			{
-				"buffer_size": 1083,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "application/modules/main/controllers/MapController.php",
-			"settings":
-			{
-				"buffer_size": 14779,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "application/modules/admin/controllers/UnitsController.php",
-			"settings":
-			{
-				"buffer_size": 8308,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "application/modules/monitor/views/scripts/map/index.phtml",
-			"settings":
-			{
-				"buffer_size": 12185,
+				"buffer_size": 8361,
 				"line_ending": "Unix"
 			}
 		}
@@ -466,10 +440,11 @@
 	},
 	"file_history":
 	[
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/UnitsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/MapController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMonitor.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/manualpos.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/library/Zend/Service/DeveloperGarden/BaseUserService.php",
@@ -479,7 +454,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
@@ -614,6 +588,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/main/clients",
 			"192.168.6.41",
 			"SoapClient",
 			"trackSystem",
@@ -740,8 +715,7 @@
 			"white",
 			"control-label",
 			"bg",
-			">'+",
-			">'+ "
+			">'+"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -749,6 +723,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"/reports/atencion",
 			"branches",
 			"/contacts/",
 			"map",
@@ -799,123 +774,23 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "application/modules/reports/views/scripts/atencion/index.phtml",
 					"settings":
 					{
-						"buffer_size": 1083,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										331,
-										343
-									],
-									[
-										829,
-										841
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								592,
-								592
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "application/modules/main/controllers/MapController.php",
-					"settings":
-					{
-						"buffer_size": 14779,
+						"buffer_size": 8361,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12819,
-								12819
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5870.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "application/modules/admin/controllers/UnitsController.php",
-					"settings":
-					{
-						"buffer_size": 8308,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4977,
-								4977
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 82.0,
-						"translation.y": 2162.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "application/modules/monitor/views/scripts/map/index.phtml",
-					"settings":
-					{
-						"buffer_size": 12185,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1024,
-								1024
+								6463,
+								6463
 							]
 						],
 						"settings":
@@ -926,7 +801,7 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1617.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
