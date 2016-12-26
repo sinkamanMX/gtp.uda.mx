@@ -147,7 +147,7 @@ class main_MainController extends My_Controller_Action
 	        if($sessions->validateSession()){
             	$dataUser = $sessions->getContentSession();
 				$aMonitor = new My_Model_Monitor();
-            	$aDataTravels  = $aMonitor->monitorStatus($dataUser['ID_USUARIO']);
+            	$aDataTravels  = $aMonitor->monitorStatus($dataUser['ID_USUARIO'],$dataUser['ID_MONITOREO']);
             	if(count($aDataTravels)>0){
             		$answer = Array('answer' => 'pendings',
             						'travels' => $aDataTravels);

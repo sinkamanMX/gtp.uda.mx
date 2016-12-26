@@ -40,7 +40,7 @@ class admin_TypesController extends My_Controller_Action
 			}
 
 			$this->view->dataUser = $this->_dataUser;
-
+			$this->_dataIn['idcentro']  = $this->_dataUser['ID_MONITOREO'];
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -52,7 +52,7 @@ class admin_TypesController extends My_Controller_Action
 	    	$this->view->mOption = 'mtypes';			
 			$cObjects      = new My_Model_TipoViajes();
 			
-			$this->view->datatTable = $cObjects->getDataTable();
+			$this->view->datatTable = $cObjects->getDataTable($this->_dataUser['ID_MONITOREO']);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -69,7 +69,7 @@ class admin_TypesController extends My_Controller_Action
 			$classObject = new My_Model_TipoViajes();
 			$cPrecios    = new My_Model_Precios();
 			$cFunctions  = new My_Controller_Functions();			
-			$aPrecios	 = $cPrecios->getCbo();
+			$aPrecios	 = $cPrecios->getCbo($this->_dataUser['ID_MONITOREO']);
 			
 			$this->_dataIn['inputEmpresa'] = $this->view->idEmpresa;			
 			if($this->_idUpdate >-1){

@@ -175,7 +175,7 @@ class monitor_MapController extends My_Controller_Action
 				}			
 			} 
 			
-			$this->view->incidencias = $travels->getTipoIncidencias($this->_dataUser['ID_EMPRESA']);
+			$this->view->incidencias = $travels->getTipoIncidencias($this->_dataUser['ID_EMPRESA'],$this->_dataUser['ID_MONITOREO']);
 			$this->view->insert 	 = $result;
 			$this->view->catId 		 = $this->_dataIn['catId'];
 			$this->view->aDataViaje	 = $aDataViaje;    

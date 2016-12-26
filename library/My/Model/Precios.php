@@ -11,11 +11,12 @@ class My_Model_Precios extends My_Db_Table
 	protected $_name 	= 'PRECIOS_SERVICIO';
 	protected $_primary = 'ID_PRECIO';
 	
-	public function getDataTable(){
+	public function getDataTable($idMonitoreo){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT * 
 				FROM $this->_name
+				WHERE ID_MONITOREO = ".$idMonitoreo."
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -46,7 +47,8 @@ class My_Model_Precios extends My_Db_Table
         $iCostoExtra = (isset($aData['inputCostoExtra'])&& $aData['inputCostoExtra']!="") ? $aData['inputCostoExtra']: 'NULL';
 
         $sql="INSERT INTO  $this->_name
-        		SET DESCRIPCION 	= '".$aData['inputDescripcion']."',
+        		SET ID_MONITOREO	=  ".$aData['idcentro'].",
+        			DESCRIPCION 	= '".$aData['inputDescripcion']."',
         			COSTO			=  ".$aData['inputCosto'].",
         			COSTO_EXTRA		=  ".$iCostoExtra.",
         			ESTATUS			=  ".$aData['inputStatus'].",
@@ -110,11 +112,12 @@ class My_Model_Precios extends My_Db_Table
 		return $result;	     	
     }  
 
-	public function getCbo(){
+	public function getCbo($idMonitoreo){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT $this->_primary AS ID, CONCAT(DESCRIPCION,'-$',COSTO) AS NAME
 				FROM $this->_name
+				WHERE ID_MONITOREO = ".$idMonitoreo."				
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  

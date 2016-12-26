@@ -40,7 +40,7 @@ class admin_UsersController extends My_Controller_Action
 			}
 
 			$this->view->dataUser = $this->_dataUser;
-
+			$this->_dataIn['idcentro']  = $this->_dataUser['ID_MONITOREO'];
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -51,7 +51,14 @@ class admin_UsersController extends My_Controller_Action
     	try{
 	    	$this->view->mOption = 'musers';			
 			$cClassObject      = new My_Model_Adminusuarios();
-			$this->view->datatTable = $cClassObject->getDataTable();
+			
+			if($this->_dataUser['ID_PERFIL']==1){
+				$iSelected = '1,3';
+  			}else if($this->_dataUser['ID_PERFIL']==4){
+				$iSelected = '4';
+			}
+					
+			$this->view->datatTable = $cClassObject->getDataTable($this->_dataUser['ID_MONITOREO'],$iSelected);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -66,7 +73,14 @@ class admin_UsersController extends My_Controller_Action
 			$classObject = new My_Model_Adminusuarios();
 			$cFunctions  = new My_Controller_Functions();
 			$cPerfiles	 = new My_Model_Perfiles();
-			$aPerfiles   = $cPerfiles->getCbo(true);
+						
+    		if($this->_dataUser['ID_PERFIL']==1){
+				$iSelected = '1,3';
+  			}else if($this->_dataUser['ID_PERFIL']==4){
+				$iSelected = '4';
+			}
+						
+			$aPerfiles   = $cPerfiles->getCbo($iSelected);
 
     		$this->_dataIn['inputEmpresa'] = $this->view->idEmpresa;			
 			if($this->_idUpdate >-1){

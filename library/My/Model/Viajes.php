@@ -128,6 +128,7 @@ class My_Model_Viajes extends My_Db_Table
 					  ID_SUCURSAL 		=  ".$data['inputSucursal'].",
 					  ID_UNIDAD			=  ".$data['inputUnidades'].",
 					  ID_OPERADOR		=  ".$data['inputOperadores'].",
+					  ID_RUTA			=  ".$data['inputRuta'].",
 					  USUARIO_REGISTRO	=  ".$data['userRegister'].",
 					  MEDIO_CONTACTO	= '".$data['inputMedioContacto']."',
 					  INFORMACION_EXTRA = '".$data['txtInfoAdd']."',
@@ -191,11 +192,12 @@ class My_Model_Viajes extends My_Db_Table
 		return $result;	       	
     }
     
-    public function getTipoIncidencias($idObject){
+    public function getTipoIncidencias($idObject,$idMonitoreo){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT *
 				FROM GTP_INCIDENCIAS 
+				WHERE ID_MONITOREO = ".$idMonitoreo."
 				/* WHERE ID_EMPRESA = $idObject	*/
 				ORDER BY DESCRIPCION DESC";
 		$query   = $this->query($sql);
@@ -390,7 +392,8 @@ class My_Model_Viajes extends My_Db_Table
 				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
 				LEFT JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
 				LEFT JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
-				WHERE ".$sFilter." 
+				WHERE V.ID_MONITOREO = ".$aDataFilter['idMonitoreo']." 
+				  AND ".$sFilter." 
 						 (V.INICIO BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."'
 				  		OR  V.FIN    BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."')
 				  GROUP BY V.ID_VIAJE";
@@ -463,6 +466,7 @@ class My_Model_Viajes extends My_Db_Table
         $result['status']  = false;
             
         $sql="INSERT INTO GTP_VIAJES SET
+        		ID_MONITOREO	=  ".$data['idcentro'].",
 				ID_ESTATUS_PAGO =  ".$statusPago.",
         		ID_RUTA			=  ".$data['inputRuta'].",
         		ID_TIPO_VIAJE	=  ".$data['inputTviaje'].",			        		
@@ -681,7 +685,8 @@ class My_Model_Viajes extends My_Db_Table
 				LEFT JOIN GTP_CLIENTES C ON V.`ID_CLIENTE` = C.ID_CLIENTE 
 				LEFT JOIN GTP_OPERADORES O ON V.`ID_OPERADOR` = O.ID_OPERADOR
 				LEFT JOIN GTP_TRANSPORTISTA T ON O.ID_TRANSPORTISTA = T.ID_TRANSPORTISTA
-				WHERE ".$sFilter." 
+				WHERE V.ID_MONITOREO = ".$aDataFilter['idMonitoreo']."				
+				  AND ".$sFilter." 
 						 (V.INICIO BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."'
 				  		OR  V.FIN    BETWEEN '".$aDataFilter['fecIncio']."' AND '".$aDataFilter['fecFin']."')
 				  GROUP BY V.ID_VIAJE";
@@ -691,5 +696,33 @@ class My_Model_Viajes extends My_Db_Table
 		}	
         
 		return $result;	     	
-    }     
+    }  
+
+    public function insertRowReport($data){
+        $result     = Array();
+        $result['status']  = false;
+
+        $sql="INSERT INTO GTP_REPORTE_MAIL SET
+        		  REPORTE			= 'Reporte de Viajes',
+        		  DESTINATARIO		= '".$data['inputEmail']."',
+        		  FECHA_INICIO		= '".$data['inputFechaIn']."',
+        		  FECHA_FIN			= '".$data['inputFechaFin']."',
+        		  ID_USUARIO		= '".$data['inputUserAssign']."',
+        		  ID_CLIENTE		= '".$data['inputCliente']."',
+        		  ID_ESTATUS		= '".$data['inputStatus']."',
+        		  CREADO			= CURRENT_TIMESTAMP";
+        try{            
+    		$query   = $this->query($sql,false);
+    		$sql_id ="SELECT LAST_INSERT_ID() AS ID_LAST;";
+			$query_id   = $this->query($sql_id);
+			if(count($query_id)>0){
+				$result['id']	   = $query_id[0]['ID_LAST'];
+				$result['status']  = true;					
+			}	
+        }catch(Exception $e) {
+            echo $e->getMessage();
+            echo $e->getErrorMessage();
+        }
+		return $result;	      	
+    }    
 }	

@@ -11,13 +11,17 @@ class My_Model_Adminusuarios extends My_Db_Table
 	protected $_name 	= 'USUARIOS';
 	protected $_primary = 'ID_USUARIO';
 	
-	public function getDataTable(){
+	public function getDataTable($idMonitoreo,$sIdProfile){
 		$result= Array();
-		$this->query("SET NAMES utf8",false); 		
+		$this->query("SET NAMES utf8",false); 	
+		
+		$sFilter = 	($sIdProfile!="") ? 'AND U.ID_PERFIL IN ('.$sIdProfile.')' : '';		
+		
     	$sql ="SELECT U.* ,P.*
 				FROM $this->_name U 
 				INNER JOIN PERFILES P ON U.ID_PERFIL = P.ID_PERFIL  
-				WHERE P.ID_PERFIL != 2
+				WHERE U.ID_MONITOREO = ".$idMonitoreo."
+    			$sFilter				
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -62,7 +66,8 @@ class My_Model_Adminusuarios extends My_Db_Table
         $result['status']  = false;    
 
         $sql="INSERT INTO $this->_name	
-        		SET ID_PERFIL		=  ".$data['inputPerfil'].",
+        		SET ID_MONITOREO	=  ".$data['idcentro'].",
+        			ID_PERFIL		=  ".$data['inputPerfil'].",
 					USUARIO			= '".$data['inputUser']."',
 					PASSWORD		= SHA1('".$data['inputPassword']."'),
 					PASSWORD_TEXT	= '".$data['inputPassword']."',
@@ -135,16 +140,17 @@ class My_Model_Adminusuarios extends My_Db_Table
 		return $result;	     	
     } 
 
-    public function getUserToAssign(){
+    public function getUserToAssign($idMonitoreo=1){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT COUNT(ID_VIAJE) AS TOTAL, U.ID_USUARIO AS ID, CONCAT(U.NOMBRE,' ',U.APELLIDOS) AS NOMBRE, P.`DESCRIPCION` AS NAME_PERFIL
 				FROM USUARIOS U 
 				INNER JOIN PERFILES P ON U.ID_PERFIL = P.ID_PERFIL 								
-								LEFT JOIN GTP_VIAJES V ON U.ID_USUARIO = V.ID_USUARIO_ASIGNADO AND V.ID_ESTATUS  IN(1,2)
-								WHERE U.ID_PERFIL != 2
-								  AND U.ESTATUS = 1
-								 GROUP BY U.ID_USUARIO	
+				 LEFT JOIN GTP_VIAJES V ON U.ID_USUARIO = V.ID_USUARIO_ASIGNADO AND V.ID_ESTATUS  IN(1,2)
+				WHERE P.ID_PERFIL IN (1,3)
+				  AND U.ESTATUS = 1
+				  AND U.ID_MONITOREO = ".$idMonitoreo."
+				GROUP BY U.ID_USUARIO									
 				ORDER BY NOMBRE ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -154,14 +160,16 @@ class My_Model_Adminusuarios extends My_Db_Table
 		return $result;		    	    
     }
     
-	public function getCboUsers(){
+	public function getCboUsers($idMonitoreo=1){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT U.ID_USUARIO AS ID, CONCAT(U.NOMBRE,' ',U.APELLIDOS) AS NAME
 				FROM $this->_name U 
 				INNER JOIN PERFILES P ON U.ID_PERFIL = P.ID_PERFIL  
-				WHERE P.ID_PERFIL != 2
-				GROUP BY $this->_primary";
+				WHERE P.ID_PERFIL IN (1,3)
+				  AND U.ID_MONITOREO = ".$idMonitoreo."
+				GROUP BY $this->_primary
+				ORDER BY NAME ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
 			$result = $query;

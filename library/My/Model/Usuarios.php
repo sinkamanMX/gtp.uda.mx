@@ -37,13 +37,15 @@ class My_Model_Usuarios extends My_Db_Table
       	$this->query("SET NAMES utf8",false); 
         
 		$result= Array();
-    	$sql ="SELECT U.* ,P.*, S.*, E.* ,IF(E.NOMBRE IS NULL ,'MONITOREO',E.NOMBRE) AS N_EMPRESA, U.NOMBRE AS N_USUARIO
+    	$sql ="SELECT U.* ,P.*, S.*, E.*, C.* , IF(E.NOMBRE IS NULL ,'MONITOREO',E.NOMBRE) AS N_EMPRESA, U.NOMBRE AS N_USUARIO,
+    			C.NOMBRE AS N_CENTRO, U.ID_MONITOREO
 				FROM USUARIOS U
 				INNER JOIN PERFILES    P  ON U.ID_PERFIL     = P.ID_PERFIL
 				LEFT JOIN USR_EMPRESA UE ON U.ID_USUARIO    = UE.ID_USUARIO
 				LEFT JOIN SUCURSALES  S  ON UE.ID_SUCURSAL  = S.ID_SUCURSAL
 				LEFT JOIN EMPRESAS    E  ON S.ID_EMPRESA    = E.ID_EMPRESA
-                WHERE U.ID_USUARIO = $idObject";			         	
+				INNER JOIN CENTRO_MONITOREO C ON U.ID_MONITOREO = C.ID_MONITOREO
+                WHERE U.ID_USUARIO = $idObject";
 		$query   = $this->query($sql);
 		if(count($query)>0){
 			$result	 = $query[0];			
@@ -105,7 +107,8 @@ class My_Model_Usuarios extends My_Db_Table
         $result['status']  = false;    
 
         $sql="INSERT INTO $this->_name	
-        		SET ID_PERFIL		=  ".$data['inputPerfil'].",
+        		SET ID_MONITOREO	=  ".$data['idcentro'].",
+        			ID_PERFIL		=  ".$data['inputPerfil'].",
 					USUARIO			= '".$data['inputUser']."',
 					PASSWORD		= SHA1('".$data['inputPassword']."'),
 					PASSWORD_TEXT	= '".$data['inputPassword']."',

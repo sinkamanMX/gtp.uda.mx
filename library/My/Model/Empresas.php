@@ -15,19 +15,24 @@ class My_Model_Empresas extends My_Db_Table
         $result     = Array();
         $result['status']  = false;
 
-        $idEstado    = (isset($data['inputEstadoF'])    && $data['inputEstadoF']    > 0) ? $data['inputEstadoF']      : 0;
-        $idMunicipio = (isset($data['inputMunicipioF']) && $data['inputMunicipioF'] > 0) ? $data['inputMunicipioF']   : 0;        
-        $sUserUda 	 = (isset($data['inputUserUda'])    && $data['inputUserUda']  !="")     ? $data['inputUserUda']    : '';
+        $idEstado    = (isset($data['inputEstadoF'])     && $data['inputEstadoF']    > 0) ? $data['inputEstadoF']      : 0;
+        $idMunicipio = (isset($data['inputMunicipioF'])  && $data['inputMunicipioF'] > 0) ? $data['inputMunicipioF']   : 0;        
+        $sUserUda 	 = (isset($data['inputUserUda'])     && $data['inputUserUda']  !="")     ? $data['inputUserUda']    : '';
         $sPassUda 	 = (isset($data['inputPasswordUda']) && $data['inputPasswordUda'] !="") ? $data['inputPasswordUda']: '';
+        $idCentrom   = (isset($data['idcentro']) && $data['idcentro'] !="") ? $data['idcentro']: 1;
+        $sRfcUda	 = (isset($data['inputRFC']) && $data['inputRFC'] !="") ? $data['inputRFC']: '';
+        $iClienteUda = (isset($data['inputClienteUDA'])  && $data['inputClienteUDA'] !="") ? $data['inputClienteUDA']: 0;
+        //$idMonitoreo = (isset($data['idMonitoreo'])      && $data['inputClienteUDA'] !="") ? $data['idMonitoreo'] : 1;
         
         $sql="INSERT INTO $this->_name	
         		SET	NOMBRE 			= '".$data['inputDescripcion']."',
-        			RFC				= '".$data['inputRFC']."',
+        			RFC				= '".$sRfcUda."',
         		 	RAZON_SOCIAL	= '".$data['inputRazonSocial']."',
 					ESTATUS			=  ".$data['inputEstatus'].",
-					CLIENTE_UDA		=  ".$data['inputClienteUDA'].",
-					USUARIO_UDA  	= '".$sUserUda."',
-					PASSWORD_UDA	= '".$sPassUda."',
+					CLIENTE_UDA		=  ".$iClienteUda.",
+					USUARIO_UDA  	= '".$sUserUda."' ,
+					PASSWORD_UDA	= '".$sPassUda."' ,
+					ID_MONITOREO	=  ".$idCentrom." ,
         			FECHA_REGISTRO	= CURRENT_TIMESTAMP";       			  
         try{            
     		$query   = $this->query($sql,false);
@@ -44,11 +49,12 @@ class My_Model_Empresas extends My_Db_Table
 		return $result;	
     }  	
     
-  	public function validateExist($sRfc){
+  	public function validateExist($sRfc,$idMonitoreo=1){
 		$result= Array();
     	$sql ="SELECT  *
                 FROM ".$this->_name." 
-                WHERE RFC = '".$sRfc."' LIMIT 1";		         	
+                WHERE RFC = '".$sRfc."'
+                  AND ID_MONITOREO = ".$idMonitoreo." LIMIT 1";		         	
 		$query   = $this->query($sql);
 		if(count($query)>0){
 			$result	 = $query[0];			
@@ -75,11 +81,18 @@ class My_Model_Empresas extends My_Db_Table
 		return $result;	      	
     }	
 
-	public function getDataTables(){
-		$result= Array();
-		$this->query("SET NAMES utf8",false); 		
+	public function getDataTables($idCdm=-1,$idCompany=-1){
+		$result= Array();		
+		$this->query("SET NAMES utf8",false);
+		
+		$sCdm	 = ($idCdm==-1) ? '' : 'WHERE ID_MONITOREO = '.$idCdm.' ';
+		$sFilter = ($idCompany!=-1) ? ' AND ': '';  
+		$sFilter.= ($idCompany!=-1) ? 'ID_EMPRESA NOT IN ('.$idCompany.')': ''; 
+		 		
     	$sql ="SELECT *
 				FROM $this->_name
+				$sCdm
+				$sFilter
 				ORDER BY RAZON_SOCIAL ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){
@@ -133,12 +146,13 @@ class My_Model_Empresas extends My_Db_Table
 		return $result;	      	
     } 
 
-	public function getCbo(){
+	public function getCbo($idMonitoreo=1){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT ID_EMPRESA AS ID, NOMBRE AS NAME
 				FROM $this->_name
-				ORDER BY RAZON_SOCIAL ASC";
+				WHERE ID_MONITOREO = ".$idMonitoreo."
+				ORDER BY NAME ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){
 			$result = $query;			

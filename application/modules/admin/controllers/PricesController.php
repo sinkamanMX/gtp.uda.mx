@@ -39,8 +39,8 @@ class admin_PricesController extends My_Controller_Action
 				$this->_aErrors['status'] = 'no-info';
 			}
 
-			$this->view->dataUser = $this->_dataUser;
-
+			$this->view->dataUser 		= $this->_dataUser;
+			$this->_dataIn['idcentro']  = $this->_dataUser['ID_MONITOREO'];
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -52,7 +52,7 @@ class admin_PricesController extends My_Controller_Action
 	    	$this->view->mOption = 'mrutas';			
 			$cRutas      = new My_Model_Precios();
 			
-			$this->view->datatTable = $cRutas->getDataTable();
+			$this->view->datatTable = $cRutas->getDataTable($this->_dataUser['ID_MONITOREO']);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                

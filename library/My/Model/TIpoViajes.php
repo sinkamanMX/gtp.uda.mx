@@ -11,11 +11,12 @@ class My_Model_TipoViajes extends My_Db_Table
 	protected $_name 	= 'TIPO_VIAJES';
 	protected $_primary = 'ID_TIPO_VIAJE';
 	
-	public function getCbo($idObject){
+	public function getCbo($idMonitoreo){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT $this->_primary AS ID, DESCRIPCION AS NAME
 				FROM $this->_name
+				WHERE ID_MONITOREO = ".$idMonitoreo."
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -40,12 +41,13 @@ class My_Model_TipoViajes extends My_Db_Table
 		return $result;				
 	}
 	
-	public function getDataTable(){
+	public function getDataTable($idMonitoreo){
 		$result= Array();
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT T.* , P.DESCRIPCION AS DESC_PRECIO, P.COSTO
 				FROM $this->_name T
 				INNER JOIN PRECIOS_SERVICIO P ON T.ID_PRECIO = P.ID_PRECIO
+				WHERE T.ID_MONITOREO = ".$idMonitoreo."
 				GROUP BY T.$this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -60,7 +62,8 @@ class My_Model_TipoViajes extends My_Db_Table
         $result['status']  = false;
 
         $sql="INSERT INTO  $this->_name
-        		SET ID_PRECIO		=  ".$aData['inputPrecio'].",
+        		SET ID_MONITOREO	=  ".$aData['idcentro'].", 
+        			ID_PRECIO		=  ".$aData['inputPrecio'].",
         			DESCRIPCION 	= '".$aData['inputDescripcion']."',
         			PRIORIDAD		=  ".$aData['inputPrioridad'].",
         			ESTATUS			=  ".$aData['inputStatus'].",

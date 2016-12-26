@@ -334,82 +334,87 @@ class main_MapController extends My_Controller_Action
         }		
     }  
 
-    public function getpositionlogAction(){
+    public function getpositionlogAction(){    	    	
 		try{
 			$answer = Array('answer' => 'no-data');
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
-			
+						
 			$validateNumbers = new Zend_Validate_Digits();
 			$validateString  = new Zend_Validate_Alnum();		
 			$cViajes 		 = new My_Model_Viajes();	
 			$cUnidades		 = new My_Model_Unidades();		
 			
-			if($validateNumbers->isValid($this->dataIn['catId']) ){
+			
+			if($validateNumbers->isValid($this->dataIn['catId']) ){				
 				$idViaje 	= $this->dataIn['catId'];
 				$aDataViaje = $cViajes->getDataComplete($idViaje);
 				$aDataUnidad= $cUnidades->getDataComplete($aDataViaje['ID_UNIDAD']);
 				$userUda 	= $aDataViaje['USUARIO_UDA'];
-    			$passUda 	= $aDataViaje['PASSWORD_UDA'];				
-				
-				//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
-    		  	//$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
-    		  	$soap_client  = new SoapClient("http://ws.grupouda.com.mx/wsUDAHistoryGetByPlate.asmx?WSDL");    		  	
-				$aParams 	  = array('sLogin'     => $userUda,
-			                  		  'sPassword'  => $passUda,
-									  'sPlate' 	   => $aDataUnidad['PLACAS']);
-				
-				$result=$soap_client->HistoyDataLastLocationByPlate($aParams);
-				
-				if (is_object($result)){
-			       	$x = get_object_vars($result); 	
-					$y = get_object_vars($x['HistoyDataLastLocationByPlateResult']);
-					$xml = $y['any'];		
-					if($xml2 = simplexml_load_string($xml)){						
-						$bContinue = true;						
-						if($xml2->Response->Status->code=='101'){
-							$answer = Array('answer' => 'login');
-							$bContinue = false;								
-						}else if($xml2->Response->Status->code=='102'){
-							$answer = Array('answer' => 'userproblem');
-							$bContinue = false;
+    			$passUda 	= $aDataViaje['PASSWORD_UDA'];
+    			
+				try{ 
+					$soap_client  = new SoapClient("http://201.175.31.4/ws/wsUDAHistoryGetByPlate.asmx?WSDL"); 
+					//$soap_client  = new SoapClient("http://ws.grupouda.com.mx/wsUDAHistoryGetByPlate.asmx?WSDL");    		  	
+					$aParams 	  = array('sLogin'     => $userUda,
+				                  		  'sPassword'  => $passUda,
+										  'sPlate' 	   => $aDataUnidad['PLACAS']);
+					//$soap_client  = new SoapClient("http://201.131.96.40/ws/wsUDAHistoryGetByPlate.asmx?WSDL");
+	    		  	//$soap_client  = new SoapClient("http://192.168.6.41/ws/wsUDAHistoryGetByPlate.asmx?WSDL");	    		  	
+					$result=$soap_client->HistoyDataLastLocationByPlate($aParams);
+					if (is_object($result)){
+				       	$x = get_object_vars($result); 	
+						$y = get_object_vars($x['HistoyDataLastLocationByPlateResult']);
+						$xml = $y['any'];		
+						if($xml2 = simplexml_load_string($xml)){						
+							$bContinue = true;						
+							if($xml2->Response->Status->code=='101'){
+								$answer = Array('answer' => 'login');
+								$bContinue = false;								
+							}else if($xml2->Response->Status->code=='102'){
+								$answer = Array('answer' => 'userproblem');
+								$bContinue = false;
+							}
+							
+							if($bContinue){
+								$c = 0;
+								for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
+									$aDataPosition  = Array();
+									$sFechaServer 	= (string) $xml2->Response->Plate[$i]->hst->DateTimeServer;
+									$sFechaServer 	= str_replace("/", "-", $sFechaServer);
+									$sLocation      =  (string)$xml2->Response->Plate[$i]->hst->Location;							
+									$vowels = array("&", "%", "'", '"' );
+									$sLocation  = str_replace($vowels, " ", $sLocation);
+									
+									$aDataPosition['sFechaServer'] 	= $sFechaServer; 
+									$aDataPosition['fLatitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Latitude;
+									$aDataPosition['fLongitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Longitude;
+									$aDataPosition['iVelocidad']  	= (string)$xml2->Response->Plate[$i]->hst->Speed;
+									$aDataPosition['iAngle']		= (string)$xml2->Response->Plate[$i]->hst->Angle;
+									$aDataPosition['sLocation']		= $sLocation;
+									
+									$answer = Array('answer' => 'ok',
+												   'dataPos' => $aDataPosition);
+					        	}							
+							}			        	
+						}else{
+							$answer = Array('answer' => 'problem');
 						}
-						
-						if($bContinue){
-							$c = 0;
-							for($i = 0 ; $i < count($xml2->Response->Plate) ; $i++){
-								$aDataPosition  = Array();
-								$sFechaServer 	= (string) $xml2->Response->Plate[$i]->hst->DateTimeServer;
-								$sFechaServer 	= str_replace("/", "-", $sFechaServer);
-								$sLocation      =  (string)$xml2->Response->Plate[$i]->hst->Location;							
-								$vowels = array("&", "%", "'", '"' );
-								$sLocation  = str_replace($vowels, " ", $sLocation);
-								
-								$aDataPosition['sFechaServer'] 	= $sFechaServer; 
-								$aDataPosition['fLatitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Latitude;
-								$aDataPosition['fLongitude'] 	= (string)$xml2->Response->Plate[$i]->hst->Longitude;
-								$aDataPosition['iVelocidad']  	= (string)$xml2->Response->Plate[$i]->hst->Speed;
-								$aDataPosition['iAngle']		= (string)$xml2->Response->Plate[$i]->hst->Angle;
-								$aDataPosition['sLocation']		= $sLocation;
-								
-								$answer = Array('answer' => 'ok',
-											   'dataPos' => $aDataPosition);
-				        	}							
-						}			        	
 					}else{
 						$answer = Array('answer' => 'problem');
-					}
-				}else{
-					$answer = Array('answer' => 'problem');
-				}
+					}					
+					
+		      	} catch (SoapFault $fault) {     
+		        	$answer = Array('answer' => 'problem-wbs');
+		      	}		      
 			}else{
 	            $answer = Array('answer' => 'problem');	
 	        }
-	        
-	        echo Zend_Json::encode($answer);   
+	       echo Zend_Json::encode($answer);	       
     	} catch (Zend_Exception $e) {
         	echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
-        }	 	
+        }	 
+        	
     }
 }

@@ -151,12 +151,13 @@ class My_Model_Perfiles extends My_Db_Table
 		return $result;	 		
 	}
 
-	public function getCbo(){
+	public function getCbo($sIdProfiles=""){
 		$result= Array();
-		$this->query("SET NAMES utf8",false); 		
+		$this->query("SET NAMES utf8",false); 	
+		$sFilter = 	($sIdProfiles!="") ? 'WHERE ID_PERFIL IN ('.$sIdProfiles.')' : '';
     	$sql ="SELECT ID_PERFIL AS ID, DESCRIPCION AS NAME
 				FROM PERFILES
-				WHERE ID_PERFIL != 2
+					 ".$sFilter."
 				GROUP BY NAME ASC";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  

@@ -38,7 +38,8 @@ class reports_AtencionController extends My_Controller_Action
 	    	$aDataSearch['fecFin'] = Array();
 			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
-			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];
+			$aDataSearch['idMonitoreo'] = $this->view->dataUser['ID_MONITOREO'];						    	
 			$aDataSearch['fecIncio'] 	= date("Y-m-d ")."00:00:00";
 			$aDataSearch['fecFin'] 		= date("Y-m-d ")."23:59:59";    
 			$aDataSearch['inputUserAssign'] = '';
@@ -52,7 +53,7 @@ class reports_AtencionController extends My_Controller_Action
 			$aStatus     = $viajes->getCboStatus();	
 			
 		
-			$aEmpresas   = $cEmpresas->getCbo();
+			$aEmpresas   = $cEmpresas->getCbo($this->view->dataUser['ID_MONITOREO']);
 			$sStatus     = '';
 			$sUsuario    = '';
 			$sCliente	 = '';
@@ -292,7 +293,8 @@ class reports_AtencionController extends My_Controller_Action
 	    	$aDataSearch = Array();
 			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
-			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];	
+			$aDataSearch['idMonitoreo'] = $this->view->dataUser['ID_MONITOREO'];		    	
 			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
 			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    
 			$aDataSearch['inputCliente'] 	= '';	

@@ -40,6 +40,7 @@ class monitor_mainController extends My_Controller_Action
 			}
 
 			$this->view->dataUser = $this->_dataUser;
+			$this->_dataIn['idMonitoreo'] = $this->_dataUser['ID_MONITOREO'];					
 			$this->view->bPageAll = true;
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
@@ -55,8 +56,8 @@ class monitor_mainController extends My_Controller_Action
 	    	$aCurrent 	= Array();
 	    	
 	    	if($this->_dataUser['ID_PERFIL']==1){
-				$aNoAssing  = $cViajes->getNoAssing();
-	    		$aCurrent 	= $cViajes->getCurrentTravels();	
+				$aNoAssing  = $cViajes->getNoAssing($this->_dataUser['ID_MONITOREO']);
+	    		$aCurrent 	= $cViajes->getCurrentTravels($this->_dataUser['ID_MONITOREO']);	
 	    	}	    		
 
 	    	$this->view->aNoAssign  	= $aNoAssing;
@@ -76,7 +77,7 @@ class monitor_mainController extends My_Controller_Action
 			$this->view->layout()->setLayout('layout_blank');
 			$sTypeMode  = (isset($this->_dataIn['mode']))? $this->_dataIn['mode'] : 'assign';			
 			$cObject    = new My_Model_Adminusuarios();			
-			$this->view->dataTable   = $cObject->getUserToAssign();
+			$this->view->dataTable   = $cObject->getUserToAssign($this->_dataUser['ID_MONITOREO']);
 			
 			$this->view->aModeAssign = $sTypeMode;
         } catch (Zend_Exception $e) {

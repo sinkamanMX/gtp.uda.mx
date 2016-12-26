@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"mysqli__",
+				"mysqli_fetch_array"
+			],
+			[
+				"c",
+				"conexion"
+			],
+			[
 				"se",
 				"selected"
 			],
@@ -240,10 +248,6 @@
 				"registro-login"
 			],
 			[
-				"c",
-				"car-label-button"
-			],
-			[
 				"color",
 				"colorSelected"
 			],
@@ -408,10 +412,71 @@
 	"buffers":
 	[
 		{
-			"file": "application/modules/reports/views/scripts/atencion/index.phtml",
+			"file": "application/modules/main/views/scripts/reports/index.phtml",
 			"settings":
 			{
-				"buffer_size": 8361,
+				"buffer_size": 11353,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/reports/jsValidateReport.js",
+			"settings":
+			{
+				"buffer_size": 3584,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/reports/repTravelDetail.js",
+			"settings":
+			{
+				"buffer_size": 3310,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/modules/users/validateusers.js",
+			"settings":
+			{
+				"buffer_size": 2303,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "cron/createReporte.php",
+			"settings":
+			{
+				"buffer_size": 11832,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php $this->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false') ?>\n<?php $this->headScript()->appendFile('/js/modules/travelsinfo.js') ?> \n\n<ul id=\"tabs\" class=\"nav nav-tabs bg-white\" data-tabs=\"tabs\">\n    <li class=\"active\"><a href=\"#gral\" data-toggle=\"tab\">Datos del Viaje</a></li>\n    <li><a href=\"#incidencias\" data-toggle=\"tab\">Incidencias</a></li>     \n    <li><a href=\"#map\" data-toggle=\"tab\">Mapa</a></li>\n	<li><a href=\"#recorrido\" data-toggle=\"tab\">Recorrido</a></li>      \n</ul>\n\n<div id=\"my-tab-content\" class=\"tab-content bg-white\">\n    <div class=\"tab-pane active\" id=\"gral\">\n		<?php if($this->resultOp=='okRegister'): ?>\n		    <div class=\"alert alert-success\">\n		        <button class=\"close\" data-dismiss=\"alert\"></button>\n		        Datos registrados correctamente.\n				<script>\n					parent.closeWindows();\n				</script>		        \n		    </div>  \n		<?php endif; ?>				\n			<form method=\"POST\" action=\"/travels/main/infotravel\" id=\"FormData\" class=\"form-horizontal \">\n                <input type=\"hidden\" name=\"optReg\" value=\"<?php echo ($this->idToUpdate>0) ? 'update': 'new';?>\" />\n                <input type=\"hidden\" name=\"catId\" value=\"<?php echo $this->catId; ?>\" />                \n				<fieldset>\n					<div class=\"\">\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Inicio<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n			                          <input id=\"inputFechaIn\" name=\"inputFechaIn\" data-required=\"1\"  type=\"text\" class=\"form-control\" value=\"<?php echo @$this->data['INICIO']; ?>\" id=\"inputDate\" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >\n								</div>\n							</div>8\n						</div>\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Fin<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<input type=\"text\" id=\"inputFechaFin\" name=\"inputFechaFin\" class=\"m-wrap\" value=\"<?php echo (@$this->data['FIN']); ?>\" <?php echo ($this->data['ID_ESTATUS']==4) ? 'disabled': '' ;?> >\n								</div>\n							</div>							\n						</div>						\n					</div>\n\n					<div class=\"\">\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Ruta<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<select class=\"span4 m-wrap\" id=\"inputRuta\" name=\"inputRuta\" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >\n										<option value=\"\">Seleccionar una opción</option>\n										<?php echo @$this->aRutas;?>\n									</select>\n								</div>\n							</div>				\n						</div>\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Tipo Viaje<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<select class=\"span4 m-wrap\" id=\"inputTviaje\" name=\"inputTviaje\" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >\n										<option value=\"\">Seleccionar una opción</option>\n										<?php echo @$this->aTipoViaje;?>\n									</select>\n								</div>\n							</div>							\n						</div>						\n					</div>					\n\n					<div class=\"\">\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Número<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<input type=\"text\" name=\"inputNoTravel\" data-required=\"1\" class=\"span4 m-wrap\" value=\"<?php echo (@$this->data['CLAVE']); ?>\" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >\n								</div>\n							</div>\n						</div>\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Descripción<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<input type=\"text\" name=\"inputDescripcion\" data-required=\"1\" class=\"span4 m-wrap\" value=\"<?php echo (@$this->data['DESCRIPCION']); ?>\" <?php echo ($this->data['ID_ESTATUS']==4 || $this->data['ID_ESTATUS']== 2 ) ? 'disabled': '' ;?> >\n								</div>\n							</div>							\n						</div>\n					</div>\n\n					<div class=\"\">\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Sucursal<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<select class=\"span4 m-wrap\" id=\"inputSucursal\" name=\"inputSucursal\" onChange=\"getoptionsCbo('Cliente','clients',this.value,false);\" <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >\n										<option value=\"\">Seleccionar una opción</option>\n				                        <?php foreach ($this->sucursales as $key => $item): ?>\n				                            <option <?php echo ($item['ID_SUCURSAL'] == @$this->data['ID_SUCURSAL']) ? 'selected':'';?> value=\"<?php echo $item['ID_SUCURSAL']?>\"><?php echo $item['DESCRIPCION']?></option>\n				                        <?php endforeach; ?>\n									</select>									\n								</div>\n							</div>				\n						</div>	\n\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Cliente<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<div id=\"divCliente\">\n										<select class=\"span4 m-wrap\" id=\"inputCliente\" name=\"inputCliente\"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >\n											<option value=\"\">Seleccionar una opción</option>\n											<?php echo @$this->clientes;?>\n										</select>\n									</div>\n								</div>\n							</div>					\n						</div>						\n					</div>					\n\n					<div class=\"\">\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Transportistas<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<select class=\"span4 m-wrap\" name=\"inputTransportista\"  id=\"inputTransportista\"  onChange=\"getoptionsCbo('Operadores','operators',this.value,false);getoptionsCbo('Unidades','units',this.value,false);\"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >\n										<option value=\"\">Seleccionar una opción</option>\n				                        <?php foreach ($this->transportistas as $key => $item): ?>\n				                            <option <?php echo ($item['ID_TRANSPORTISTA'] == @$this->idTransportista) ? 'selected':'';?> value=\"<?php echo $item['ID_TRANSPORTISTA']?>\"><?php echo $item['DESCRIPCION']?></option>\n				                        <?php endforeach; ?>\n									</select>\n								</div>\n							</div>	\n						</div>	\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Unidad<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<div id=\"divUnidades\">\n										<select class=\"span4 m-wrap\" name=\"inputUnidades\" id=\"inputUnidades\"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?> >\n											<option value=\"\">Seleccionar una opción</option>\n					                        <?php foreach ($this->unidades as $key => $item): ?>\n					                            <option <?php echo ($item['ID'] == @$this->data['ID_UNIDAD']) ? 'selected':'';?> value=\"<?php echo $item['ID']?>\"><?php echo $item['NAME']?></option>\n					                        <?php endforeach; ?>\n										</select>\n									</div>\n								</div>\n							</div>						\n						</div>							\n					</div>\n\n					<div class=\"\">		\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Operador<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<div id=\"divOperadores\">\n										<select class=\"span4 m-wrap\"  name=\"inputOperadores\" id=\"inputOperadores\"  <?php echo ($this->data['ID_ESTATUS']==4 ) ? 'disabled': '' ;?>  >\n											<option value=\"\">Seleccionar una opción</option>\n					                        <?php foreach ($this->operadores as $key => $item): ?>\n					                            <option <?php echo ($item['ID'] == @$this->data['ID_OPERADOR']) ? 'selected':'';?> value=\"<?php echo $item['ID']?>\"><?php echo $item['NAME']?></option>\n					                        <?php endforeach; ?>\n										</select>\n									</div>\n								</div>\n							</div>			\n						</div>	\n						<div class=\"span6\">\n							<div class=\"control-group\">\n								<label class=\"control-label\">Medio Contacto<span class=\"required\">*</span></label>\n								<div class=\"controls\">\n									<input type=\"text\" name=\"inputMedioContacto\" data-required=\"1\" class=\" m-wrap\" value=\"<?php echo (@$this->data['MEDIO_CONTACTO']); ?>\" placeholder=\"Ej: tel:123456789\">\n								</div>\n							</div>						\n						</div>									\n					</div>\n					<div class=\"\">		\n						<div class=\"span12\">\n							<div class=\"control-group\">\n							<label class=\"control-label\">Información Adicional</label>\n							<div class=\"controls\">\n								<textarea id=\"txtInfoAdd\" class=\"span10\" name=\"txtInfoAdd\" rows=\"2\"><?php echo (@$this->data['INFORMACION_EXTRA']); ?></textarea>\n							</div>\n							</div>			\n						</div>												\n					</div>							\n					<div class=\"\">\n				    	<div class=\"col-xs-4 col-md-5\">\n							<div class=\"pull-right\">			\n								<button type=\"submit\" class=\"btn btn-primary bg-btn-send\">Guardar Cambios</button>\n								<button type=\"button\" class=\"btn\" onClick=\"parent.closeWindows()\">Cancelar</button>								\n							</div>    \n				    	</div>						\n					</div>\n				</fieldset>\n			</form>\n\n\n\n    </div>\n    <div class=\"tab-pane\" id=\"incidencias\">\n\n		<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"table table-striped table-bordered\"  id=\"dataTable\">\n			<thead>\n			    <tr>\n			        <th>Prioridad</th>\n			        <th>Descripción</th>\n			        <th>Comentario</th>\n			        <th>Usuario</th>\n			        <th>Creado</th>\n			    </tr>\n			</thead>\n			<tbody>\n				<?php foreach($this->incidencias as $key => $items): ?>\n					<tr>\n						<td><?php echo $items['PRIORIDAD'];?></td>\n						<td><?php echo $items['DESCRIPCION'];?></td>\n						<td><?php echo $items['COMENTARIO'];?></td>\n						<td><?php echo $items['USUARIO'];?></td>\n						<td><?php echo $items['CREADO'];?></td>\n					</tr>\n				<?php  endforeach;?>\n			</tbody>\n		</table>\n\n\n    </div>\n    <div class=\"tab-pane\" id=\"recorrido\">\n		<div class=\"button-excel\">\n			<?php if(count($this->recorrido)>0): ?>\n				<div class=\"btn-group\">\n				 <a href=\"/main/reports/exportdatatravel?travelID=<?php echo $this->catId; ?>\"><button class=\"btn btn-success\"> Exportar <i class=\"icon-file icon-white\"></i></button></a>\n				</div>\n			<?php endif;?>\n        </div>\n		<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"table table-striped table-bordered\"  id=\"tableRecorrido\">\n			<thead>\n			    <tr>\n			        <th>Fecha GPS</th>\n			        <th>Fecha Recibido</th>\n			        <th>Latitud</th>\n			        <th>Longitud</th>\n			        <th>Velocidad</th>\n			        <th>Angulo</th>\n			        <th>Ubicación</th>\n			        <th>Tipo</th>\n			        <th>Incidencia</th>\n			    </tr>\n			</thead>\n			<tbody>\n				<?php $result = '';?>\n				<?php foreach($this->recorrido as $key => $items): ?>\n					<tr>\n						<td><?php echo $items['FECHA'];?></td>\n						<td><?php echo $items['CREADO'];?></td>\n						<td><?php echo $items['LATITUD'];?></td>\n						<td><?php echo $items['LONGITUD'];?></td>\n						<td><?php echo round($items['VELOCIDAD'],2);?></td>\n						<td><?php echo round($items['ANGULO'],2);?></td>\n						<td><?php echo $items['UBICACION'];?></td>\n						<td><?php echo $items['MODO'];?></td>\n						<td><?php echo $items['INCIDENCIA'];?></td>								\n					</tr>\n\n					<?php $result .= ($result!=\"\") ? \"!\" : \"\";?>\n					<?php $result .= $items['LATITUD'].\"|\".$items['LONGITUD'].\"|\".$items['FECHA'].\"|\".\n							$items['UBICACION'].\"|\".round($items['VELOCIDAD'],2).\"|\".round($items['ANGULO'],2).\"|\".$items['MODO'].\"|\".$items['INCIDENCIA'];?>\n				<?php  endforeach;?>\n			</tbody>\n		</table>\n		<div id=\"positions\" class=\"hide\"><?php echo $result; ?></div>    	\n    </div>\n    <div class=\"tab-pane\" id=\"map\">\n    	<div id=\"MapRecorrido\" style=\"width:98%;height:350px;\"></div>\n    </div>    \n</div>",
+			"file": "application/modules/travels/views/scripts/main/infotravel.phtml",
+			"file_size": 12161,
+			"file_write_time": 1475792522000000,
+			"settings":
+			{
+				"buffer_size": 12146,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 4845 files for \"er.penagonzalez\" (regex)\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/application/configs/app.ini:\n    8  serviceUrl = http://productividad.mx/\n    9  ;admin.mails  	= sup.monitoreo@grupouda.com.mx, tleader.ccuda@grupouda.com.mx\n   10: admin.mails  	= sinka.187@gmail.com,er.penagonzalez@gmail.com\n   11  admin.name		= Administrador Viajes Taccsi\n   12  \n\n1 match in 1 file\n\n\nSearching 4845 files for \"mailCco\" (regex)\n\n/Users/itecno2/Documents/workspace/gtp.uda.mx/library/My/Controller/Functions.php:\n   66  		$headers .= \"X-Mailer: PHP 5.2\\n\";\n   67  		$headers .= \"From: \\\"\".$config->getOption(\"admin_nombre\").\"\\\" <\".$config->getOption(\"admin_email_noreply\").\">\\n\";\n   68: 		$headers .= \"Reply-To:\".$config->getOption(\"mailCco\").\"\\n\";\n   69  		$enviado = mail($data['mail_admin'], $data['subject'], $data['mensaje'], $headers);\n   70  		return $enviado;    	\n\n1 match in 1 file\n",
+			"settings":
+			{
+				"buffer_size": 910,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "application/configs/app.ini",
+			"settings":
+			{
+				"buffer_size": 1951,
 				"line_ending": "Unix"
 			}
 		}
@@ -440,23 +505,34 @@
 	},
 	"file_history":
 	[
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/newtravel.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admon/views/scripts/monitoring/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admon/views/scripts/monitoring/getinfo.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/admon/validateMonitoreo.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/admon/jsValidateMonitoreo.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/UnitsController.php",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/getpositionlog.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/MapController.php",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMaps.js",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/reports/views/scripts/atencion/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/reports/index.phtml",
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/controllers/UnitsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMonitor.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/map/manualpos.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/manualPos.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/library/Zend/Service/DeveloperGarden/BaseUserService.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/library/Zend/Service/LiveDocx.php",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/monitor/functionsMaps.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/monitor/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/styles.css",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/functionGral.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/units/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/header.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/map.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/carriers/index.phtml",
@@ -467,7 +543,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travelsinfo.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/travels/newTravel.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/views/scripts/main/newtravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/infotravel.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/ReportsController.php",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/travels/controllers/MainController.php",
@@ -476,7 +551,6 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/routes/validateRoutes.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/routes/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/branches/validateBranches.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/contacts/validateContacts.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/branches/getinfo.phtml",
@@ -517,14 +591,11 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/prices/validatePrices.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/register/validateRegister.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/prices/getinfo.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/companies/validateCompanies.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/register/views/scripts/main/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/companies/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/manualpos.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/map/external.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/layout_blank.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/index.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/types/validateTypes.js",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/types/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/admin/views/scripts/prices/index.phtml",
@@ -561,13 +632,7 @@
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/main/recovery.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/units/getinfo.phtml",
 		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/scripts.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/units/getinfounit.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/js/modules/validateUnits.js",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/admin/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/dashboard/index.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/controllers/DashboardController.php",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/views/layouts/menu.phtml",
-		"/Users/itecno2/Documents/workspace/gtp.uda.mx/public/assets/DT_bootstrap.js"
+		"/Users/itecno2/Documents/workspace/gtp.uda.mx/application/modules/main/views/scripts/units/getinfounit.phtml"
 	],
 	"find":
 	{
@@ -575,7 +640,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 			"<open folders>",
@@ -588,6 +653,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"mailCco",
+			"er.penagonzalez",
+			"inputCliente",
+			"getReportViajes",
+			"createWriter",
+			"cbo_from_array",
+			"getpositionlog",
+			"map",
 			"/main/clients",
 			"192.168.6.41",
 			"SoapClient",
@@ -707,15 +780,7 @@
 			"&",
 			"INSERT INTO pet_distribuidores (nombre,calle,no_int,no_ext,colonia,id_municipio,id_estado,cp,web_url,contacto,contacto_email,contacto_tel,contacto_tel2,contacto_tel3,horario,dias,status,latitud,longitud) VALUES																																							\n		NOMBRE		CALLE		NOINT		NOEXT				MUNICIPIO		ESTADO		CP		WEB_RUL		CONTACTO		CONTACTO_EMAIL		TEL		TEL2		TEL3		HORARIO		DIAS		ESTATUS		LATITUD		LONGITUD	\n(	&	Dog Depot 	&,&	Prolongación Blv. Zertuche	&,&		&,&	2003	&,&	Pórticos del Mar 	&,	1	,	2	,&	22875	&,&		&,&	Ernesto Rangel Vitti	&,&	vzarinamariscal@hotmail.com	&,&	(045) 64 61 81 32 32	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	Doggie Door 	&,&	Bayoneta 	&,&		&,&	13	&,&	Lomas del Chamizal	&,	3	,	9	,&		&,&	www.doggiedoor.com.mx 	&,&	Alberto Nanes	&,&	alberto@doggiedoor.com.mx 	&,&	(0155) 2167-9567 	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	Pet City 	&,&	Prolongación Juárez	&,&		&,&	580-A	&,&	Contadero	&,	3	,	9	,&	5370	&,&	www.pet-city.com.mx 	&,&	Jennifer Vera	&,&		&,&	(0155) 65 88 61 06 	&,&	044 55 55 03 30 36 	&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	+'KOTA	&,&	Av. Vasco de Quiroga	&,&	Loc. 474	&,&	3800	&,&	Santa Fe	&,	3	,	9	,&	5109	&,&		&,&		&,&	santafe21@prodigy.net.mx	&,&	(0155) 5258 - 0874 	&,&		&,&		&,&	11:00 am a 8:30 pm	&,&	L-D	&,	1	,	0	,	0	),\n(	&	Smart Dogs 	&,&	Parroquia	&,&		&,&	412	&,&	del Valle 	&,	13	,	9	,&		&,&	www.smartdogs.com 	&,&	Sylvana Lozada	&,&	sylvana.loza@gmail.com 	&,&	(0155) 5524 8336 	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	+'KOTA	&,&	Av Universidad 	&,&	Local C 134-136	&,&	1000	&,&	Santa Cruz Atoyac	&,	13	,	9	,&	3310	&,&		&,&		&,&	universidad147@prodigy.net.mx	&,&	(0155) 5601 - 8116	&,&		&,&		&,&	10:30 am a 9:00 pm 	&,&	L-D	&,	1	,	0	,	0	),\n(	&	H. de Especialidades Veterinarias San Jerónimo SC 	&,&	Av San Jerónimo	&,&		&,&	1431	&,&	San Jerónimo Lidice	&,	7	,	9	,&	10200	&,&	www.vetsanjeronimo.com 	&,&	M.V.Z Riad Katrib	&,&	k_trib@yahoo.com 	&,&	(0155) 5681-2078 	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	Clínica Veterinaria Parque San Andrés 	&,&	América	&,&		&,&	103	&,&	Parque San Andrés 	&,	2	,	9	,&	4040	&,&	www.centroveterinariopsa.com 	&,&	MVZ Luis Fernando Martínez	&,&	recepcion_parquesa@hotmail.com 	&,&	(0155) 5689. 9624 	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	Centro Médico Veterinario México 	&,&	Calzada Ermita Iztapalapa	&,&		&,&	2720	&,&	Sta Cruz Neyehuyalco	&,	6	,	9	,&	9290	&,&		&,&	MVZ Raul Alvarado Canchola	&,&	alvaradocanchola@gmail.com 	&,&	(01 55) 1546 18 25	&,&		&,&		&,&		&,&		&,	1	,	0	,	0	),\n(	&	Pak's Kennel	&,&	Cerrada de Flor Silvestre	&,&		&,&	8	&,&	San Pedro Mártir 	&,	11	,	9	,&	14 64	&,&	www.pakskennel.com.mx 	&,&	Aldo Eduardo Sánchez Vargas	&,&	pakskennel@live.com.mx 	&,&	(01 55)54 8511 59 	&,&		&,&		&,&	10:30 am a 9:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Perisur	&,&	Av. Anillo Periférico, Centro Comercial Perisur	&,&	Local 27	&,&	469	&,&	Jardines del Pedregal de San Angel	&,	2	,	9	,&	1404500	&,&		&,&		&,&	perisur11@prodigy.net.mx	&,&	(01 55)5606 - 0058 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	Tochtli Mascotas	&,&	Mar Caribe	&,&	Local 2,5 y 6	&,&	8	&,&	Popotla	&,	15	,	9	,&		&,&	https://www.facebook.com/tochtli.mascotas 	&,&	Citlali Alethia Villalobos	&,&	comvilsa@yahoo.com 	&,&	(01 55) 24 52 43 44	&,&	(01 55) 63 63 31 04 	&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	+'KOTA Lomas	&,&	Prado Norte	&,&		&,&	381	&,&	Lomas de Chapultepec 	&,	15	,	9	,&	11000	&,&		&,&		&,&	lomas12@prodigy.net.mx	&,&	(01 55) 5540 - 0379	&,&		&,&		&,&	L-S de 10:00 am a 9:00 pm y D de 11:00 am a 8:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Pabellón Polanco	&,&	Av. Ejército Nacional	&,&	Loc. 147	&,&	980	&,&	Polanco	&,	15	,	9	,&	11510	&,&		&,&		&,&	polanco23@prodigy.net.mx	&,&	(01 55) 5580 - 0736 	&,&		&,&		&,&	11:00 am a 8:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Parque Lindavista	&,&	Colector 13	&,&	Locales 214 y 214-A 	&,&	280	&,&	Magdalena de las Salinas 	&,	4	,	9	,&	7760	&,&		&,&		&,&	parquelindavista126@prodigy.net.mx	&,&	(01 55) 5754 - 4214	&,&		&,&		&,&	11:00 am a 8:30 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Acoxpa	&,&	AV. Acoxpa 	&,&		&,&	447	&,&	Villa Lazaro Cardenes 	&,	11	,	9	,&	14370	&,&		&,&		&,&	acoxpa132@prodigy.net.mx	&,&	(01 55) 5603 - 0957 	&,&		&,&		&,&	L-S de 10:00 am a 9:00 pm y D de 10:00 am a 8:00pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Galerias Coapa	&,&	Calzada del Hueso,Centro Comercial GalerÃ­as Coapa	&,&	Loc. 138	&,&	519	&,&	Residencial Acoxpa 	&,	11	,	9	,&	14300	&,&		&,&		&,&	coapa015@prodigy.net.mx	&,&	(01 55) 5679 - 7991	&,&		&,&		&,&	11:00 am a 9:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	+'KOTA Paseo Acoxpa	&,&	Avenida Acoxpa	&,&	Loc. 93	&,&	430	&,&	Exhacienda Coapa 	&,	11	,	9	,&	4980	&,&		&,&		&,&	paseoacoxpa159@gmail.com	&,&	(01 55) 5677 - 7918	&,&		&,&		&,&	11:00 am a 9:00 pm 	&,&	L-V	&,	1	,	1	,	0	),\n																																							\n(	&	Hospital Veterinario Chapultepets 	&,&	Blvd. Pedro Infante	&,&		&,&	56	&,&	Recursos Hidráulicos	&,	6	,	25	&,	80100	&,&	www.chapultepets.com 	&,&	Santiago López Gerardo	&,&	contacto@chapultepets.com	&,&	(01) (667) 716?4243	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	ICE Instrucción Canina Especializada 	&,&	Faisan 	&,&		&,&	207	&,&	Fraccionamiento Real del Mezcal 	&,	5	,	10	&,	34199	&,&	www.icedurango.com 	&,&	Martín Alejandro Sánchez de la Vega 	&,&	icedurango@gmail.com 	&,&	(01 618) 197 55 12 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n																																							\n(	&	Educandog	&,&	Arlequín	&,&		&,&	34	&,&	Vergel de Arboledas	&,	13	,	15	&,	52942	&,&	http://www.educandog.mx 	&,&		&,&	contacto@educandog.mx 	&,&	(044 55) 34 99 30 57	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Av. Ruíz Cortines	&,&	Local 134 	&,&	255 Mz-2 Lt- 1	&,&	Las Margaritas 	&,	13	,	15	&,	52977	&,&		&,&		&,&	gatizapan1210@prodigy.net.mx	&,&	(0155) 1668 - 9055 	&,&		&,&		&,&	11:00 am a 9:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Blvd. Magnocentr	&,&	Local 112-1 PB	&,&	26 Mz. 1 Lote 2	&,&	Centro Urbano San Fernando 	&,	37	,	15	&,	52760	&,&		&,&		&,&	interlomas58@prodigy.net.mx	&,&	(0155) 5290 - 7674 	&,&		&,&		&,&	11:00 am a 8:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Vialidad de la Barranca 	&,&	Local N2-05 	&,&	6	&,&	Ex Hda Jesús del Monte 	&,	37	,	15	&,	52772	&,&		&,&		&,&	Interlomas138@gmail.com	&,&	(0155) 5290 - 6361 	&,&		&,&		&,&	11:00 am a 8:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Boulevard Toluca Ixtapan 	&,&	Local 101 PB	&,&	126	&,&	Metepec	&,	54	,	15	&,	52169	&,&		&,&		&,&	metepec017@prodigy.net.mx	&,&	(01 72) 2232 - 1292 	&,&		&,&		&,&	1:00 am a 9:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Circuito Centro 	&,&	Loc. R368 y R370	&,&	2251	&,&	Ciudad Satélite	&,	57	,	15	&,	53100	&,&		&,&		&,&	satelite14@prodigy.net.mx	&,&	(0155) 5572 - 5680	&,&		&,&		&,&	11:00 am a 8:30 pm	&,&	L-D	&,	1	,	1	,	0	),\n																																							\n(	&	#¿NOMBRE?	&,&	Av. Las Torres,	&,&	 Local 1248 	&,&	1032	&,&		&,	20	,	11	&,	37150	&,&		&,&		&,&	leon32@prodigy.net.mx	&,&	(01 47) 7779 - 5986	&,&		&,&		&,&	11:00 am a 9:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Blvd. Puerta de Hierro	&,&	Local UP67-127	&,&	4965	&,&		&,	120	,	14	&,	45116	&,&		&,&		&,&	andares129@prodigy.net.mx	&,&	(01 33) 3611 - 3123	&,&		&,&		&,&	10:00 am a 9:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n(	&	Pet n Go 	&,&	Paseo de Los Eucaliptos	&,&		&,&	5007	&,&		&,	39	,	19	&,	64920	&,&	www.petngo.com.mx	&,&		&,&		&,&	01 800 839 1299 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Boulevard del NiÃ±o Poblano 	&,&	Local 201-S / 202 S	&,&	2510	&,&		&,	114	,	21	&,	72450	&,&		&,&		&,&	angelopolis117@prodigy.net.mx	&,&	(01 22) 2225 - 2842 	&,&		&,&		&,&	11:00 am a 9:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n																																							\n(	&	Veterinaria Dr. Memo 	&,&	15 de Mayo	&,&		&,&	77	&,&	Centro Histórico	&,	14	,	22	&,	76000	&,&		&,&	M.V.Z. Guillermo Espindola , M.V.Z. Alma Luna	&,&	veterinariamemo@yahoo.com.mx 	&,&	(01) (442) 224?3800 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	Aquazon	&,&	Porvenir	&,&		&,&	26	&,&	Espa?a Querétaro	&,	14	,	22	&,	76158	&,&	www.a4patas.mx 	&,&	Juan Pablo Carrillo Espinosa	&,&	animalesvivos2008@gmail.com 	&,&	(01442) 391.2884 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n(	&	#¿NOMBRE?	&,&	Av. 5 de Febrero 	&,&	local 227 	&,&	99	&,&	Los Virreyes 	&,	14	,	22	&,	76175	&,&		&,&		&,&	queretaro55@prodigy.net.mx	&,&	(0144) 2215 - 0477 	&,&		&,&		&,&	11:00 am a 9:00 pm 	&,&	L-D	&,	1	,	1	,	0	),\n																																							\n(	&	#¿NOMBRE?	&,&	Blv. Antonio Rocha Cordero 	&,&	Local C-25	&,&	700	&,&	Fracc Lomas del Tecnológico	&,	28	,	24	&,	78215	&,&		&,&		&,&	plazasanluis152@gmail.com	&,&	(01 44) 4813 - 0140 	&,&		&,&		&,&	11:00 a.m. a 8:00 pm	&,&	L-D	&,	1	,	1	,	0	),\n(	&	Dog Hunter/ Grupo Emeritense 	&,&	105 Diagonal # 313 Cruzamiento 	&,&		&,&	32A y 34	&,&	Francisco Villa 	&,	50	,	31	&,	97219	&,&	www.facebook.com/grupoEmeritense 	&,&	M.V.Z. Fidel León	&,&	fnleon@hotmail.com 	&,&	(01 999) 253 02 71 	&,&		&,&		&,&		&,&		&,	1	,	1	,	0	),\n	&	",
 			"controlEstado",
-			"autocontrol",
-			"h",
-			"error",
-			"mailte",
-			"mail",
-			"white",
-			"control-label",
-			"bg",
-			">'+"
+			"autocontrol"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -774,23 +839,23 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 7,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "application/modules/reports/views/scripts/atencion/index.phtml",
+					"file": "application/modules/main/views/scripts/reports/index.phtml",
 					"settings":
 					{
-						"buffer_size": 8361,
+						"buffer_size": 11353,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6463,
-								6463
+								1318,
+								1318
 							]
 						],
 						"settings":
@@ -800,8 +865,219 @@
 							"translate_tabs_to_spaces": true,
 							"word_wrap": false
 						},
+						"translation.x": 60.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/js/reports/jsValidateReport.js",
+					"settings":
+					{
+						"buffer_size": 3584,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3406,
+								3416
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
 						"translation.x": 0.0,
-						"translation.y": 1617.0,
+						"translation.y": 955.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/js/reports/repTravelDetail.js",
+					"settings":
+					{
+						"buffer_size": 3310,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3310,
+								3310
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/js/modules/users/validateusers.js",
+					"settings":
+					{
+						"buffer_size": 2303,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1554,
+								1499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 490.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "cron/createReporte.php",
+					"settings":
+					{
+						"buffer_size": 11832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3592,
+								3592
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 6.0,
+						"translation.y": 634.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "application/modules/travels/views/scripts/main/infotravel.phtml",
+					"settings":
+					{
+						"buffer_size": 12146,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2155,
+								2155
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 440.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"settings":
+					{
+						"buffer_size": 910,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										300,
+										315
+									],
+									[
+										751,
+										758
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								311,
+								311
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 2,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "application/configs/app.ini",
+					"settings":
+					{
+						"buffer_size": 1951,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								900,
+								900
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

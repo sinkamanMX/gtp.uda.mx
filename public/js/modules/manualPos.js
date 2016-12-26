@@ -110,6 +110,9 @@ $( document ).ready(function() {
             }else if(result=='userproblem'){
               alert("La placa no pertenece a este usuario (Mensaje del sistema de Ovision), Favor de verificarlo con el supervisor.");
               enabledAll();              
+            }else if(result=='problem-wbs'){              
+              alert("Ocurrio un problema de comunicación con el sistema de Ovision (Web-Service). Favor de verificarlo con el supervisor.");
+              enabledAll();
             }else{
               alert("La unidad no tiene pocisión válida");
             }

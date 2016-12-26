@@ -84,7 +84,7 @@ class My_Controller_Functions
 		$options='';
 		for($p=0;$p<count($array);$p++){
 			$select='';
-			if($array[$p][id]==@$option){$select='selected';}
+			if($array[$p]['id']==@$option){$select='selected';}
 			$options .= '<option '.$select.' value="'.$array[$p]['id'].'" >'.$array[$p]['name'].'</option>';
 		}
 		return $options;		
@@ -96,7 +96,7 @@ class My_Controller_Functions
 		  $h = ($i<=9 && $bDigitComp)?"0".$i:$i;
 		  $current = ($h==$option) ? 'selected': '';
 		  $select .= '<option '.$current.' value="'.$h.'" >'.$h.'</option>';
-		  }
+	  }
 	  return $select;  		    
 	}
 	

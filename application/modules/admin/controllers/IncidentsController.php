@@ -14,37 +14,38 @@ class admin_incidentsController extends My_Controller_Action
     public function init()
     {
     	try{
-		$sessions = new My_Controller_Auth();
-		$perfiles = new My_Model_Perfiles();
-        if(!$sessions->validateSession()){
-            $this->_redirect('/');		
-		}
-		$this->view->dataUser   = $sessions->getContentSession();
-		$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
-		$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
-		$this->view->idEmpresa  = $this->view->dataUser['ID_EMPRESA'];
-		
-		$this->dataIn = $this->_request->getParams();
-		$this->validateNumbers = new Zend_Validate_Digits();
-				
-		if(isset($this->dataIn['optReg'])){
-			$this->operation = $this->dataIn['optReg'];
+			$sessions = new My_Controller_Auth();
+			$perfiles = new My_Model_Perfiles();
+	        if(!$sessions->validateSession()){
+	            $this->_redirect('/');		
+			}
+			$this->view->dataUser   = $sessions->getContentSession();
+			$this->view->modules    = $perfiles->getModules($this->view->dataUser['ID_PERFIL']);
+			$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
+			$this->view->idEmpresa  = $this->view->dataUser['ID_EMPRESA'];
 			
-			if($this->operation=='update'){
+			$this->dataIn = $this->_request->getParams();
+			$this->validateNumbers = new Zend_Validate_Digits();
+					
+			if(isset($this->dataIn['optReg'])){
 				$this->operation = $this->dataIn['optReg'];
-
-				$this->validateAlpha   = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));				
+				
+				if($this->operation=='update'){
+					$this->operation = $this->dataIn['optReg'];
+	
+					$this->validateAlpha   = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));				
+				}	
+			}
+			
+			if(isset($this->dataIn['catId']) && $this->validateNumbers->isValid($this->dataIn['catId'])){
+				$this->idToUpdate 	   = $this->dataIn['catId'];	
+			}else{
+				$this->idToUpdate 	   = -1;
+				$this->errors['status'] = 'no-info';
 			}	
-		}
-		
-		if(isset($this->dataIn['catId']) && $this->validateNumbers->isValid($this->dataIn['catId'])){
-			$this->idToUpdate 	   = $this->dataIn['catId'];	
-		}else{
-			$this->idToUpdate 	   = -1;
-			$this->errors['status'] = 'no-info';
-		}	
-
-		} catch (Zend_Exception $e) {
+			
+			$this->dataIn['idcentro'] = $this->view->dataUser['ID_MONITOREO'];		
+    	} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
         }  		
@@ -54,7 +55,7 @@ class admin_incidentsController extends My_Controller_Action
     	try{
 	    	$this->view->mOption = 'carriers';
 			$classObject = new My_Model_Incidencias(); 
-			$this->view->datatTable = $classObject->getRowsEmp($this->view->idEmpresa); //id de empresa
+			$this->view->datatTable = $classObject->getRowsEmp($this->view->dataUser['ID_MONITOREO']); //id de empresa
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -67,6 +68,10 @@ class admin_incidentsController extends My_Controller_Action
 		$functions 	 = new My_Controller_Functions();
 		//$transports= new My_Model_Unidades();
 		$bCostoExtra = 0;
+		
+		$aPrioridad	= Array(		
+							array("id"=>"0",'name'=>'Baja' ),
+							array("id"=>"1",'name'=>'Alta' )    );		
 		
 		if($this->idToUpdate >-1){
 			$dataInfo    = $classObject->getData($this->idToUpdate);
@@ -109,7 +114,7 @@ class admin_incidentsController extends My_Controller_Action
 	        die();   			
 		}
 		
-		$this->view->prioridad  = $functions->cbo_number(2,@$dataInfo['PRIORIDAD'],false);
+		$this->view->prioridad  = $functions->cbo_from_array($aPrioridad,@$dataInfo['PRIORIDAD']);
 		$this->view->enviarmail = $functions->cboOptions(@$dataInfo['CORREO']);
 		$this->view->bPrecioExt = $functions->cboOptions($bCostoExtra);
 		$this->view->data 		= $dataInfo; 

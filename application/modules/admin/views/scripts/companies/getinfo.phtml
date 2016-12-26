@@ -9,7 +9,7 @@
                 <div class="muted pull-left">
 					<a href="javascript:backToMain()">
 						<i class="icon-circle-arrow-left fa-1"></i></a>
-                	Información de la empresa</div>
+                	Información del Cliente</div>
             </div>
             <div class="block-content collapse in">
                 <div class="span12">
@@ -31,7 +31,7 @@
 								<div class="alert alert-error" style="display:block;">
 									<button type="button" class="close" data-dismiss="alert">×</button>
 									<b>¡Atención Error!</b>
-									<div>La empresa ya se encuentra registrada, pongase en contacto con su administrador para crear su cuenta.</div>
+									<div>El Cliente ya se encuentra registrado, pongase en contacto con su administrador para crear su cuenta.</div>
 								</div>		
 		                    <?php elseif(@$this->errors['eUsuario']==1):?>
 								<div class="alert alert-error" style="display:block;">
@@ -183,7 +183,7 @@
 				                	</div>				                	
 				                	<?php if($this->idToUpdate==-1): ?>
 					                	<div class="span12 no-margin-left">
-											<h4>Datos del Usuario</h4>
+											<h4>Datos del Usuario (Administrador)</h4>
 										</div>
 					                	<div class="span12 no-margin-left">
 					                		<div class="span4">

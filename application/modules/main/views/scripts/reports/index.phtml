@@ -1,4 +1,4 @@
- <?php $this->headScript()->appendFile('/js/reports/repTravelDetail.js') ?>   
+ <?php $this->headScript()->appendFile('/js/reports/jsValidateReport.js') ?>   
  <?php $options = Array('Ninguno','Id Viaje','Sucursal','Transportista'); ?>
    <div class="row panel-data">
         <input id="hRefLinkEdit" type="hidden" value="/main/clients/getinfo?idRow=" />
@@ -12,6 +12,13 @@
                     <form method="POST" action="/main/reports/index" id="FormData" class="form-horizontal ">
                         <input type="hidden" name="option" value="getReport" />
                         <fieldset>
+                        <?php if(isset($this->saveSend) && @$this->saveSend==1): ?>
+                            <div class="alert alert-success" >
+                              <button type="button" class="close" data-dismiss="alert">×</button>
+                              <h4>Atencion!</h4>
+                              <div>El reporte que se muestra en pantalla, se enviará en breve al correo electrónico ingresado.</div>
+                            </div>      
+                        <?php endif;?>                            
                         <div class="row">
                             <div class="span4">
                                 <div class="control-group">
@@ -57,7 +64,7 @@
                                 <div class="control-group" style="display:<?php echo ($this->dataUser['ID_PERFIL'] == 1) ? 'block': 'none'; ?>;">
                                     <label class="control-label">Cliente</label>
                                     <div class="controls">
-                                            <select class="m-wrap" name="inputCliente" >
+                                            <select class="m-wrap" name="inputCliente">
                                             <option value="">Todos</option>
                                                 <?php echo $this->aEmpresas ;?>
                                             </select>
@@ -66,11 +73,39 @@
                             </div>
 
                             <div class="span4">
+                                <!--
                                 <div class="pull-right">            
                                     <button type="submit" class="btn btn-default bg-btn-send">Buscar</button>
-                                </div>   
+                                </div> -->  
                             </div>                               
-                        </div>                        
+                        </div>   
+
+                        <div class="row">
+                            <div class="span4">
+                                <div class="control-group">
+                                    <label class="control-label">Enviar por Correo</label>
+                                    <div class="controls">
+                                        <select class="m-wrap" name="inputEnvio"  onChange="changeSendMail(this.value)">
+                                            <?php echo $this->aEnvioMail ;?>
+                                        </select>
+                                    </div>
+                                </div>                          
+                            </div>                              
+                            <div class="span4">
+                                <div id="divMailSend" class="control-group" style="display:<?php echo (isset($this->data['inputEnvio']) == 1) ? 'block': 'none'; ?>;">
+                                    <label class="control-label">Email</label>
+                                    <div class="controls">
+                                        <input id="inputEmail" name="inputEmail" data-required="1"  type="text" class="form-control" value="<?php echo @$this->data['inputEmail']; ?>" id="">
+                                    </div>
+                                </div>              
+                            </div> 
+                            <div class="span4">
+                                <label class="control-label"></label>
+                                <div class="controls">
+                                        <button type="submit" class="btn btn-info btn-block bg-btn-send pull-right">Buscar</button>
+                                </div>
+                            </div>                                                       
+                        </div>                                               
                         </fieldset>
                     </form>
                 </div>

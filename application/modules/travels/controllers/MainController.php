@@ -19,7 +19,7 @@ class travels_MainController extends My_Controller_Action
 			$this->view->moduleInfo = $perfiles->getDataModule($this->_clase);
 			$this->view->idEmpresa  = $this->_dataUser['ID_EMPRESA'];		
 			$this->_dataIn			= $this->_request->getParams();
-			$this->validateNumbers = new Zend_Validate_Digits();		
+			$this->validateNumbers = new Zend_Validate_Digits();
 					
 			if(isset($this->_dataIn['optReg'])){
 				$this->_dataOp	 = $this->_dataIn['optReg'];
@@ -39,7 +39,7 @@ class travels_MainController extends My_Controller_Action
 			}
 
 			$this->view->dataUser = $this->_dataUser;
-
+			$this->_dataIn['idcentro']  = $this->_dataUser['ID_MONITOREO'];
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -84,7 +84,7 @@ class travels_MainController extends My_Controller_Action
 		
 		$this->view->sucursales     = $sucursales->getRowsEmp($this->_dataUser['ID_EMPRESA']);
 		$this->view->transportistas = $transportistas->getRowsEmp($this->_dataUser['ID_EMPRESA']);
-		$aTipoViajes				= $cTipoViajes->getCbo($this->_dataUser['ID_EMPRESA']);
+		$aTipoViajes				= $cTipoViajes->getCbo($this->_dataUser['ID_MONITOREO']);
 		$aRutas						= $cRutas->getCbo($this->_dataUser['ID_EMPRESA']);
 		
     	if($this->_idUpdate >-1){
@@ -169,7 +169,7 @@ class travels_MainController extends My_Controller_Action
 
 			$this->view->sucursales     = $sucursales->getRowsEmp($this->_dataUser['ID_EMPRESA']);
 			$this->view->transportistas = $transportistas->getRowsEmp($this->_dataUser['ID_EMPRESA']);
-			$aTipoViajes				= $cTipoViajes->getCbo($this->_dataUser['ID_EMPRESA']);
+			$aTipoViajes				= $cTipoViajes->getCbo($this->_dataUser['ID_MONITOREO']);
 			$aRutas						= $cRutas->getCbo($this->_dataUser['ID_EMPRESA']);
 									
 			$aNamespace = new Zend_Session_Namespace("solTravel");
@@ -319,7 +319,7 @@ class travels_MainController extends My_Controller_Action
 											'o bien copia y pega en tu navegador el siguiente enlace<br>'.
 											'<b> http://viajes.grupouda.com.mx</b>';		
 							$sSubject  	=	'Nuevo Viaje GTP Grupo UDA';
-							$enviar = $functions->sendMailAdmins($sSubject,$sBodymail);
+							$enviar = $cFunciones->sendMailAdmins($sSubject,$sBodymail);
 															
 							unset($aNamespace->dataGral);
 							$this->_redirect("/travels/main/resume?catId=".$idViaje);

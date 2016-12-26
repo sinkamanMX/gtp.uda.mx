@@ -40,7 +40,7 @@ class admin_CompaniesController extends My_Controller_Action
 			}
 
 			$this->view->dataUser = $this->_dataUser;
-
+			$this->_dataIn['idcentro'] = $this->_dataUser['ID_MONITOREO'];
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -52,7 +52,7 @@ class admin_CompaniesController extends My_Controller_Action
 	    	$this->view->mOption = 'mcompanies';			
 			$cRutas      = new My_Model_Empresas();
 			
-			$this->view->datatTable = $cRutas->getDataTables();
+			$this->view->datatTable = $cRutas->getDataTables($this->_dataUser['ID_MONITOREO'],$this->_dataUser['ID_EMPRESA']);
 		} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -80,7 +80,7 @@ class admin_CompaniesController extends My_Controller_Action
 			}
 			
     		if($this->_dataOp=="new"){
-				$validateEmp  = $cEmpresas->validateExist($this->_dataIn['inputRFC']);
+				$validateEmp  = $cEmpresas->validateExist($this->_dataIn['inputRFC'],$this->_dataUser['ID_MONITOREO']);
 				if(count($validateEmp)==0){
 					$validateUser = $cUsuarios->userExist($this->_dataIn['inputUser']);
 					if(count($validateUser)==0){
@@ -118,6 +118,7 @@ class admin_CompaniesController extends My_Controller_Action
 									
 								 	$enviar = $cFunctions->sendMailSmtp($aMailer);																		
 									$this->_resultOp = 'okRegister';
+									$this->_redirect('/admin/companies/index');
 								}else{
 									$this->_aErrors['status'] = 1;	
 								}						

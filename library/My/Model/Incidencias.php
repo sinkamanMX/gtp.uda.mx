@@ -16,6 +16,7 @@ class My_Model_Incidencias extends My_Db_Table
 		$this->query("SET NAMES utf8",false); 		
     	$sql ="SELECT * 
 				FROM $this->_name
+				WHERE ID_MONITOREO = ".$idObject."
 				GROUP BY $this->_primary";
 		$query   = $this->query($sql);
 		if(count($query)>0){		  
@@ -43,10 +44,11 @@ class My_Model_Incidencias extends My_Db_Table
         $result     = Array();
         $result['status']  = false;
         
-        $complement = ($data['inputCosto']==1) ? $data['inputCextra'] : 'NULL';
+        $complement = (@$data['inputCosto']==1) ? $data['inputCextra'] : 'NULL';
         
         $sql="INSERT INTO $this->_name
 				SET  ID_EMPRESA 		=  ".$idEmpresa.",
+					 ID_MONITOREO		=  ".$data['idcentro'].",
 					 DESCRIPCION 		= '".$data['inputDescripcion']."',
 					 PRIORIDAD    		=  ".$data['inputPrioridad'].",
                      CORREO             =  ".$data['inputCorreo'];

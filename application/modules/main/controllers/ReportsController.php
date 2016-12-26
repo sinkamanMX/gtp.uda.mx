@@ -34,23 +34,25 @@ class main_reportsController extends My_Controller_Action
     
     public function indexAction(){
 		try{   	
+			
 	    	$aDataTable  = Array();
 	    	$aDataSearch['fecFin'] = Array();
 			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
-			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];
+			$aDataSearch['idMonitoreo'] = $this->view->dataUser['ID_MONITOREO'];		    	
 			$aDataSearch['fecIncio'] 	= date("Y-m-d ")."00:00:00";
 			$aDataSearch['fecFin'] 		= date("Y-m-d ")."23:59:59";    
 			$aDataSearch['inputUserAssign'] = '';
 			$aDataSearch['inputCliente'] 	= '';	
 			$aDataSearch['inputStatus'] 	= '';
-			
+			$iEnvio = 0;
 			$viajes 	 = new My_Model_Viajes();
 			$cFunctions  = new My_Controller_Functions();
 			$cUsuarios	 = new My_Model_Adminusuarios();
 			$cEmpresas   = new My_Model_Empresas();
 			
-			$aUsuarios	 = $cUsuarios->getCboUsers();
+			$aUsuarios	 = $cUsuarios->getCboUsers($aDataSearch['idMonitoreo']);
 			
 			if($this->view->dataUser['ID_PERFIL']==2){
 				$aStatus     = $viajes->getCboStatus('1,3,5');
@@ -58,7 +60,7 @@ class main_reportsController extends My_Controller_Action
 				$aStatus     = $viajes->getCboStatus();	
 			}
 				
-			$aEmpresas   = $cEmpresas->getCbo();
+			$aEmpresas   = $cEmpresas->getCbo($aDataSearch['idMonitoreo']);
 			$sStatus     = '';
 			$sUsuario    = '';
 			$sCliente	 = '';
@@ -74,18 +76,24 @@ class main_reportsController extends My_Controller_Action
 				$sStatus 	= $this->dataIn['inputStatus'];
 				$sUsuario   = $this->dataIn['inputUserAssign'];
 				$sEmpresa	= $this->dataIn['inputCliente'];
+				$iEnvio 	= $this->dataIn['inputEnvio'];
+				
+				if($this->dataIn['inputEnvio']==1){
+					$viajes->insertRowReport($this->dataIn);
+					$this->view->saveSend = true; 
+				}
 			}
 			
 			$this->dataIn['inputFechaIn'] = $aDataSearch['fecIncio'];
 			$this->dataIn['inputFechaFin'] = $aDataSearch['fecFin'];
 			
-			$aDataTable  = $viajes->getReportViajes($aDataSearch);
-			
+			$aDataTable  = $viajes->getReportViajes($aDataSearch);			
 			$this->view->datatTable = $aDataTable;
 			$this->view->data		= $this->dataIn;
 			$this->view->aStatus 	= $cFunctions->selectDb($aStatus,$sStatus);
 			$this->view->aUsuarios 	= $cFunctions->selectDb($aUsuarios,$sUsuario);
 			$this->view->aEmpresas 	= $cFunctions->selectDb($aEmpresas,$sEmpresa);
+			$this->view->aEnvioMail = $cFunctions->cboOptions($iEnvio);					
     	} catch (Zend_Exception $e) {
             echo "Caught exception: " . get_class($e) . "\n";
         	echo "Message: " . $e->getMessage() . "\n";                
@@ -301,7 +309,8 @@ class main_reportsController extends My_Controller_Action
 	    	$aDataSearch = Array();
 			$aDataSearch['idEmpresa'] 	= $this->view->dataUser['ID_EMPRESA'];
 			$aDataSearch['idUsuario'] 	= $this->view->dataUser['ID_USUARIO'];
-			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];		    	
+			$aDataSearch['idPerfil'] 	= $this->view->dataUser['ID_PERFIL'];	
+			$aDataSearch['idMonitoreo'] = $this->view->dataUser['ID_MONITOREO'];		    	
 			$aDataSearch['fecIncio'] 	= date("Y-m-d h:i:s");
 			$aDataSearch['fecFin'] 		= date("Y-m-d h:i:s");    
 			$aDataSearch['inputUserAssign'] = '';
